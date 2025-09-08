@@ -1690,7 +1690,6 @@ button[type="reset"] * {
 
 /* 풋터 슬로건 및 Since 2025 번역 피드백 방지 */
 .notranslate {
-  pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -1698,16 +1697,19 @@ button[type="reset"] * {
 }
 
 .notranslate * {
-  pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
 }
 
-/* 관리자 버튼들은 클릭 가능하게 강제 설정 */
+/* 링크와 버튼은 클릭 가능하게 강제 설정 */
+.notranslate a,
 .notranslate button,
-button.notranslate {
+a.notranslate,
+button.notranslate,
+.notranslate [role="button"],
+.notranslate [role="link"] {
   pointer-events: auto !important;
   user-select: auto !important;
   -webkit-user-select: auto !important;
