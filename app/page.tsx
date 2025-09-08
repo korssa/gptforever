@@ -28,6 +28,8 @@ import { loadAppsFromBlob, loadAppsByTypeFromBlob, saveAppsByTypeToBlob, loadFea
 import { blockTranslationFeedback, createAdminButtonHandler } from "@/lib/translation-utils";
 import { AppGallery } from "@/components/app-gallery";
 import { GalleryManager } from "@/components/gallery-manager";
+import Memo1Inline from "@/components/Memo1Inline";
+import Memo2Inline from "@/components/Memo2Inline";
 import Image from "next/image";
 
 const isBlobUrl = (url?: string) => {
@@ -1040,6 +1042,44 @@ export default function Home() {
                      </>
                    )}
        </main>
+
+       {/* 메모 섹션들 */}
+       <section className="py-16 bg-gradient-to-b from-black to-gray-900">
+         <div className="container mx-auto px-4">
+           <div className="text-center mb-12">
+             <h2 className="text-3xl font-bold text-white mb-4">
+               📝 Personal Memos
+             </h2>
+             <p className="text-gray-400">
+               개인 메모와 아이디어를 기록하고 관리하세요
+             </p>
+           </div>
+           
+           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+             {/* Memo 1 */}
+             <div className="bg-gray-900 rounded-lg p-6 border border-gray-700">
+               <div className="text-center mb-6">
+                 <h3 className="text-2xl font-bold text-blue-400 mb-2">📝 Memo 1</h3>
+                 <p className="text-gray-400 text-sm">일반 메모와 아이디어</p>
+               </div>
+               <div className="h-96 overflow-y-auto">
+                 <Memo1Inline />
+               </div>
+             </div>
+             
+             {/* Memo 2 */}
+             <div className="bg-gray-900 rounded-lg p-6 border border-gray-700">
+               <div className="text-center mb-6">
+                 <h3 className="text-2xl font-bold text-purple-400 mb-2">📝 Memo 2</h3>
+                 <p className="text-gray-400 text-sm">특별한 프로젝트와 메모</p>
+               </div>
+               <div className="h-96 overflow-y-auto">
+                 <Memo2Inline />
+               </div>
+             </div>
+           </div>
+         </div>
+       </section>
 
                     {/* 푸터 */}
         <footer className="border-t py-8 mt-16 bg-black" onMouseEnter={blockTranslationFeedback}>

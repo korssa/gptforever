@@ -482,8 +482,14 @@ button[data-nextjs-toast-wrapper] {
 
 body {
   top: 0 !important;
-  margin-top: 40px !important; /* 구글 번역 바 + 여백 공간 확보 */
+  margin-top: 0 !important; /* 기본 여백 제거 */
   background-color: black !important; /* 여백 영역 검정색 배경 */
+}
+
+/* 번역 모드일 때만 여백 추가 */
+body.translated-ltr,
+body.translated-rtl {
+  margin-top: 40px !important; /* 구글 번역 바 + 여백 공간 확보 */
 }
 
 /* 관리자 모드일 때 번역기 완전 숨김 및 차단 */
