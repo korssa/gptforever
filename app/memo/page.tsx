@@ -636,15 +636,7 @@ export default function MemoPage() {
               )}
 
               {/* Bottom Navigation */}
-              <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-600">
-                <Link 
-                  href="/"
-                  className="flex items-center gap-2 text-white hover:text-amber-400 transition-colors notranslate"
-                  onMouseEnter={blockTranslationFeedback}
-                >
-                  <Home className="w-4 h-4" />
-                  Home
-                </Link>
+              <div className="flex items-center justify-end mt-8 pt-6 border-t border-gray-600">
                 <Button 
                   onClick={() => {
                     setSelected(null);
@@ -942,9 +934,6 @@ export default function MemoPage() {
 
         {/* 헤더 - App Story 스타일 */}
         <div className="text-center relative z-10 mb-8">
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            👉 See That Group
-          </h1>
           <div className="text-center relative z-10" style={{ padding: '1rem' }}>
             <h2 className="text-2xl font-bold text-white mb-2 notranslate" translate="no">
               GPTXGONGMYUNG.COM
