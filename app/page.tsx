@@ -922,7 +922,10 @@ export default function Home() {
                              className="h-7 px-3 text-xs bg-green-700 hover:bg-green-800 text-white flex items-center gap-1 rounded"
                              onClick={() => {
                                if (latestApp.storeUrl) {
-                                 window.open(latestApp.storeUrl, '_blank');
+                                 // 이벤트 카드의 memo2는 현재 탭에서 열기
+                                 const isEventMemo2 = latestApp?.isEvent && latestApp?.storeUrl?.includes('/memo2');
+                                 const openTarget = isEventMemo2 ? '_self' : '_blank';
+                                 window.open(latestApp.storeUrl, openTarget);
                                }
                              }}
                              disabled={!latestApp.storeUrl}

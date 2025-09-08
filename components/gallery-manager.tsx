@@ -387,7 +387,10 @@ export function GalleryManager({
                     className="h-6 px-3 text-xs bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-1 whitespace-nowrap"
                     onClick={() => {
                       if (item.storeUrl) {
-                        window.open(item.storeUrl, '_blank');
+                        // 이벤트 카드의 memo2는 현재 탭에서 열기
+                        const isEventMemo2 = item?.isEvent && item?.storeUrl?.includes('/memo2');
+                        const openTarget = isEventMemo2 ? '_self' : '_blank';
+                        window.open(item.storeUrl, openTarget);
                       } else {
                         const searchQuery = encodeURIComponent(item.title);
                         if (item.store === 'google-play') {
@@ -414,7 +417,10 @@ export function GalleryManager({
                         className="h-6 cursor-pointer hover:opacity-80 transition-opacity"
                         onClick={() => {
                           if (item.storeUrl) {
-                            window.open(item.storeUrl, '_blank');
+                            // 이벤트 카드의 memo2는 현재 탭에서 열기
+                            const isEventMemo2 = item?.isEvent && item?.storeUrl?.includes('/memo2');
+                            const openTarget = isEventMemo2 ? '_self' : '_blank';
+                            window.open(item.storeUrl, openTarget);
                           } else {
                             const searchQuery = encodeURIComponent(item.title);
                             if (item.store === 'google-play') {
