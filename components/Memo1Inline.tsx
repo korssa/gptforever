@@ -90,7 +90,7 @@ export default function Memo1Inline() {
       if (response.ok) {
         await loadContents();
         handleCloseDialog();
-        clearMemoDraft();
+        clearMemoDraft('memo');
       }
     } catch (error) {
       console.error('메모 저장 실패:', error);
