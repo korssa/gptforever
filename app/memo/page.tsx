@@ -945,9 +945,17 @@ export default function MemoPage() {
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
             👉 See That Group
           </h1>
-          <p className="text-gray-400 text-lg mb-6">
-            개인 메모와 아이디어를 기록하고 관리하세요
-          </p>
+          <div className="text-center relative z-10" style={{ padding: '1rem' }}>
+            <h2 className="text-2xl font-bold text-white mb-2 notranslate" translate="no">
+              GPTXGONGMYUNG.COM
+            </h2>
+            <p className="text-gray-400">
+              Our 🌿Slogan
+            </p>
+            <p className="text-gray-400 notranslate" translate="no">
+              "We're just. That kind of group!"
+            </p>
+          </div>
           
           {/* HOME 버튼 */}
           <div className="mb-6">
