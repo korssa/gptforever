@@ -562,15 +562,7 @@ export default function MemoPage() {
         
         <div className="container mx-auto py-6 max-w-6xl px-4 relative z-10">
           {/* Top Navigation */}
-          <div className="flex items-center justify-between mb-6">
-            <Link 
-              href="/"
-              className="flex items-center gap-2 text-white hover:text-amber-400 transition-colors notranslate"
-              onMouseEnter={blockTranslationFeedback}
-            >
-              <Home className="w-4 h-4" />
-              Home
-            </Link>
+          <div className="flex items-center justify-end mb-6">
             <Button 
               onClick={() => {
                 setSelected(null);
@@ -642,6 +634,30 @@ export default function MemoPage() {
                   ))}
                 </div>
               )}
+
+              {/* Bottom Navigation */}
+              <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-600">
+                <Link 
+                  href="/"
+                  className="flex items-center gap-2 text-white hover:text-amber-400 transition-colors notranslate"
+                  onMouseEnter={blockTranslationFeedback}
+                >
+                  <Home className="w-4 h-4" />
+                  Home
+                </Link>
+                <Button 
+                  onClick={() => {
+                    setSelected(null);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }} 
+                  variant="ghost" 
+                  className="text-white hover:text-amber-400 transition-colors notranslate"
+                  onMouseEnter={blockTranslationFeedback}
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  ← Back to List
+                </Button>
+              </div>
 
             </div>
           </div>
