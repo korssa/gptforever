@@ -562,7 +562,15 @@ export default function MemoPage() {
         
         <div className="container mx-auto py-6 max-w-6xl px-4 relative z-10">
           {/* Top Navigation */}
-          <div className="flex items-center justify-end mb-6">
+          <div className="flex items-center justify-between mb-6">
+            <Link 
+              href="/"
+              className="flex items-center gap-2 text-white hover:text-amber-400 transition-colors notranslate"
+              translate="no"
+            >
+              <Home className="w-4 h-4" />
+              Home
+            </Link>
             <Button 
               onClick={() => {
                 setSelected(null);
