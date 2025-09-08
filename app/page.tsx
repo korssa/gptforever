@@ -779,7 +779,7 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden" style={{ paddingTop: '40px' }}>
       {/* 눈 내리는 애니메이션 */}
       <SnowAnimation />
       
