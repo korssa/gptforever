@@ -28,7 +28,8 @@ import { loadAppsFromBlob, loadAppsByTypeFromBlob, saveAppsByTypeToBlob, loadFea
 import { blockTranslationFeedback, createAdminButtonHandler } from "@/lib/translation-utils";
 import { AppGallery } from "@/components/app-gallery";
 import { GalleryManager } from "@/components/gallery-manager";
-import { Button } from "@/components/ui/button";
+import Memo1Inline from "@/components/Memo1Inline";
+import Memo2Inline from "@/components/Memo2Inline";
 import Image from "next/image";
 
 const isBlobUrl = (url?: string) => {
@@ -1042,33 +1043,39 @@ export default function Home() {
                    )}
        </main>
 
-       {/* See That Group 버튼 섹션 */}
-       <section className="py-16 bg-gradient-to-b from-black to-gray-900">
-         <div className="container mx-auto px-4 text-center">
-           <div className="mb-8">
+       {/* 메모 통합 섹션 */}
+       <section id="memo1-section" className="py-16 bg-gradient-to-b from-black to-gray-900">
+         <div className="container mx-auto px-4">
+           <div className="text-center mb-12">
              <h2 className="text-3xl font-bold text-white mb-4">
                📝 Personal Memos
              </h2>
-             <p className="text-gray-400 mb-8">
+             <p className="text-gray-400">
                개인 메모와 아이디어를 기록하고 관리하세요
              </p>
+           </div>
+           
+           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+             {/* Memo 1 */}
+             <div className="bg-gray-900 rounded-lg p-6 border border-gray-700">
+               <div className="text-center mb-6">
+                 <h3 className="text-2xl font-bold text-blue-400 mb-2">👉 See That Group</h3>
+                 <p className="text-gray-400 text-sm">일반 메모와 아이디어</p>
+               </div>
+               <div className="h-96 overflow-y-auto">
+                 <Memo1Inline />
+               </div>
+             </div>
              
-             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-               <Button
-                 onClick={() => window.location.href = '/memo'}
-                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg shadow-lg text-lg font-semibold"
-                 onMouseEnter={blockTranslationFeedback}
-               >
-                 👉 See That Group
-               </Button>
-               
-               <Button
-                 onClick={() => window.location.href = '/memo2'}
-                 className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg shadow-lg text-lg font-semibold"
-                 onMouseEnter={blockTranslationFeedback}
-               >
-                 📝 Memo 2
-               </Button>
+             {/* Memo 2 */}
+             <div className="bg-gray-900 rounded-lg p-6 border border-gray-700">
+               <div className="text-center mb-6">
+                 <h3 className="text-2xl font-bold text-purple-400 mb-2">📝 Memo 2</h3>
+                 <p className="text-gray-400 text-sm">특별한 프로젝트와 메모</p>
+               </div>
+               <div className="h-96 overflow-y-auto">
+                 <Memo2Inline />
+               </div>
              </div>
            </div>
          </div>
@@ -1174,8 +1181,9 @@ export default function Home() {
               </p>
               <button
                 onClick={() => {
-                  // 독립적인 메모장 페이지로 이동
-                  window.location.href = '/memo';
+                  // 메모1 섹션으로 부드럽게 스크롤 이동
+                  const section = document.getElementById("memo1-section");
+                  section?.scrollIntoView({ behavior: "smooth" });
                 }}
                 className="text-sm text-blue-400 hover:text-blue-300 hover:underline inline-block transition-colors duration-200 cursor-pointer bg-transparent border-none p-0 mt-2"
                 onMouseEnter={blockTranslationFeedback}
