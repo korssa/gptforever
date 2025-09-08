@@ -27,6 +27,7 @@ import { blockTranslationFeedback, createAdminButtonHandler } from "@/lib/transl
 import { loadMemoDraft, saveMemoDraft, clearMemoDraft } from "@/lib/memo-storage";
 import Link from "next/link";
 import SoftGlowStar from "@/components/soft-glow-star";
+import { GoogleTranslateWidget } from "@/components/google-translate-widget";
 
 export default function MemoPage() {
   const [contents, setContents] = useState<ContentItem[]>([]);
@@ -927,6 +928,11 @@ export default function MemoPage() {
             <Home className="w-4 h-4" />
             Home
           </Link>
+          
+          {/* 구글 번역 위젯 */}
+          <div className="flex items-center gap-4">
+            <GoogleTranslateWidget />
+          </div>
         </div>
 
         {/* 헤더 - 이벤트 카드 스타일 */}
