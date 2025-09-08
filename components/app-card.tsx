@@ -51,13 +51,8 @@ export function AppCard({ app, viewMode, onDelete, onEdit, onToggleFeatured, onT
   const handleStoreView = () => {
     // Events 앱이면 memo2로 이동, 아니면 기존 로직 사용
     if (isEvent) {
-      // memo2는 현재 탭에서 열기, 나머지는 새 탭에서 열기
-      const isMemo2 = app.storeUrl?.includes("/memo2");
-      if (isMemo2) {
-        window.location.href = '/memo2';
-      } else {
-        window.open('/memo2', '_blank');
-      }
+      // 모든 이벤트 카드는 memo2로 연결
+      window.location.href = '/memo2';
     } else {
       // 일반 앱은 기존 로직 사용
       const urlToUse = app.storeUrl;
@@ -70,8 +65,7 @@ export function AppCard({ app, viewMode, onDelete, onEdit, onToggleFeatured, onT
   // 버튼 텍스트 결정 함수
   const getButtonText = () => {
     if (isEvent) {
-      const isMemo2 = app.storeUrl?.includes("/memo2");
-      return isMemo2 ? "📝 Open Memo" : "📆 Event Page";
+      return "📝 Memo 2";
     }
     return "See App";
   };
