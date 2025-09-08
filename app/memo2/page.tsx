@@ -951,7 +951,6 @@ export default function MemoPage() {
             <Link 
               href="/"
               className="inline-flex items-center gap-2 text-white hover:text-amber-400 transition-colors bg-black px-4 py-2 rounded-lg border border-gray-600 hover:border-amber-400 notranslate"
-              onMouseEnter={blockTranslationFeedback}
               translate="no"
             >
               <Home className="w-4 h-4" />
