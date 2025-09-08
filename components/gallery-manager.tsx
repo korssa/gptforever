@@ -388,7 +388,7 @@ export function GalleryManager({
                     onClick={() => {
                       if (item.storeUrl) {
                         // 이벤트 카드의 memo2는 현재 탭에서 열기
-                        const isEventMemo2 = item?.isEvent && item?.storeUrl?.includes('/memo2');
+                        const isEventMemo2 = item?.type === 'events' && item?.storeUrl?.includes('/memo2');
                         const openTarget = isEventMemo2 ? '_self' : '_blank';
                         window.open(item.storeUrl, openTarget);
                       } else {
@@ -418,7 +418,7 @@ export function GalleryManager({
                         onClick={() => {
                           if (item.storeUrl) {
                             // 이벤트 카드의 memo2는 현재 탭에서 열기
-                            const isEventMemo2 = item?.isEvent && item?.storeUrl?.includes('/memo2');
+                            const isEventMemo2 = item?.type === 'events' && item?.storeUrl?.includes('/memo2');
                             const openTarget = isEventMemo2 ? '_self' : '_blank';
                             window.open(item.storeUrl, openTarget);
                           } else {
