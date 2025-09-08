@@ -918,21 +918,9 @@ export default function MemoPage() {
       <div className="moon"></div>
 
       <div className="container mx-auto py-6 max-w-6xl px-4 relative z-10">
-        {/* Top Navigation */}
-        <div className="flex items-center justify-between mb-6 bg-black">
-          <Link 
-            href="/"
-            className="flex items-center gap-2 text-white hover:text-amber-400 transition-colors bg-black"
-            onMouseEnter={blockTranslationFeedback}
-          >
-            <Home className="w-4 h-4" />
-            Home
-          </Link>
-          
-          {/* 구글 번역 위젯 */}
-          <div className="flex items-center gap-4">
-            <GoogleTranslateWidget />
-          </div>
+        {/* 구글 번역 위젯 */}
+        <div className="flex justify-end mb-6">
+          <GoogleTranslateWidget />
         </div>
 
         {/* 헤더 - 이벤트 카드 스타일 */}
@@ -943,6 +931,18 @@ export default function MemoPage() {
           <p className="text-gray-400 text-lg mb-6">
             특별한 프로젝트와 메모를 기록하세요
           </p>
+          
+          {/* HOME 버튼 */}
+          <div className="mb-6">
+            <Link 
+              href="/"
+              className="inline-flex items-center gap-2 text-white hover:text-amber-400 transition-colors bg-black px-4 py-2 rounded-lg border border-gray-600 hover:border-amber-400"
+              onMouseEnter={blockTranslationFeedback}
+            >
+              <Home className="w-4 h-4" />
+              Home
+            </Link>
+          </div>
         {isAuthenticated && (
           <div className="mt-6">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
