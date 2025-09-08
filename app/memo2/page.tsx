@@ -561,6 +561,29 @@ export default function MemoPage() {
         <canvas id="skyCanvas"></canvas>
         
         <div className="container mx-auto py-6 max-w-6xl px-4 relative z-10">
+          {/* Top Navigation */}
+          <div className="flex items-center justify-between mb-6">
+            <Link 
+              href="/"
+              className="flex items-center gap-2 text-white hover:text-amber-400 transition-colors notranslate"
+              onMouseEnter={blockTranslationFeedback}
+            >
+              <Home className="w-4 h-4" />
+              Home
+            </Link>
+            <Button 
+              onClick={() => {
+                setSelected(null);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }} 
+              variant="ghost" 
+              className="text-white hover:text-amber-400 transition-colors notranslate"
+              onMouseEnter={blockTranslationFeedback}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              ← Back to List
+            </Button>
+          </div>
 
           <div className="w-full flex justify-center">
             <div className="w-full max-w-2xl">
@@ -620,29 +643,6 @@ export default function MemoPage() {
                 </div>
               )}
 
-              {/* Navigation Buttons - moved below tags */}
-              <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-600">
-                <Link 
-                  href="/"
-                  className="flex items-center gap-2 text-white hover:text-amber-400 transition-colors"
-                  onMouseEnter={blockTranslationFeedback}
-                >
-                  <Home className="w-4 h-4" />
-                  Home
-                </Link>
-                <Button 
-                  onClick={() => {
-                    setSelected(null);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }} 
-                  variant="ghost" 
-                  className="text-white hover:text-amber-400 transition-colors"
-                  onMouseEnter={blockTranslationFeedback}
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  ← Back to List
-                </Button>
-              </div>
             </div>
           </div>
         </div>
