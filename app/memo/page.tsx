@@ -953,7 +953,7 @@ export default function MemoPage() {
               Our 🌿Slogan
             </p>
             <p className="text-gray-400 notranslate" translate="no">
-              "We're just. That kind of group!"
+              &ldquo;We&apos;re just. That kind of group!&rdquo;
             </p>
           </div>
           
