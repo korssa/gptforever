@@ -3,7 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Download, Star, Trash2, Edit, User } from "lucide-react";
+import { Star, User } from "lucide-react";
 import { useState } from "react";
 import { AppItem } from "@/types";
 import { useLanguage } from "@/hooks/use-language";
@@ -40,7 +40,6 @@ const getStatusColor = (status: string) => {
 };
 
 export function AppCard({ app, viewMode, onDelete, onEdit, onToggleFeatured, onToggleEvent, onUpdateAdminStoreUrl, isFeatured = false, isEvent = false, onRefreshData, onCleanData }: AppCardProps) {
-  const [isLiked, setIsLiked] = useState(false);
   const [isAdminDialogOpen, setIsAdminDialogOpen] = useState(false);
   const { t } = useLanguage();
   const { isAuthenticated } = useAdmin();
@@ -49,14 +48,16 @@ export function AppCard({ app, viewMode, onDelete, onEdit, onToggleFeatured, onT
     return !!url && (url.includes('vercel-storage.com') || url.includes('blob.vercel-storage.com'));
   };
 
-  const handleLike = () => {
-    setIsLiked(!isLiked);
-  };
-
   const handleStoreView = () => {
     // Events 앱이면 memo2로 이동, 아니면 기존 로직 사용
     if (isEvent) {
-      window.open('/memo2', '_blank');
+      // memo2는 현재 탭에서 열기, 나머지는 새 탭에서 열기
+      const isMemo2 = app.storeUrl?.includes("/memo2");
+      if (isMemo2) {
+        window.location.href = '/memo2';
+      } else {
+        window.open('/memo2', '_blank');
+      }
     } else {
       // 일반 앱은 기존 로직 사용
       const urlToUse = app.storeUrl;
@@ -66,21 +67,15 @@ export function AppCard({ app, viewMode, onDelete, onEdit, onToggleFeatured, onT
     }
   };
 
-  const handleDelete = createAdminButtonHandler(() => {
-    if (onDelete && confirm(`Delete "${app.name}"?`)) {
-      onDelete(app.id);
+  // 버튼 텍스트 결정 함수
+  const getButtonText = () => {
+    if (isEvent) {
+      const isMemo2 = app.storeUrl?.includes("/memo2");
+      return isMemo2 ? "📝 Open Memo" : "📆 Event Page";
     }
-  });
+    return "See App";
+  };
 
-  const handleEdit = createAdminButtonHandler(() => {
-    if (onEdit) {
-      onEdit(app);
-    }
-  });
-
-  // 직접 함수 전달 (createAdminButtonHandler 제거)
-  const handleToggleFeatured = onToggleFeatured ? () => onToggleFeatured(app.id) : undefined;
-  const handleToggleEvent = onToggleEvent ? () => onToggleEvent(app.id) : undefined;
 
   // 호버 심볼 클릭 시 관리자 다이얼로그 열기
   const handleAdminActions = () => {
@@ -180,7 +175,7 @@ export function AppCard({ app, viewMode, onDelete, onEdit, onToggleFeatured, onT
                     onClick={handleStoreView}
                   >
                     <User className="h-3 w-3" />
-                    See App
+                    {getButtonText()}
                   </Button>
                 ) : (
                   <Button
@@ -336,7 +331,7 @@ export function AppCard({ app, viewMode, onDelete, onEdit, onToggleFeatured, onT
                   onClick={handleStoreView}
                 >
                   <User className="h-3 w-3" />
-                  See App
+                  {getButtonText()}
                 </Button>
               ) : (
                 <Button
