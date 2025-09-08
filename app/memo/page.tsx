@@ -19,7 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Plus, Edit, Trash2, EyeOff, Calendar, User, ArrowLeft, Home } from "lucide-react";
+import { Plus, Edit, Trash2, EyeOff, Eye, Calendar, User, ArrowLeft, Home } from "lucide-react";
 import { ContentItem, ContentFormData, ContentType } from "@/types";
 import { useAdmin } from "@/hooks/use-admin";
 import { uploadFile } from "@/lib/storage-adapter";
@@ -929,18 +929,25 @@ export default function MemoPage() {
           </Link>
         </div>
 
-        {/* 슬로건 위치 - 밤하늘 애니메이션과 함께 */}
-        <div className="text-center relative z-10" style={{ padding: '1rem' }}>
-          <h2 className="text-2xl font-bold text-white mb-2" onMouseEnter={blockTranslationFeedback} style={{ textShadow: '0 0 6px rgba(0,0,0,0.6)' }}>GPTXGONGMYUNG.COM</h2>
-          <p className="text-gray-400" style={{ textShadow: '0 0 6px rgba(0,0,0,0.6)' }}>Our 🌿Slogan</p>
-          <p className="text-gray-400" style={{ textShadow: '0 0 6px rgba(0,0,0,0.6)' }}>&quot;We&apos;re just. That kind of group!&quot;</p>
+        {/* 헤더 - App Story 스타일 */}
+        <div className="text-center relative z-10 mb-8">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            👉 See That Group
+          </h1>
+          <p className="text-gray-400 text-lg mb-6">
+            개인 메모와 아이디어를 기록하고 관리하세요
+          </p>
         {isAuthenticated && (
-          <div className="mt-4">
+          <div className="mt-6">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button onClick={() => { resetForm(); setIsDialogOpen(true); }} className="gap-2">
-                  <Plus className="h-4 w-4" />
-                  Create New Memo
+                <Button 
+                  onClick={() => { resetForm(); setIsDialogOpen(true); }} 
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-lg gap-2"
+                  onMouseEnter={blockTranslationFeedback}
+                >
+                  <Plus className="h-5 w-5" />
+                  새 메모 작성
                 </Button>
               </DialogTrigger>
                 <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">

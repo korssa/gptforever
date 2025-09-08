@@ -929,18 +929,25 @@ export default function MemoPage() {
           </Link>
         </div>
 
-        {/* 슬로건 위치 - 밤하늘 애니메이션과 함께 */}
-        <div className="text-center relative z-10" style={{ padding: '1rem' }}>
-          <h2 className="text-2xl font-bold text-white mb-2" onMouseEnter={blockTranslationFeedback} style={{ textShadow: '0 0 6px rgba(0,0,0,0.6)' }}>GPTXGONGMYUNG.COM</h2>
-          <p className="text-gray-400" style={{ textShadow: '0 0 6px rgba(0,0,0,0.6)' }}>Our 🌿Slogan</p>
-          <p className="text-gray-400" style={{ textShadow: '0 0 6px rgba(0,0,0,0.6)' }}>&quot;We&apos;re just. That kind of group!&quot;</p>
+        {/* 헤더 - 이벤트 카드 스타일 */}
+        <div className="text-center relative z-10 mb-8">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            📝 Memo 2
+          </h1>
+          <p className="text-gray-400 text-lg mb-6">
+            특별한 프로젝트와 메모를 기록하세요
+          </p>
         {isAuthenticated && (
-          <div className="mt-4">
+          <div className="mt-6">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button onClick={() => { resetForm(); setIsDialogOpen(true); }} className="gap-2">
-                  <Plus className="h-4 w-4" />
-                  Create New Memo
+                <Button 
+                  onClick={() => { resetForm(); setIsDialogOpen(true); }} 
+                  className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg shadow-lg gap-2"
+                  onMouseEnter={blockTranslationFeedback}
+                >
+                  <Plus className="h-5 w-5" />
+                  새 메모2 작성
                 </Button>
               </DialogTrigger>
                 <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
