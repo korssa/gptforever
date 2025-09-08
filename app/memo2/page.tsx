@@ -529,7 +529,7 @@ export default function MemoPage() {
   // If content selected, show detail view
   if (selected) {
     return (
-      <div className="min-h-screen bg-black text-white relative">
+      <div className="min-h-screen bg-black text-white relative" style={{ paddingTop: '40px' }}>
         {/* 🌌 GPTXGONGMYUNG MEMO - Night Sky Animation (Canvas ver.) */}
         <style dangerouslySetInnerHTML={{
           __html: `
