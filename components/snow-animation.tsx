@@ -44,13 +44,12 @@ export function SnowAnimation() {
       setSnowflakes(prev => 
         prev.map(flake => {
           const newY = flake.y + (flake.speed * deltaTime);
-          // 바람 영향, 사선, 곡선 제거 - 아래로만 직선 이동
           
-          // 화면 밖으로 나가면 다시 위로
-          if (newY > window.innerHeight + 10) {
+          // 화면 밖으로 나가면 즉시 다시 위로 (상시 내리기)
+          if (newY > window.innerHeight + 20) {
             return {
               ...flake,
-              y: -10,
+              y: -20, // 더 위에서 시작
               x: Math.random() * window.innerWidth
             };
           }
@@ -63,9 +62,11 @@ export function SnowAnimation() {
         })
       );
 
+      // 항상 애니메이션 계속 실행
       animationId = requestAnimationFrame(animate);
     };
 
+    // 애니메이션 시작
     animationId = requestAnimationFrame(animate);
 
     // 윈도우 리사이즈 처리
@@ -81,10 +82,12 @@ export function SnowAnimation() {
     window.addEventListener('resize', handleResize);
 
     return () => {
-      cancelAnimationFrame(animationId);
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [initialSnowflakes]);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-10">
