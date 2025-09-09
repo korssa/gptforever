@@ -1160,8 +1160,8 @@ export default function Home() {
               </a>
               <div className="mt-3 p-3 border-2 border-yellow-400 rounded-lg bg-yellow-50/10 max-w-md mx-auto">
                 <p className="text-xs text-yellow-200 text-center leading-relaxed">
-                  🌐 This form is in English. If needed,<br />
-                  click the menu <span style={{fontSize: '14px'}}>⋮</span> at the top-right<br />
+                  🌐 The above Google Form is presented in English.<br />
+                  If needed, click the menu &quot; ⋮ &quot; at the top-right<br />
                   of your browser and select &quot;Translate&quot;.
                 </p>
               </div>
