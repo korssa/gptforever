@@ -87,7 +87,11 @@ export const translations = {
     download: "Download",
     share: "Share",
     more: "More",
-    viewOnStore: "View on Store"
+    viewOnStore: "View on Store",
+    
+    // Petition
+    petitionTitle: "Online Petition to Support Continued Use of chatGPT 4o (Legacy)",
+    petitionDescription: "Support the continued availability of ChatGPT 4o Legacy version"
   },
   ko: {
     // Header
@@ -177,7 +181,11 @@ export const translations = {
     download: "다운로드",
     share: "공유",
     more: "더보기",
-    viewOnStore: "스토어에서 보기"
+    viewOnStore: "스토어에서 보기",
+    
+    // Petition
+    petitionTitle: "chatGPT 4o (Legacy) 지속 사용 지원 온라인 청원",
+    petitionDescription: "ChatGPT 4o Legacy 버전의 지속적인 사용 가능성을 지원합니다"
   }
 } as const;
 

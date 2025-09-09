@@ -1150,6 +1150,17 @@ export default function Home() {
               >
                 👉 See That Group
               </button>
+              <button
+                onClick={() => {
+                  // 청원 페이지로 이동
+                  window.location.href = '/petition';
+                }}
+                className="text-sm text-green-400 hover:text-green-300 hover:underline inline-block transition-colors duration-200 cursor-pointer bg-transparent border-none p-0 mt-2 ml-4"
+                onMouseEnter={blockTranslationFeedback}
+                translate="yes"
+              >
+                ✍️ {t("petitionTitle")}
+              </button>
             </div>
            
            <div className="border-t border-gray-600 pt-6 mt-6 text-center">

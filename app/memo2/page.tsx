@@ -567,6 +567,7 @@ export default function MemoPage() {
               href="/"
               className="flex items-center gap-2 text-white hover:text-amber-400 transition-colors notranslate"
               translate="no"
+              onMouseEnter={blockTranslationFeedback}
             >
               <Home className="w-4 h-4" />
               Home
