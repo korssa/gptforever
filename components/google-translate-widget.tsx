@@ -64,7 +64,7 @@ export function GoogleTranslateWidget() {
            // 언어 옵션들을 알파벳 순서로 정렬
            const options = Array.from(combo.options);
            
-           // 먼저 언어 이름을 영어로 강제 설정
+           // 먼저 언어 이름을 영어로 강제 설정 (모든 언어 포함)
            options.forEach((option) => {
              const value = option.value.trim().split("|")[0].toLowerCase();
              const langLabelMap: { [key: string]: string } = {
@@ -182,6 +182,9 @@ export function GoogleTranslateWidget() {
              
              if (langLabelMap[value] && !option.dataset.updated) {
                option.text = langLabelMap[value];
+               option.dataset.updated = "true";
+             } else if (!option.dataset.updated) {
+               // 매핑되지 않은 언어는 원래 텍스트 유지
                option.dataset.updated = "true";
              }
            });
