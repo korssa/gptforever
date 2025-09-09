@@ -184,24 +184,25 @@ export function GoogleTranslate() {
     }
         }
 
-      function hideFeedbackElements() {
-        const feedbackSelectors = [
-          ".goog-te-balloon-frame",
-          ".goog-te-ftab",
-          ".goog-te-ftab-float",
-          ".goog-tooltip",
-          ".goog-tooltip-popup",
-          ".goog-te-banner-frame",
-          ".goog-te-spinner-pos",
-        ];
-        feedbackSelectors.forEach((selector) => {
-          document.querySelectorAll(selector).forEach((el) => {
-            (el as HTMLElement).style.display = "none";
-            (el as HTMLElement).style.visibility = "hidden";
-            (el as HTMLElement).style.opacity = "0";
-          });
+    // 피드백 요소 숨김 함수 (전역 스코프로 이동)
+    function hideFeedbackElements() {
+      const feedbackSelectors = [
+        ".goog-te-balloon-frame",
+        ".goog-te-ftab",
+        ".goog-te-ftab-float",
+        ".goog-tooltip",
+        ".goog-tooltip-popup",
+        ".goog-te-banner-frame",
+        ".goog-te-spinner-pos",
+      ];
+      feedbackSelectors.forEach((selector) => {
+        document.querySelectorAll(selector).forEach((el) => {
+          (el as HTMLElement).style.display = "none";
+          (el as HTMLElement).style.visibility = "hidden";
+          (el as HTMLElement).style.opacity = "0";
         });
-      }
+      });
+    }
 
              // 언어 선택 시에만 실행
        const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
@@ -230,16 +231,17 @@ export function GoogleTranslate() {
          });
        }
 
-       // 위젯 즉시 숨김 함수
-       function hideTranslateWidget() {
-         const el = document.getElementById("google_translate_element");
-         if (el) {
-           el.style.display = "none";
-           el.style.opacity = "0";
-           el.style.pointerEvents = "none";
-           el.style.visibility = "hidden";
-         }
-       }
+    }
+
+    // 위젯 즉시 숨김 함수 (전역 스코프로 이동)
+    function hideTranslateWidget() {
+      const el = document.getElementById("google_translate_element");
+      if (el) {
+        el.style.display = "none";
+        el.style.opacity = "0";
+        el.style.pointerEvents = "none";
+        el.style.visibility = "hidden";
+      }
     }
 
     function handleAdminModeChange(enabled: boolean) {
@@ -327,7 +329,23 @@ export function GoogleTranslate() {
             // 재적용 후 다시 위젯 숨김
             setTimeout(() => {
               hideTranslateWidget();
-              hideFeedbackElements();
+              // 피드백 요소 숨김
+              const feedbackSelectors = [
+                ".goog-te-balloon-frame",
+                ".goog-te-ftab",
+                ".goog-te-ftab-float",
+                ".goog-tooltip",
+                ".goog-tooltip-popup",
+                ".goog-te-banner-frame",
+                ".goog-te-spinner-pos",
+              ];
+              feedbackSelectors.forEach((selector) => {
+                document.querySelectorAll(selector).forEach((el) => {
+                  (el as HTMLElement).style.display = "none";
+                  (el as HTMLElement).style.visibility = "hidden";
+                  (el as HTMLElement).style.opacity = "0";
+                });
+              });
             }, 1500);
           }, 1200);
         }
