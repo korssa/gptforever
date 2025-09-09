@@ -52,6 +52,7 @@ export function GoogleTranslateWidget() {
 
       setTimeout(() => {
         initializeLanguageMapping();
+        startFastFeedbackLoop(); // 💥 고속 피드백 감시 시작!
       }, 800);
     };
 
@@ -371,6 +372,18 @@ export function GoogleTranslateWidget() {
       feedbackLoop = window.setInterval(() => {
         hideFeedbackElements(); // 기존 함수 호출
       }, 5000); // 5초 간격
+    }
+
+    // ✅ 고속 피드백 감시 루프 (1초마다, 초기 로딩용)
+    function startFastFeedbackLoop() {
+      setTimeout(() => {
+        const fastLoop = setInterval(() => {
+          hideFeedbackElements();
+        }, 1000);
+
+        // 10초 후 종료
+        setTimeout(() => clearInterval(fastLoop), 10000);
+      }, 1000);
     }
 
     function handlePageRefresh() {
