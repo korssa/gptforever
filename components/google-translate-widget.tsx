@@ -61,6 +61,20 @@ export function GoogleTranslateWidget() {
        try {
          const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
          if (combo && combo.options) {
+           // 언어 옵션들을 알파벳 순서로 정렬
+           const options = Array.from(combo.options);
+           const sortedOptions = options.sort((a, b) => {
+             const aText = a.text.toLowerCase();
+             const bText = b.text.toLowerCase();
+             return aText.localeCompare(bText);
+           });
+           
+           // 정렬된 옵션들로 select 요소 업데이트
+           combo.innerHTML = '';
+           sortedOptions.forEach(option => {
+             combo.appendChild(option);
+           });
+           
            Array.from(combo.options).forEach((option) => {
              const value = option.value.trim().split("|")[0].toLowerCase(); // 핵심: 파이프 제거 후 소문자로 정규화
              const langLabelMap: { [key: string]: string } = {
