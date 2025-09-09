@@ -444,6 +444,60 @@ export function GoogleTranslateWidget() {
          el.style.opacity = "0";
          el.style.pointerEvents = "none";
        });
+       
+       // 위젯 숨김 후 환생 버튼 표시
+       showReviveButton();
+     }
+
+     // 환생 버튼 표시 함수
+     function showReviveButton() {
+       // 기존 환생 버튼이 있으면 제거
+       const existingBtn = document.getElementById("translate-revive-button");
+       if (existingBtn) {
+         existingBtn.remove();
+       }
+
+       const btn = document.createElement("button");
+       btn.id = "translate-revive-button";
+       btn.textContent = "🌐 다시 번역하기";
+       btn.title = "Click to reload the Translate widget";
+       btn.style.cssText = `
+         position: fixed;
+         bottom: 20px;
+         right: 20px;
+         z-index: 9999;
+         background: linear-gradient(135deg, #1e293b, #334155);
+         color: white;
+         border: 1px solid #475569;
+         border-radius: 12px;
+         padding: 12px 18px;
+         font-size: 14px;
+         font-weight: 500;
+         box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+         cursor: pointer;
+         transition: all 0.3s ease;
+         backdrop-filter: blur(10px);
+       `;
+
+       // 호버 효과
+       btn.addEventListener('mouseenter', () => {
+         btn.style.background = 'linear-gradient(135deg, #334155, #475569)';
+         btn.style.transform = 'translateY(-2px)';
+         btn.style.boxShadow = '0 6px 25px rgba(0,0,0,0.5)';
+       });
+
+       btn.addEventListener('mouseleave', () => {
+         btn.style.background = 'linear-gradient(135deg, #1e293b, #334155)';
+         btn.style.transform = 'translateY(0)';
+         btn.style.boxShadow = '0 4px 20px rgba(0,0,0,0.4)';
+       });
+
+       btn.onclick = () => {
+         btn.remove();
+         refreshWidget();
+       };
+
+       document.body.appendChild(btn);
      }
 
      function handleComboChange() {
