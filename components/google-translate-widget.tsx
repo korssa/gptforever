@@ -64,33 +64,89 @@ export function GoogleTranslateWidget() {
 
          const options = Array.from(combo.options);
 
-         function getFlagEmojiByLang(lang: string): string {
-           const countryGuessMap: { [key: string]: string } = {
-             en: "US",
-             es: "ES",
-             fr: "FR",
-             pt: "PT",
-             pt_br: "BR",
-             de: "DE",
-             ar: "SA",
-             ja: "JP",
-             ko: "KR",
-             zh: "CN",
-             ru: "RU",
-             hi: "IN",
-           };
-           const cc = countryGuessMap[lang] || lang.slice(0, 2).toUpperCase();
-           return cc.replace(/./g, (c) =>
-             String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - 65)
-           );
-         }
+         const langToCountryMap: { [key: string]: string } = {
+           en: "USA",
+           en_gb: "UK",
+           en_au: "Australia",
+           ko: "Korea",
+           ja: "Japan",
+           zh: "China",
+           zh_cn: "China",
+           zh_tw: "Taiwan",
+           es: "Spain",
+           es_mx: "Mexico",
+           fr: "France",
+           de: "Germany",
+           it: "Italy",
+           ru: "Russia",
+           pt: "Portugal",
+           pt_br: "Brazil",
+           ar: "Saudi Arabia",
+           hi: "India",
+           vi: "Vietnam",
+           th: "Thailand",
+           id: "Indonesia",
+           tr: "Turkey",
+           pl: "Poland",
+           uk: "Ukraine",
+           nl: "Netherlands",
+           sv: "Sweden",
+           da: "Denmark",
+           fi: "Finland",
+           no: "Norway",
+           cs: "Czech Republic",
+           ro: "Romania",
+           hu: "Hungary",
+           el: "Greece",
+           he: "Israel",
+           fa: "Iran",
+           ms: "Malaysia",
+           bn: "Bangladesh",
+           ur: "Pakistan",
+           ta: "India",
+           te: "India",
+           mr: "India",
+           pa: "India",
+           ml: "India",
+           kn: "India",
+           or: "India",
+           gu: "India",
+           si: "Sri Lanka",
+           my: "Myanmar",
+           ne: "Nepal",
+           km: "Cambodia",
+           lo: "Laos",
+           am: "Ethiopia",
+           sw: "Kenya",
+           zu: "South Africa",
+           af: "South Africa",
+           xh: "South Africa",
+           sq: "Albania",
+           az: "Azerbaijan",
+           hy: "Armenia",
+           mk: "North Macedonia",
+           sr: "Serbia",
+           ka: "Georgia",
+           lt: "Lithuania",
+           lv: "Latvia",
+           et: "Estonia",
+           sk: "Slovakia",
+           sl: "Slovenia",
+           hr: "Croatia",
+           bg: "Bulgaria",
+           mi: "New Zealand",
+           gd: "Scotland",
+           cy: "Wales",
+           ga: "Ireland",
+           eo: "Esperanto"
+         };
 
          options.forEach((option) => {
-           const langCode = option.value.trim().toLowerCase();
+           const langCode = option.value.trim().toLowerCase().replace("-", "_");
            if (!option.dataset.updated) {
-             const flag = getFlagEmojiByLang(langCode);
-             const originalText = option.text;
-             option.text = `${flag} ${originalText}`;
+             const nativeName = option.text.trim();
+             const country = langToCountryMap[langCode] || langCode.toUpperCase();
+             option.text = `${country} - ${nativeName}`;
              option.dataset.updated = "true";
            }
          });
