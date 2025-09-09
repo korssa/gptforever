@@ -268,7 +268,7 @@ export function GoogleTranslate() {
       showReviveButton();
     }
 
-    // 환생 버튼 표시 함수 (select 바 자리에 위치)
+    // 환생 버튼 표시 함수 (헤더 영역에 위치)
     function showReviveButton() {
       // 기존 환생 버튼이 있으면 제거
       const existingBtn = document.getElementById("translate-revive-button");
@@ -282,7 +282,7 @@ export function GoogleTranslate() {
       btn.title = "Click to reload the Translate widget";
       btn.style.cssText = `
         position: fixed;
-        top: 10px;
+        top: 60px;
         right: 20px;
         z-index: 9999;
         background: linear-gradient(135deg, #1e293b, #334155);
@@ -315,6 +315,19 @@ export function GoogleTranslate() {
 
       btn.onclick = () => {
         btn.remove();
+        
+        // 캐시 지우기
+        sessionStorage.removeItem("gptx:selectedLang");
+        sessionStorage.removeItem("gptx:translate:muted");
+        
+        // 로컬 스토리지도 지우기 (번역 관련)
+        localStorage.removeItem("googtrans");
+        localStorage.removeItem("googtrans_/");
+        
+        // 쿠키도 지우기 (번역 관련)
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "googtrans_/=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        
         // 페이지 리프레시로 완전 초기화
         window.location.reload();
       };
