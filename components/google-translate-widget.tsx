@@ -34,24 +34,24 @@ export function GoogleTranslateWidget() {
     script.async = true;
     document.head.appendChild(script);
 
-    window.googleTranslateElementInit = function () {
-      const target = document.getElementById("google_translate_element");
-      if (!target) return;
+         window.googleTranslateElementInit = function () {
+       const target = document.getElementById("google_translate_element");
+       if (!target) return;
 
-      if (typeof window.google === "undefined" || !window.google.translate || !window.google.translate.TranslateElement) return;
+       if (typeof window.google === "undefined" || !window.google.translate || !window.google.translate.TranslateElement) return;
 
-      new window.google.translate.TranslateElement(
-        {
+       new window.google.translate.TranslateElement(
+         {
           pageLanguage: "en",
-          layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || 'horizontal',
-          multilanguagePage: true,
-          autoDisplay: false,
-        },
-        "google_translate_element"
-      );
+           layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || 'horizontal',
+           multilanguagePage: true,
+           autoDisplay: false,
+         },
+         "google_translate_element"
+       );
 
-      setTimeout(() => {
-        initializeLanguageMapping();
+       setTimeout(() => {
+         initializeLanguageMapping();
         startFastFeedbackLoop(); // 💥 고속 피드백 감시 시작!
       }, 800);
     };
@@ -218,9 +218,9 @@ export function GoogleTranslateWidget() {
     }
 
     // ====== 2) 콤보 옵션을 "Country - Native"로 일괄 변환 ======
-    function updateLanguageOptions() {
-      try {
-        const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
+     function updateLanguageOptions() {
+       try {
+         const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
         if (!combo || !combo.options) return;
 
         const { countryByLang, nativeByLang } = buildMaps();
@@ -238,7 +238,7 @@ export function GoogleTranslateWidget() {
           const native = nativeByLang[code] ?? nativeByLang[base] ?? (option.text.trim() || base);
 
           option.text = `${country} - ${native}`;
-          option.dataset.updated = "true";
+               option.dataset.updated = "true";
         });
 
         // 원하면 주석 처리 가능
@@ -246,26 +246,26 @@ export function GoogleTranslateWidget() {
         combo.innerHTML = "";
         options.forEach((opt) => combo.appendChild(opt));
       } catch {}
-    }
+     }
 
-    function hideFeedbackElements() {
-      const feedbackSelectors = [
-        ".goog-te-balloon-frame",
-        ".goog-te-ftab",
-        ".goog-te-ftab-float",
-        ".goog-tooltip",
-        ".goog-tooltip-popup",
-        ".goog-te-banner-frame",
-        ".goog-te-spinner-pos",
-      ];
-      feedbackSelectors.forEach((selector) => {
-        document.querySelectorAll(selector).forEach((el) => {
-          (el as HTMLElement).style.display = "none";
-          (el as HTMLElement).style.visibility = "hidden";
-          (el as HTMLElement).style.opacity = "0";
-        });
-      });
-    }
+     function hideFeedbackElements() {
+       const feedbackSelectors = [
+         ".goog-te-balloon-frame",
+         ".goog-te-ftab",
+         ".goog-te-ftab-float",
+         ".goog-tooltip",
+         ".goog-tooltip-popup",
+         ".goog-te-banner-frame",
+         ".goog-te-spinner-pos",
+       ];
+       feedbackSelectors.forEach((selector) => {
+         document.querySelectorAll(selector).forEach((el) => {
+           (el as HTMLElement).style.display = "none";
+           (el as HTMLElement).style.visibility = "hidden";
+           (el as HTMLElement).style.opacity = "0";
+         });
+       });
+     }
 
     function handleAdminModeChange(enabled: boolean) {
       try {
@@ -326,44 +326,44 @@ export function GoogleTranslateWidget() {
 
     window.adminModeChange = handleAdminModeChange;
 
-    function refreshWidget() {
-      try {
-        const existingElement = document.getElementById("google_translate_element");
-        if (existingElement) {
-          existingElement.innerHTML = '';
-        }
-
-        const existingScript = document.querySelector('script[src*="translate.google.com"]');
-        if (existingScript) {
-          document.head.removeChild(existingScript);
-        }
-
-        const script = document.createElement("script");
-        script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-        script.async = true;
-        document.head.appendChild(script);
-
-        setTimeout(() => {
-          if (typeof window.googleTranslateElementInit === "function") {
-            window.googleTranslateElementInit();
-          }
-        }, 500);
-
+     function refreshWidget() {
+       try {
+         const existingElement = document.getElementById("google_translate_element");
+         if (existingElement) {
+           existingElement.innerHTML = '';
+         }
+         
+         const existingScript = document.querySelector('script[src*="translate.google.com"]');
+         if (existingScript) {
+           document.head.removeChild(existingScript);
+         }
+         
+         const script = document.createElement("script");
+         script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+         script.async = true;
+         document.head.appendChild(script);
+         
+         setTimeout(() => {
+           if (typeof window.googleTranslateElementInit === "function") {
+             window.googleTranslateElementInit();
+           }
+         }, 500);
+         
       } catch {}
-    }
+     }
 
-    function initializeLanguageMapping() {
-      const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
-      if (!combo || combo.options.length < 2) return false;
+     function initializeLanguageMapping() {
+       const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
+       if (!combo || combo.options.length < 2) return false;
 
-      updateLanguageOptions();
-      hideFeedbackElements();
+       updateLanguageOptions();
+       hideFeedbackElements();
 
-      combo.removeEventListener("change", handleComboChange);
-      combo.addEventListener("change", handleComboChange);
+       combo.removeEventListener("change", handleComboChange);
+       combo.addEventListener("change", handleComboChange);
 
-      return true;
-    }
+       return true;
+     }
 
     // ✅ 실시간 피드백 감시 루프 (5초마다 재시도)
     let feedbackLoop: number | undefined;
@@ -386,78 +386,98 @@ export function GoogleTranslateWidget() {
       }, 1000);
     }
 
-    function handlePageRefresh() {
-      sessionStorage.setItem('widget-needs-refresh', 'true');
-    }
-
-    function checkAndRefreshWidget() {
-      const needsRefresh = sessionStorage.getItem('widget-needs-refresh');
-      if (needsRefresh === 'true') {
-        sessionStorage.removeItem('widget-needs-refresh');
-        setTimeout(() => {
-          refreshWidget();
-        }, 1000);
-      }
-    }
-
-    function handleComboChange() {
-      setTimeout(() => {
-        updateLanguageOptions();
+    // ✅ 번역 피드백 DOM 전담 감시자
+    function watchTranslationFeedback() {
+      const feedbackObserver = new MutationObserver(() => {
         hideFeedbackElements();
-        setTimeout(() => {
-          const el = document.getElementById("google_translate_element");
-          if (el) el.style.opacity = "0";
-        }, 1000);
-      }, 100);
-    }
+      });
 
-    const observer = new MutationObserver(() => {
-      if (initializeLanguageMapping()) {
-        observer.disconnect();
-        startFeedbackLoop(); // 💥 실시간 피드백 감시 시작!
-      }
-    });
-
-    window.addEventListener('beforeunload', handlePageRefresh);
-
-    window.addEventListener("load", () => {
-      checkAndRefreshWidget();
-      observer.observe(document.body, {
+      feedbackObserver.observe(document.body, {
         childList: true,
-        subtree: true
-      });
-    });
-
-    function addRefreshButton() {
-      const refreshButton = document.createElement('button');
-      refreshButton.textContent = '🔄';
-      refreshButton.title = 'Google Translate 위젯 새로고침';
-      refreshButton.style.cssText = `
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 10000;
-        background: #4285f4;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        font-size: 16px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      `;
-
-      refreshButton.addEventListener('click', () => {
-        refreshWidget();
+        subtree: true,
       });
 
-      document.body.appendChild(refreshButton);
+      return feedbackObserver;
     }
 
-    if (process.env.NODE_ENV === 'development') {
-      setTimeout(addRefreshButton, 2000);
-    }
+     function handlePageRefresh() {
+       sessionStorage.setItem('widget-needs-refresh', 'true');
+     }
+
+     function checkAndRefreshWidget() {
+       const needsRefresh = sessionStorage.getItem('widget-needs-refresh');
+       if (needsRefresh === 'true') {
+         sessionStorage.removeItem('widget-needs-refresh');
+         setTimeout(() => {
+           refreshWidget();
+         }, 1000);
+       }
+     }
+
+     function handleComboChange() {
+       setTimeout(() => {
+         updateLanguageOptions();
+         hideFeedbackElements();
+         setTimeout(() => {
+           const el = document.getElementById("google_translate_element");
+           if (el) el.style.opacity = "0";
+         }, 1000);
+       }, 100);
+     }
+
+     const observer = new MutationObserver(() => {
+       if (initializeLanguageMapping()) {
+         observer.disconnect();
+        startFeedbackLoop(); // 💥 실시간 피드백 감시 시작!
+       }
+     });
+
+     window.addEventListener('beforeunload', handlePageRefresh);
+     
+    // ✅ 번역 피드백 DOM 전담 감시자 변수
+    let feedbackObserver: MutationObserver | null = null;
+
+     window.addEventListener("load", () => {
+       checkAndRefreshWidget();
+       observer.observe(document.body, {
+         childList: true,
+         subtree: true
+       });
+
+      // ✅ 번역 피드백 DOM 감시 시작
+      feedbackObserver = watchTranslationFeedback();
+     });
+
+     function addRefreshButton() {
+       const refreshButton = document.createElement('button');
+       refreshButton.textContent = '🔄';
+       refreshButton.title = 'Google Translate 위젯 새로고침';
+       refreshButton.style.cssText = `
+         position: fixed;
+         top: 10px;
+         right: 10px;
+         z-index: 10000;
+         background: #4285f4;
+         color: white;
+         border: none;
+         border-radius: 50%;
+         width: 40px;
+         height: 40px;
+         cursor: pointer;
+         font-size: 16px;
+         box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+       `;
+       
+       refreshButton.addEventListener('click', () => {
+         refreshWidget();
+       });
+       
+       document.body.appendChild(refreshButton);
+     }
+
+     if (process.env.NODE_ENV === 'development') {
+       setTimeout(addRefreshButton, 2000);
+     }
 
     return () => {
       const existingScript = document.querySelector('script[src*="translate.google.com"]');
@@ -470,6 +490,10 @@ export function GoogleTranslateWidget() {
       }
       // 실시간 피드백 감시 루프 정리
       if (feedbackLoop) clearInterval(feedbackLoop);
+      // 번역 피드백 DOM 전담 감시자 정리
+      if (feedbackObserver) {
+        feedbackObserver.disconnect();
+      }
     };
   }, []);
 
