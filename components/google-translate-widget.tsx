@@ -42,10 +42,11 @@ export function GoogleTranslateWidget() {
 
        new window.google.translate.TranslateElement(
          {
-           pageLanguage: "ko",
+           pageLanguage: "en",
            layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || 'horizontal',
            multilanguagePage: true,
            autoDisplay: false,
+           includedLanguages: "en,ko,ja,zh-CN,zh-TW,es,fr,de,it,pt,ru,ar,hi,th,vi",
          },
          "google_translate_element"
        );
@@ -63,20 +64,10 @@ export function GoogleTranslateWidget() {
          if (combo && combo.options) {
            // 언어 옵션들을 알파벳 순서로 정렬
            const options = Array.from(combo.options);
-           const sortedOptions = options.sort((a, b) => {
-             const aText = a.text.toLowerCase();
-             const bText = b.text.toLowerCase();
-             return aText.localeCompare(bText);
-           });
            
-           // 정렬된 옵션들로 select 요소 업데이트
-           combo.innerHTML = '';
-           sortedOptions.forEach(option => {
-             combo.appendChild(option);
-           });
-           
-           Array.from(combo.options).forEach((option) => {
-             const value = option.value.trim().split("|")[0].toLowerCase(); // 핵심: 파이프 제거 후 소문자로 정규화
+           // 먼저 언어 이름을 영어로 강제 설정
+           options.forEach((option) => {
+             const value = option.value.trim().split("|")[0].toLowerCase();
              const langLabelMap: { [key: string]: string } = {
                af: "South Africa - Afrikaans",
                sq: "Albania - Shqip",
@@ -189,11 +180,23 @@ export function GoogleTranslateWidget() {
                yo: "Nigeria - Yorùbá",
                zu: "South Africa - isiZulu",
              };
-
+             
              if (langLabelMap[value] && !option.dataset.updated) {
                option.text = langLabelMap[value];
                option.dataset.updated = "true";
              }
+           });
+           
+           const sortedOptions = options.sort((a, b) => {
+             const aText = a.text.toLowerCase();
+             const bText = b.text.toLowerCase();
+             return aText.localeCompare(bText);
+           });
+           
+           // 정렬된 옵션들로 select 요소 업데이트
+           combo.innerHTML = '';
+           sortedOptions.forEach(option => {
+             combo.appendChild(option);
            });
          }
            } catch (e) {
