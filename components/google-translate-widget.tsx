@@ -414,6 +414,38 @@ export function GoogleTranslateWidget() {
        }
      }
 
+     // 위젯 즉시 숨김 함수 (전역 스코프로 이동)
+     function hideTranslateWidget() {
+       const el = document.getElementById("google_translate_element");
+       if (el) {
+         el.style.display = "none";
+         el.style.opacity = "0";
+         el.style.pointerEvents = "none";
+         el.style.visibility = "hidden";
+         el.style.position = "absolute";
+         el.style.left = "-9999px";
+         el.style.top = "-9999px";
+         el.style.zIndex = "-9999";
+       }
+       
+       // 추가로 모든 Google Translate 관련 요소들 숨김
+       const googleElements = document.querySelectorAll([
+         ".goog-te-gadget",
+         ".goog-te-gadget-simple", 
+         ".goog-te-combo",
+         ".goog-te-menu-frame",
+         ".goog-te-menu2"
+       ].join(','));
+       
+       googleElements.forEach((element) => {
+         const el = element as HTMLElement;
+         el.style.display = "none";
+         el.style.visibility = "hidden";
+         el.style.opacity = "0";
+         el.style.pointerEvents = "none";
+       });
+     }
+
      function handleComboChange() {
        const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
        const selectedLang = combo?.value;
@@ -435,17 +467,6 @@ export function GoogleTranslateWidget() {
        }, 100);
      }
 
-     // 위젯 즉시 숨김 함수
-     function hideTranslateWidget() {
-       const el = document.getElementById("google_translate_element");
-       if (el) {
-         el.style.display = "none";
-         el.style.opacity = "0";
-         el.style.pointerEvents = "none";
-         el.style.visibility = "hidden";
-       }
-     }
-
      const observer = new MutationObserver(() => {
        if (initializeLanguageMapping()) {
          observer.disconnect();
@@ -458,6 +479,15 @@ export function GoogleTranslateWidget() {
             hideTranslateWidget();
           }, 1000);
         }
+       }
+       
+       // 지속적으로 위젯 숨김 감시
+       const isMuted = sessionStorage.getItem("gptx:translate:muted");
+       if (isMuted === "true") {
+         const translateElement = document.getElementById("google_translate_element");
+         if (translateElement && translateElement.style.display !== "none") {
+           hideTranslateWidget();
+         }
        }
      });
 
