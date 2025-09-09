@@ -538,8 +538,8 @@ export function GoogleTranslateWidget() {
 
        // 내부 전역 참조 초기화
        try {
-         delete (window as any).google;
-         delete (window as any).googleTranslateElementInit;
+         delete (window as unknown as Record<string, unknown>).google;
+         delete (window as unknown as Record<string, unknown>).googleTranslateElementInit;
        } catch {
          // 에러 무시
        }
@@ -617,8 +617,8 @@ export function GoogleTranslateWidget() {
          try {
            // 번역 기능을 무력화 - unknown으로 먼저 변환 후 할당
            window.google.translate.TranslateElement = function DisabledTranslateElement(
-             options: { pageLanguage: string; layout: string; multilanguagePage: boolean; autoDisplay: boolean },
-             element: string
+             _options: { pageLanguage: string; layout: string; multilanguagePage: boolean; autoDisplay: boolean },
+             _element: string
            ) {
              return null;
            } as unknown as typeof window.google.translate.TranslateElement;
