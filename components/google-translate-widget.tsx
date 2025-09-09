@@ -717,6 +717,7 @@ export function GoogleTranslateWidget() {
          // 캐시 지우기
          sessionStorage.removeItem("gptx:selectedLang");
          sessionStorage.removeItem("gptx:translate:muted");
+         sessionStorage.removeItem("gptx:feedback:blocked"); // 번역 피드백 차단 상태도 제거
          sessionStorage.removeItem("widget-needs-refresh");
          
          // 로컬 스토리지도 지우기 (번역 관련)
@@ -742,6 +743,7 @@ export function GoogleTranslateWidget() {
        if (selectedLang) {
          sessionStorage.setItem("gptx:selectedLang", selectedLang);
          sessionStorage.setItem("gptx:translate:muted", "true");
+         sessionStorage.setItem("gptx:feedback:blocked", "true"); // 번역 피드백 차단 상태 저장
        }
 
        setTimeout(() => {
@@ -789,6 +791,7 @@ export function GoogleTranslateWidget() {
      function autoReapplyTranslation() {
        const savedLang = sessionStorage.getItem("gptx:selectedLang");
        const isMuted = sessionStorage.getItem("gptx:translate:muted");
+       const isFeedbackBlocked = sessionStorage.getItem("gptx:feedback:blocked");
        
        if (savedLang && isMuted === "true") {
          const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
@@ -802,6 +805,11 @@ export function GoogleTranslateWidget() {
              setTimeout(() => {
                hideTranslateWidget();
                hideFeedbackElements();
+               
+               // 번역 피드백 차단 상태가 저장되어 있으면 피드백 차단 시작
+               if (isFeedbackBlocked === "true") {
+                 startFastFeedbackLoop();
+               }
              }, 1500);
            }, 1200);
          }
@@ -815,6 +823,14 @@ export function GoogleTranslateWidget() {
        setTimeout(() => {
          autoReapplyTranslation();
        }, 2000);
+       
+       // 번역 피드백 차단 상태 확인 및 자동 시작
+       setTimeout(() => {
+         const isFeedbackBlocked = sessionStorage.getItem("gptx:feedback:blocked");
+         if (isFeedbackBlocked === "true") {
+           startFastFeedbackLoop();
+         }
+       }, 3000);
        
        observer.observe(document.body, {
          childList: true,

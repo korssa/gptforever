@@ -186,15 +186,15 @@ export function GoogleTranslate() {
         }
 
     // 피드백 요소 숨김 함수 (전역 스코프로 이동)
-    function hideFeedbackElements() {
-      const feedbackSelectors = [
-        ".goog-te-balloon-frame",
-        ".goog-te-ftab",
-        ".goog-te-ftab-float",
-        ".goog-tooltip",
-        ".goog-tooltip-popup",
-        ".goog-te-banner-frame",
-        ".goog-te-spinner-pos",
+      function hideFeedbackElements() {
+        const feedbackSelectors = [
+          ".goog-te-balloon-frame",
+          ".goog-te-ftab",
+          ".goog-te-ftab-float",
+          ".goog-tooltip",
+          ".goog-tooltip-popup",
+          ".goog-te-banner-frame",
+          ".goog-te-spinner-pos",
         ".goog-te-menu-frame",
         ".goog-te-menu2",
         ".goog-te-gadget-simple",
@@ -206,9 +206,9 @@ export function GoogleTranslate() {
         ".goog-te-balloon-frame-sip",
         ".goog-te-ftab-sip",
         ".goog-te-ftab-float-sip"
-      ];
-      feedbackSelectors.forEach((selector) => {
-        document.querySelectorAll(selector).forEach((el) => {
+        ];
+        feedbackSelectors.forEach((selector) => {
+          document.querySelectorAll(selector).forEach((el) => {
           const element = el as HTMLElement;
           element.style.display = "none !important";
           element.style.visibility = "hidden !important";
@@ -289,7 +289,7 @@ export function GoogleTranslate() {
         el.style.overflow = "visible !important";
         el.style.clip = "auto !important";
       }
-    }
+      }
 
              // 언어 선택 시에만 실행
        const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
@@ -307,6 +307,7 @@ export function GoogleTranslate() {
            if (selectedLang) {
              sessionStorage.setItem("gptx:selectedLang", selectedLang);
              sessionStorage.setItem("gptx:translate:muted", "true");
+             sessionStorage.setItem("gptx:feedback:blocked", "true"); // 번역 피드백 차단 상태 저장
            }
            
            updateLanguageOptions();
@@ -501,6 +502,7 @@ export function GoogleTranslate() {
         // 캐시 지우기
         sessionStorage.removeItem("gptx:selectedLang");
         sessionStorage.removeItem("gptx:translate:muted");
+        sessionStorage.removeItem("gptx:feedback:blocked"); // 번역 피드백 차단 상태도 제거
         sessionStorage.removeItem("widget-needs-refresh");
         
         // 로컬 스토리지도 지우기 (번역 관련)
@@ -591,6 +593,7 @@ export function GoogleTranslate() {
     function autoReapplyTranslation() {
       const savedLang = sessionStorage.getItem("gptx:selectedLang");
       const isMuted = sessionStorage.getItem("gptx:translate:muted");
+      const isFeedbackBlocked = sessionStorage.getItem("gptx:feedback:blocked");
       
       if (savedLang && isMuted === "true") {
         const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
@@ -620,6 +623,11 @@ export function GoogleTranslate() {
                   (el as HTMLElement).style.opacity = "0";
                 });
               });
+              
+              // 번역 피드백 차단 상태가 저장되어 있으면 피드백 차단 시작
+              if (isFeedbackBlocked === "true") {
+                blockAllTranslationFeedback();
+              }
             }, 1500);
           }, 1200);
         }
@@ -634,6 +642,14 @@ export function GoogleTranslate() {
       setTimeout(() => {
         autoReapplyTranslation();
       }, 2000);
+      
+      // 번역 피드백 차단 상태 확인 및 자동 시작
+      setTimeout(() => {
+        const isFeedbackBlocked = sessionStorage.getItem("gptx:feedback:blocked");
+        if (isFeedbackBlocked === "true") {
+          blockAllTranslationFeedback();
+        }
+      }, 3000);
     });
 
     // DOM 변경 감지 (MutationObserver 사용)
