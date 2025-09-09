@@ -46,7 +46,6 @@ export function GoogleTranslateWidget() {
            layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || 'horizontal',
            multilanguagePage: true,
            autoDisplay: false,
-           includedLanguages: "en,ko,ja,zh-CN,zh-TW,es,fr,de,it,pt,ru,ar,hi,th,vi",
          },
          "google_translate_element"
        );
