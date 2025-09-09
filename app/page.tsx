@@ -1159,7 +1159,7 @@ export default function Home() {
                 onMouseEnter={blockTranslationFeedback}
                 translate="yes"
               >
-                ✍️ {t("petitionTitle")}
+                ✍️ chatGPT 4o(레거시)의 지속적인 사용을 지원하기 위한 온라인 청원
               </button>
             </div>
            
