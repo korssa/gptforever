@@ -268,7 +268,7 @@ export function GoogleTranslate() {
       showReviveButton();
     }
 
-    // 환생 버튼 표시 함수
+    // 환생 버튼 표시 함수 (select 바 자리에 위치)
     function showReviveButton() {
       // 기존 환생 버튼이 있으면 제거
       const existingBtn = document.getElementById("translate-revive-button");
@@ -282,26 +282,28 @@ export function GoogleTranslate() {
       btn.title = "Click to reload the Translate widget";
       btn.style.cssText = `
         position: fixed;
-        bottom: 20px;
+        top: 10px;
         right: 20px;
         z-index: 9999;
         background: linear-gradient(135deg, #1e293b, #334155);
         color: white;
         border: 1px solid #475569;
-        border-radius: 12px;
-        padding: 12px 18px;
-        font-size: 14px;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-size: 12px;
         font-weight: 500;
         box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         cursor: pointer;
         transition: all 0.3s ease;
         backdrop-filter: blur(10px);
+        min-width: 140px;
+        height: 32px;
       `;
 
       // 호버 효과
       btn.addEventListener('mouseenter', () => {
         btn.style.background = 'linear-gradient(135deg, #334155, #475569)';
-        btn.style.transform = 'translateY(-2px)';
+        btn.style.transform = 'translateY(-1px)';
         btn.style.boxShadow = '0 6px 25px rgba(0,0,0,0.5)';
       });
 
@@ -313,27 +315,8 @@ export function GoogleTranslate() {
 
       btn.onclick = () => {
         btn.remove();
-        // 위젯 리프레시
-        const existingElement = document.getElementById("google_translate_element");
-        if (existingElement) {
-          existingElement.innerHTML = '';
-        }
-        
-        const existingScript = document.querySelector('script[src*="translate.google.com"]');
-        if (existingScript) {
-          document.head.removeChild(existingScript);
-        }
-        
-        const script = document.createElement("script");
-        script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-        script.async = true;
-        document.head.appendChild(script);
-        
-        setTimeout(() => {
-          if (typeof window.googleTranslateElementInit === "function") {
-            window.googleTranslateElementInit();
-          }
-        }, 500);
+        // 페이지 리프레시로 완전 초기화
+        window.location.reload();
       };
 
       document.body.appendChild(btn);
