@@ -1150,17 +1150,17 @@ export default function Home() {
               >
                 👉 See That Group
               </button>
-              <button
-                onClick={() => {
-                  // 청원 페이지로 이동
-                  window.location.href = '/petition';
-                }}
-                className="text-sm text-green-400 hover:text-green-300 hover:underline inline-block transition-colors duration-200 cursor-pointer bg-transparent border-none p-0 mt-2 ml-4"
+              <br />
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfmFPpGWs2bS4BS8zDWQdLFH-SfopbeUVC1MLuP-uMZgRjvUw/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-green-400 hover:text-green-300 hover:underline inline-block transition-colors duration-200 cursor-pointer bg-transparent border-none p-0 mt-2"
                 onMouseEnter={blockTranslationFeedback}
                 translate="yes"
               >
-                ✍️ chatGPT 4o(레거시)의 지속적인 사용을 지원하기 위한 온라인 청원
-              </button>
+                ✍️ Online petition to support the continued use of chatGPT 4o (Legacy)
+              </a>
             </div>
            
            <div className="border-t border-gray-600 pt-6 mt-6 text-center">
