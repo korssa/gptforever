@@ -902,7 +902,8 @@ export default function MemoPage() {
 
   // List view
   return (
-    <div className="min-h-screen bg-black text-white relative" style={{ paddingTop: '40px' }}>
+
+<div className="min-h-screen bg-black text-white relative" style={{ paddingTop: '40px' }}>
       {/* 🌌 GPTXGONGMYUNG MEMO - Night Sky Animation (Canvas ver.) */}
       <style dangerouslySetInnerHTML={{
         __html: `
