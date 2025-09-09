@@ -23,7 +23,7 @@ export function SnowAnimation() {
         x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
         y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800),
         size: Math.random() * 6 + 4, // 4-10px (더 큰 눈송이)
-        speed: Math.random() * 60 + 30, // 30-90 pixels per second
+        speed: Math.random() * 20 + 10, // 10-30 pixels per second (더 느리게)
         opacity: Math.random() * 0.6 + 0.4, // 0.4-1.0
       });
     }
