@@ -1154,7 +1154,12 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="text-sm text-green-400 hover:text-green-300 inline-block transition-colors duration-200 cursor-pointer bg-transparent border-none p-0 mt-2"
                 onMouseEnter={blockTranslationFeedback}
-                translate="yes"
+                onMouseLeave={blockTranslationFeedback}
+                onFocus={blockTranslationFeedback}
+                onBlur={blockTranslationFeedback}
+                translate="no"
+                data-translate="no"
+                data-notranslate="true"
               >
                 ✍️ Online petition to support the continued use of chatGPT 4o (Legacy)
               </a>
