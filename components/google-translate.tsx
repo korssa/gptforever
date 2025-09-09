@@ -322,6 +322,27 @@ export function GoogleTranslate() {
 
     }
 
+    // 💀 번역 위젯 완전 종료 함수 (진짜 죽음)
+    function destroyTranslateWidgetCompletely() {
+      const widgetEl = document.getElementById("google_translate_element");
+      if (widgetEl) {
+        widgetEl.remove(); // DOM에서 완전 제거
+      }
+
+      const existingScript = document.querySelector('script[src*="translate.google.com"]');
+      if (existingScript) {
+        existingScript.remove(); // 스크립트 완전 제거
+      }
+
+      // 내부 전역 참조 초기화
+      try {
+        delete (window as any).google;
+        delete (window as any).googleTranslateElementInit;
+      } catch {
+        // 에러 무시
+      }
+    }
+
     // 위젯 완전 비활성화 함수 (전역 스코프로 이동)
     function hideTranslateWidget() {
       const el = document.getElementById("google_translate_element");
@@ -408,6 +429,9 @@ export function GoogleTranslate() {
         }
       }
       
+      // 💀 완전한 죽음 보장
+      destroyTranslateWidgetCompletely();
+      
       // 위젯 숨김 후 환생 버튼 표시
       showReviveButton();
     }
@@ -459,6 +483,9 @@ export function GoogleTranslate() {
 
       btn.onclick = () => {
         btn.remove();
+        
+        // 💀 환생 버튼 클릭 시 강제 완전 제거
+        destroyTranslateWidgetCompletely();
         
         // 캐시 지우기
         sessionStorage.removeItem("gptx:selectedLang");
