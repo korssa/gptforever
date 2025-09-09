@@ -212,15 +212,33 @@ export function GoogleTranslate() {
 
          // 이후 사용자가 바꿀 때마다 적용
          combo.addEventListener("change", () => {
+           const selectedLang = combo.value;
+           
+           // 선택한 언어를 sessionStorage에 저장
+           if (selectedLang) {
+             sessionStorage.setItem("gptx:selectedLang", selectedLang);
+             sessionStorage.setItem("gptx:translate:muted", "true");
+           }
+           
            updateLanguageOptions();
            hideFeedbackElements();
            
-           // 번역 완료 후 위젯 숨김 (완전 제거 대신 시각만 숨김)
+           // 번역 완료 후 위젯 즉시 숨김
            setTimeout(() => {
-             const el = document.getElementById("google_translate_element");
-             if (el) el.style.opacity = "0";
-           }, 1000);
+             hideTranslateWidget();
+           }, 800);
          });
+       }
+
+       // 위젯 즉시 숨김 함수
+       function hideTranslateWidget() {
+         const el = document.getElementById("google_translate_element");
+         if (el) {
+           el.style.display = "none";
+           el.style.opacity = "0";
+           el.style.pointerEvents = "none";
+           el.style.visibility = "hidden";
+         }
        }
     }
 
@@ -293,9 +311,37 @@ export function GoogleTranslate() {
       setTimeout(checkAndInitialize, 1000);
     };
 
+    // 저장된 언어 자동 재적용 함수
+    function autoReapplyTranslation() {
+      const savedLang = sessionStorage.getItem("gptx:selectedLang");
+      const isMuted = sessionStorage.getItem("gptx:translate:muted");
+      
+      if (savedLang && isMuted === "true") {
+        const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
+        
+        if (combo && combo.options.length > 1) {
+          setTimeout(() => {
+            combo.value = savedLang;
+            combo.dispatchEvent(new Event("change"));
+            
+            // 재적용 후 다시 위젯 숨김
+            setTimeout(() => {
+              hideTranslateWidget();
+              hideFeedbackElements();
+            }, 1500);
+          }, 1200);
+        }
+      }
+    }
+
     // 페이지 로드 후 시작
     window.addEventListener("load", () => {
       setTimeout(checkAndInitialize, 1000);
+      
+      // 저장된 언어 자동 재적용
+      setTimeout(() => {
+        autoReapplyTranslation();
+      }, 2000);
     });
 
     // DOM 변경 감지 (MutationObserver 사용)

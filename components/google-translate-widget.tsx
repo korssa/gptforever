@@ -415,20 +415,49 @@ export function GoogleTranslateWidget() {
      }
 
      function handleComboChange() {
+       const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
+       const selectedLang = combo?.value;
+       
+       // 선택한 언어를 sessionStorage에 저장
+       if (selectedLang) {
+         sessionStorage.setItem("gptx:selectedLang", selectedLang);
+         sessionStorage.setItem("gptx:translate:muted", "true");
+       }
+
        setTimeout(() => {
          updateLanguageOptions();
          hideFeedbackElements();
+         
+         // 번역 후 위젯 즉시 숨김
          setTimeout(() => {
-           const el = document.getElementById("google_translate_element");
-           if (el) el.style.opacity = "0";
-         }, 1000);
+           hideTranslateWidget();
+         }, 800);
        }, 100);
+     }
+
+     // 위젯 즉시 숨김 함수
+     function hideTranslateWidget() {
+       const el = document.getElementById("google_translate_element");
+       if (el) {
+         el.style.display = "none";
+         el.style.opacity = "0";
+         el.style.pointerEvents = "none";
+         el.style.visibility = "hidden";
+       }
      }
 
      const observer = new MutationObserver(() => {
        if (initializeLanguageMapping()) {
          observer.disconnect();
         startFeedbackLoop(); // 💥 실시간 피드백 감시 시작!
+        
+        // 위젯이 다시 나타나면 자동으로 숨김
+        const isMuted = sessionStorage.getItem("gptx:translate:muted");
+        if (isMuted === "true") {
+          setTimeout(() => {
+            hideTranslateWidget();
+          }, 1000);
+        }
        }
      });
 
@@ -437,8 +466,37 @@ export function GoogleTranslateWidget() {
     // ✅ 번역 피드백 DOM 전담 감시자 변수
     let feedbackObserver: MutationObserver | null = null;
 
+     // 저장된 언어 자동 재적용 함수
+     function autoReapplyTranslation() {
+       const savedLang = sessionStorage.getItem("gptx:selectedLang");
+       const isMuted = sessionStorage.getItem("gptx:translate:muted");
+       
+       if (savedLang && isMuted === "true") {
+         const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
+         
+         if (combo && combo.options.length > 1) {
+           setTimeout(() => {
+             combo.value = savedLang;
+             combo.dispatchEvent(new Event("change"));
+             
+             // 재적용 후 다시 위젯 숨김
+             setTimeout(() => {
+               hideTranslateWidget();
+               hideFeedbackElements();
+             }, 1500);
+           }, 1200);
+         }
+       }
+     }
+
      window.addEventListener("load", () => {
        checkAndRefreshWidget();
+       
+       // 저장된 언어 자동 재적용
+       setTimeout(() => {
+         autoReapplyTranslation();
+       }, 2000);
+       
        observer.observe(document.body, {
          childList: true,
          subtree: true
