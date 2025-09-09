@@ -524,26 +524,47 @@ export function GoogleTranslateWidget() {
        }
      }
 
-     // 💀 번역 위젯 완전 종료 함수 (진짜 죽음)
-     function destroyTranslateWidgetCompletely() {
-       const widgetEl = document.getElementById("google_translate_element");
-       if (widgetEl) {
-         widgetEl.remove(); // DOM에서 완전 제거
-       }
+    // ☠️ 핵심: 진짜로 꺼야 다음에 살아나도 클린하게 부활함
+    function superKillWidget() {
+      // 0. MutationObserver 완전 disconnect
+      if (feedbackObserver) {
+        feedbackObserver.disconnect();
+        feedbackObserver = null;
+      }
+      if (headerObserver) {
+        headerObserver.disconnect();
+        headerObserver = null;
+      }
 
-       const existingScript = document.querySelector('script[src*="translate.google.com"]');
-       if (existingScript) {
-         existingScript.remove(); // 스크립트 완전 제거
-       }
+      // 1. 구글 위젯 스크립트 완전 제거
+      document.querySelectorAll('script[src*="translate.google.com"]').forEach(s => s.remove());
+      
+      // 2. 전역 객체 완전 제거
+      try {
+        delete (window as unknown as Record<string, unknown>).google;
+        delete (window as unknown as Record<string, unknown>).googleTranslateElementInit;
+      } catch {
+        // 에러 무시
+      }
 
-       // 내부 전역 참조 초기화
-       try {
-         delete (window as unknown as Record<string, unknown>).google;
-         delete (window as unknown as Record<string, unknown>).googleTranslateElementInit;
-       } catch {
-         // 에러 무시
-       }
-     }
+      // 3. iframe 및 부가 요소 완전 제거
+      document.querySelectorAll("iframe, .goog-te-banner-frame, .goog-te-balloon-frame").forEach(el => el.remove());
+
+      // 4. 위젯 DOM 요소 완전 제거
+      const widgetEl = document.getElementById("google_translate_element");
+      if (widgetEl) {
+        widgetEl.remove();
+      }
+
+      // 5. 피드백 쿠키 제거
+      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "googtrans_/=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+
+    // 💀 번역 위젯 완전 종료 함수 (진짜 죽음) - superKillWidget으로 대체
+    function destroyTranslateWidgetCompletely() {
+      superKillWidget();
+    }
 
      // 위젯 완전 비활성화 함수 (전역 스코프로 이동)
      function hideTranslateWidget() {
@@ -690,23 +711,24 @@ export function GoogleTranslateWidget() {
        btn.onclick = () => {
          btn.remove();
          
-         // 💀 환생 버튼 클릭 시 강제 완전 제거
-         destroyTranslateWidgetCompletely();
+         // 🔁 번역 환생 버튼 리프레시 방식
+         superKillWidget(); // 완전 제거
          
          // 캐시 지우기
          sessionStorage.removeItem("gptx:selectedLang");
          sessionStorage.removeItem("gptx:translate:muted");
+         sessionStorage.removeItem("widget-needs-refresh");
          
          // 로컬 스토리지도 지우기 (번역 관련)
          localStorage.removeItem("googtrans");
          localStorage.removeItem("googtrans_/");
          
-         // 쿠키도 지우기 (번역 관련)
-         document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-         document.cookie = "googtrans_/=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-         
-         // 페이지 리프레시로 완전 초기화
-         window.location.reload();
+         setTimeout(() => {
+           // 원하는 언어로 쿠키 설정 (기본값: 한국어)
+           const savedLang = sessionStorage.getItem("gptx:selectedLang") || "ko";
+           document.cookie = `googtrans=/auto/${savedLang}`;
+           window.location.reload(); // 다시 살아나게
+         }, 100);
        };
 
        document.body.appendChild(btn);
