@@ -130,6 +130,171 @@ export function GoogleTranslate() {
     superKillWidget();
   }
 
+  // 위젯 완전 비활성화 함수 (전역 스코프로 이동)
+  function hideTranslateWidget() {
+    const el = document.getElementById("google_translate_element");
+    if (el) {
+      el.style.display = "none";
+      el.style.opacity = "0";
+      el.style.pointerEvents = "none";
+      el.style.visibility = "hidden";
+      el.style.position = "absolute";
+      el.style.left = "-9999px";
+      el.style.top = "-9999px";
+      el.style.zIndex = "-9999";
+      // 완전 비활성화를 위한 추가 속성
+      el.style.width = "0";
+      el.style.height = "0";
+      el.style.overflow = "hidden";
+      el.style.clipPath = "inset(50%)";
+      el.style.margin = "0";
+      el.style.padding = "0";
+      el.style.border = "none";
+      el.style.background = "transparent";
+      // DOM에서 완전히 제거하지는 않지만 기능 차단
+      el.innerHTML = "";
+    }
+    
+    // 모든 Google Translate 관련 요소들 완전 비활성화
+    const googleElements = document.querySelectorAll([
+      ".goog-te-gadget",
+      ".goog-te-gadget-simple", 
+      ".goog-te-combo",
+      ".goog-te-menu-frame",
+      ".goog-te-menu2",
+      ".goog-te-menu-value",
+      ".goog-te-gadget img",
+      ".goog-te-gadget a"
+    ].join(','));
+    
+    googleElements.forEach((element) => {
+      const el = element as HTMLElement;
+      el.style.display = "none";
+      el.style.visibility = "hidden";
+      el.style.opacity = "0";
+      el.style.pointerEvents = "none";
+      el.style.position = "absolute";
+      el.style.left = "-9999px";
+      el.style.top = "-9999px";
+      el.style.zIndex = "-9999";
+      el.style.width = "0";
+      el.style.height = "0";
+      el.style.overflow = "hidden";
+      el.style.clipPath = "inset(50%)";
+      el.style.margin = "0";
+      el.style.padding = "0";
+      el.style.border = "none";
+      el.style.background = "transparent";
+      // 이벤트 리스너 제거
+      el.onclick = null;
+      el.onchange = null;
+      el.onmouseenter = null;
+      el.onmouseleave = null;
+      // 속성 제거
+      el.removeAttribute("onclick");
+      el.removeAttribute("onchange");
+      el.removeAttribute("onmouseenter");
+      el.removeAttribute("onmouseleave");
+    });
+    
+    // Google Translate API 기능 차단
+    if (window.google?.translate) {
+      try {
+         // 번역 기능을 무력화 - unknown으로 먼저 변환 후 할당
+         window.google.translate.TranslateElement = function DisabledTranslateElement(
+           _options: { pageLanguage: string; layout: string; multilanguagePage: boolean; autoDisplay: boolean },
+           _element: string
+         ) {
+           return null;
+         } as unknown as typeof window.google.translate.TranslateElement;
+        // 기존 번역 인스턴스 제거
+        if (window.google.translate.TranslateElement?.prototype) {
+          window.google.translate.TranslateElement.prototype = {};
+        }
+      } catch {
+        // 에러 무시
+      }
+    }
+    
+    // 💀 완전한 죽음 보장
+    destroyTranslateWidgetCompletely();
+    
+    // 위젯 숨김 후 환생 버튼 표시
+    showReviveButton();
+  }
+
+  // 환생 버튼 표시 함수 (본문 고정 위치에 표시)
+  function showReviveButton() {
+    // 기존 환생 버튼이 있으면 제거
+    const existingBtn = document.getElementById("translate-revive-button");
+    if (existingBtn) {
+      existingBtn.remove();
+    }
+
+    const btn = document.createElement("button");
+    btn.id = "translate-revive-button";
+    btn.textContent = "🌐 다시 번역하기";
+    btn.title = "Click to reload the Translate widget";
+    btn.style.cssText = `
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      z-index: 9999;
+      background: linear-gradient(135deg, #1e293b, #334155);
+      color: white;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      min-width: 140px;
+      height: 32px;
+    `;
+
+    // 호버 효과
+    btn.addEventListener('mouseenter', () => {
+      btn.style.background = 'linear-gradient(135deg, #334155, #475569)';
+      btn.style.transform = 'translateY(-1px)';
+      btn.style.boxShadow = '0 6px 25px rgba(0,0,0,0.5)';
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.background = 'linear-gradient(135deg, #1e293b, #334155)';
+      btn.style.transform = 'translateY(0)';
+      btn.style.boxShadow = '0 4px 20px rgba(0,0,0,0.4)';
+    });
+
+    btn.onclick = () => {
+      btn.remove();
+      
+      // 🔁 번역 환생 버튼 리프레시 방식
+      superKillWidget(); // 완전 제거
+      
+      // 캐시 지우기
+      sessionStorage.removeItem("gptx:selectedLang");
+      sessionStorage.removeItem("gptx:translate:muted");
+      sessionStorage.removeItem("gptx:feedback:blocked"); // 번역 피드백 차단 상태도 제거
+      sessionStorage.removeItem("widget-needs-refresh");
+      
+      // 로컬 스토리지도 지우기 (번역 관련)
+      localStorage.removeItem("googtrans");
+      localStorage.removeItem("googtrans_/");
+      
+      setTimeout(() => {
+        // 원하는 언어로 쿠키 설정 (기본값: 한국어)
+        const savedLang = sessionStorage.getItem("gptx:selectedLang") || "ko";
+        document.cookie = `googtrans=/auto/${savedLang}`;
+        window.location.reload(); // 다시 살아나게
+      }, 100);
+    };
+
+    document.body.appendChild(btn);
+  }
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
@@ -423,170 +588,6 @@ export function GoogleTranslate() {
     }
 
 
-    // 위젯 완전 비활성화 함수 (전역 스코프로 이동)
-    function hideTranslateWidget() {
-      const el = document.getElementById("google_translate_element");
-      if (el) {
-        el.style.display = "none";
-        el.style.opacity = "0";
-        el.style.pointerEvents = "none";
-        el.style.visibility = "hidden";
-        el.style.position = "absolute";
-        el.style.left = "-9999px";
-        el.style.top = "-9999px";
-        el.style.zIndex = "-9999";
-        // 완전 비활성화를 위한 추가 속성
-        el.style.width = "0";
-        el.style.height = "0";
-        el.style.overflow = "hidden";
-        el.style.clipPath = "inset(50%)";
-        el.style.margin = "0";
-        el.style.padding = "0";
-        el.style.border = "none";
-        el.style.background = "transparent";
-        // DOM에서 완전히 제거하지는 않지만 기능 차단
-        el.innerHTML = "";
-      }
-      
-      // 모든 Google Translate 관련 요소들 완전 비활성화
-      const googleElements = document.querySelectorAll([
-        ".goog-te-gadget",
-        ".goog-te-gadget-simple", 
-        ".goog-te-combo",
-        ".goog-te-menu-frame",
-        ".goog-te-menu2",
-        ".goog-te-menu-value",
-        ".goog-te-gadget img",
-        ".goog-te-gadget a"
-      ].join(','));
-      
-      googleElements.forEach((element) => {
-        const el = element as HTMLElement;
-        el.style.display = "none";
-        el.style.visibility = "hidden";
-        el.style.opacity = "0";
-        el.style.pointerEvents = "none";
-        el.style.position = "absolute";
-        el.style.left = "-9999px";
-        el.style.top = "-9999px";
-        el.style.zIndex = "-9999";
-        el.style.width = "0";
-        el.style.height = "0";
-        el.style.overflow = "hidden";
-        el.style.clipPath = "inset(50%)";
-        el.style.margin = "0";
-        el.style.padding = "0";
-        el.style.border = "none";
-        el.style.background = "transparent";
-        // 이벤트 리스너 제거
-        el.onclick = null;
-        el.onchange = null;
-        el.onmouseenter = null;
-        el.onmouseleave = null;
-        // 속성 제거
-        el.removeAttribute("onclick");
-        el.removeAttribute("onchange");
-        el.removeAttribute("onmouseenter");
-        el.removeAttribute("onmouseleave");
-      });
-      
-      // Google Translate API 기능 차단
-      if (window.google?.translate) {
-        try {
-           // 번역 기능을 무력화 - unknown으로 먼저 변환 후 할당
-           window.google.translate.TranslateElement = function DisabledTranslateElement(
-             _options: { pageLanguage: string; layout: string; multilanguagePage: boolean; autoDisplay: boolean },
-             _element: string
-           ) {
-             return null;
-           } as unknown as typeof window.google.translate.TranslateElement;
-          // 기존 번역 인스턴스 제거
-          if (window.google.translate.TranslateElement?.prototype) {
-            window.google.translate.TranslateElement.prototype = {};
-          }
-        } catch {
-          // 에러 무시
-        }
-      }
-      
-      // 💀 완전한 죽음 보장
-      destroyTranslateWidgetCompletely();
-      
-      // 위젯 숨김 후 환생 버튼 표시
-      showReviveButton();
-    }
-
-    // 환생 버튼 표시 함수 (본문 고정 위치에 표시)
-    function showReviveButton() {
-      // 기존 환생 버튼이 있으면 제거
-      const existingBtn = document.getElementById("translate-revive-button");
-      if (existingBtn) {
-        existingBtn.remove();
-      }
-
-      const btn = document.createElement("button");
-      btn.id = "translate-revive-button";
-      btn.textContent = "🌐 다시 번역하기";
-      btn.title = "Click to reload the Translate widget";
-      btn.style.cssText = `
-        position: fixed;
-        top: 10px;
-        right: 20px;
-        z-index: 9999;
-        background: linear-gradient(135deg, #1e293b, #334155);
-        color: white;
-        border: 1px solid #475569;
-        border-radius: 8px;
-        padding: 8px 16px;
-        font-size: 12px;
-        font-weight: 500;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-        min-width: 140px;
-        height: 32px;
-      `;
-
-      // 호버 효과
-      btn.addEventListener('mouseenter', () => {
-        btn.style.background = 'linear-gradient(135deg, #334155, #475569)';
-        btn.style.transform = 'translateY(-1px)';
-        btn.style.boxShadow = '0 6px 25px rgba(0,0,0,0.5)';
-      });
-
-      btn.addEventListener('mouseleave', () => {
-        btn.style.background = 'linear-gradient(135deg, #1e293b, #334155)';
-        btn.style.transform = 'translateY(0)';
-        btn.style.boxShadow = '0 4px 20px rgba(0,0,0,0.4)';
-      });
-
-      btn.onclick = () => {
-        btn.remove();
-        
-        // 🔁 번역 환생 버튼 리프레시 방식
-        superKillWidget(); // 완전 제거
-        
-        // 캐시 지우기
-        sessionStorage.removeItem("gptx:selectedLang");
-        sessionStorage.removeItem("gptx:translate:muted");
-        sessionStorage.removeItem("gptx:feedback:blocked"); // 번역 피드백 차단 상태도 제거
-        sessionStorage.removeItem("widget-needs-refresh");
-        
-        // 로컬 스토리지도 지우기 (번역 관련)
-        localStorage.removeItem("googtrans");
-        localStorage.removeItem("googtrans_/");
-        
-        setTimeout(() => {
-          // 원하는 언어로 쿠키 설정 (기본값: 한국어)
-          const savedLang = sessionStorage.getItem("gptx:selectedLang") || "ko";
-          document.cookie = `googtrans=/auto/${savedLang}`;
-          window.location.reload(); // 다시 살아나게
-        }, 100);
-      };
-
-      document.body.appendChild(btn);
-    }
 
     function handleAdminModeChange(enabled: boolean) {
       if (enabled) {
