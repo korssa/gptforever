@@ -1157,9 +1157,7 @@ export default function Home() {
                 onMouseLeave={blockTranslationFeedback}
                 onFocus={blockTranslationFeedback}
                 onBlur={blockTranslationFeedback}
-                translate="no"
-                data-translate="no"
-                data-notranslate="true"
+                translate="yes"
               >
                 ✍️ Online petition to support the continued use of chatGPT 4o (Legacy)
               </a>
