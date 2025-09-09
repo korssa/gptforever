@@ -20,7 +20,6 @@ declare global {
           InlineLayout?: {
             HORIZONTAL?: string;
           };
-          prototype?: Record<string, unknown>;
         };
       };
     };
@@ -258,29 +257,12 @@ export function GoogleTranslateWidget() {
          ".goog-tooltip-popup",
          ".goog-te-banner-frame",
          ".goog-te-spinner-pos",
-         ".goog-te-menu-frame",
-         ".goog-te-menu2",
-         ".goog-te-gadget-simple",
-         ".goog-te-gadget",
-         ".goog-te-combo",
-         ".skiptranslate",
-         "iframe[src*='translate']",
-         ".goog-te-banner-frame-sip",
-         ".goog-te-balloon-frame-sip",
-         ".goog-te-ftab-sip",
-         ".goog-te-ftab-float-sip"
        ];
        feedbackSelectors.forEach((selector) => {
          document.querySelectorAll(selector).forEach((el) => {
-           const element = el as HTMLElement;
-           element.style.display = "none !important";
-           element.style.visibility = "hidden !important";
-           element.style.opacity = "0 !important";
-           element.style.pointerEvents = "none !important";
-           element.style.position = "absolute !important";
-           element.style.left = "-9999px !important";
-           element.style.top = "-9999px !important";
-           element.style.zIndex = "-9999 !important";
+           (el as HTMLElement).style.display = "none";
+           (el as HTMLElement).style.visibility = "hidden";
+           (el as HTMLElement).style.opacity = "0";
          });
        });
      }
@@ -397,8 +379,6 @@ export function GoogleTranslateWidget() {
       setTimeout(() => {
         const fastLoop = setInterval(() => {
           hideFeedbackElements();
-          // 추가 강력한 피드백 차단
-          blockAllTranslationFeedback();
         }, 1000);
 
         // 10초 후 종료
@@ -406,81 +386,10 @@ export function GoogleTranslateWidget() {
       }, 1000);
     }
 
-    // ✅ 강력한 번역 피드백 차단 함수
-    function blockAllTranslationFeedback() {
-      // 모든 번역 피드백 요소 강제 숨김
-      const allFeedbackElements = document.querySelectorAll([
-        ".goog-te-balloon-frame",
-        ".goog-te-ftab",
-        ".goog-te-ftab-float", 
-        ".goog-tooltip",
-        ".goog-tooltip-popup",
-        ".goog-te-banner-frame",
-        ".goog-te-spinner-pos",
-        ".goog-te-menu-frame",
-        ".goog-te-menu2",
-        ".goog-te-gadget-simple",
-        ".goog-te-gadget",
-        ".goog-te-combo",
-        ".skiptranslate",
-        "iframe[src*='translate']",
-        ".goog-te-banner-frame-sip",
-        ".goog-te-balloon-frame-sip",
-        ".goog-te-ftab-sip",
-        ".goog-te-ftab-float-sip",
-        "[class*='goog-te-balloon']",
-        "[class*='goog-te-ftab']",
-        "[class*='goog-te-tooltip']",
-        "[id*='goog-te-balloon']",
-        "[id*='goog-te-ftab']",
-        "[id*='goog-te-tooltip']"
-      ].join(','));
-
-      allFeedbackElements.forEach((element) => {
-        const el = element as HTMLElement;
-        el.style.display = "none !important";
-        el.style.visibility = "hidden !important";
-        el.style.opacity = "0 !important";
-        el.style.pointerEvents = "none !important";
-        el.style.position = "absolute !important";
-        el.style.left = "-9999px !important";
-        el.style.top = "-9999px !important";
-        el.style.zIndex = "-9999 !important";
-        el.style.width = "0 !important";
-        el.style.height = "0 !important";
-        el.style.overflow = "hidden !important";
-        el.style.clip = "rect(0, 0, 0, 0) !important";
-        el.style.margin = "0 !important";
-        el.style.padding = "0 !important";
-        el.style.border = "none !important";
-        el.style.background = "transparent !important";
-      });
-
-      // 번역 위젯 자체는 보호 (헤더에 있는 것만)
-      const headerWidget = document.querySelector('.translate-widget-horizontal .goog-te-gadget');
-      if (headerWidget) {
-        const el = headerWidget as HTMLElement;
-        el.style.display = "flex !important";
-        el.style.visibility = "visible !important";
-        el.style.opacity = "1 !important";
-        el.style.pointerEvents = "auto !important";
-        el.style.position = "static !important";
-        el.style.left = "auto !important";
-        el.style.top = "auto !important";
-        el.style.zIndex = "auto !important";
-        el.style.width = "auto !important";
-        el.style.height = "auto !important";
-        el.style.overflow = "visible !important";
-        el.style.clip = "auto !important";
-      }
-    }
-
     // ✅ 번역 피드백 DOM 전담 감시자
     function watchTranslationFeedback() {
       const feedbackObserver = new MutationObserver(() => {
         hideFeedbackElements();
-        // 추가 강력한 피드백 차단
-        blockAllTranslationFeedback();
       });
 
       feedbackObserver.observe(document.body, {
@@ -489,25 +398,6 @@ export function GoogleTranslateWidget() {
       });
 
       return feedbackObserver;
-    }
-
-    // 🪓 헤더 전용 도끼질 감시자 (Google re-scan 방지)
-    function watchHeaderChanges() {
-      const headerEl = document.querySelector("header");
-      if (!headerEl) return null;
-
-      const headerObserver = new MutationObserver(() => {
-        // 헤더 내 변화 감지 시마다 도끼질
-        hideFeedbackElements();
-        blockAllTranslationFeedback();
-      });
-
-      headerObserver.observe(headerEl, { 
-        childList: true, 
-        subtree: true 
-      });
-
-      return headerObserver;
     }
 
      function handlePageRefresh() {
@@ -524,181 +414,14 @@ export function GoogleTranslateWidget() {
        }
      }
 
-     // 위젯 완전 비활성화 함수 (전역 스코프로 이동)
-     function hideTranslateWidget() {
-       const el = document.getElementById("google_translate_element");
-       if (el) {
-         el.style.display = "none";
-         el.style.opacity = "0";
-         el.style.pointerEvents = "none";
-         el.style.visibility = "hidden";
-         el.style.position = "absolute";
-         el.style.left = "-9999px";
-         el.style.top = "-9999px";
-         el.style.zIndex = "-9999";
-         // 완전 비활성화를 위한 추가 속성
-         el.style.width = "0";
-         el.style.height = "0";
-         el.style.overflow = "hidden";
-         el.style.clipPath = "inset(50%)";
-         el.style.margin = "0";
-         el.style.padding = "0";
-         el.style.border = "none";
-         el.style.background = "transparent";
-         // DOM에서 완전히 제거하지는 않지만 기능 차단
-         el.innerHTML = "";
-       }
-       
-       // 모든 Google Translate 관련 요소들 완전 비활성화
-       const googleElements = document.querySelectorAll([
-         ".goog-te-gadget",
-         ".goog-te-gadget-simple", 
-         ".goog-te-combo",
-         ".goog-te-menu-frame",
-         ".goog-te-menu2",
-         ".goog-te-menu-value",
-         ".goog-te-gadget img",
-         ".goog-te-gadget a"
-       ].join(','));
-       
-       googleElements.forEach((element) => {
-         const el = element as HTMLElement;
-         el.style.display = "none";
-         el.style.visibility = "hidden";
-         el.style.opacity = "0";
-         el.style.pointerEvents = "none";
-         el.style.position = "absolute";
-         el.style.left = "-9999px";
-         el.style.top = "-9999px";
-         el.style.zIndex = "-9999";
-         el.style.width = "0";
-         el.style.height = "0";
-         el.style.overflow = "hidden";
-         el.style.clipPath = "inset(50%)";
-         el.style.margin = "0";
-         el.style.padding = "0";
-         el.style.border = "none";
-         el.style.background = "transparent";
-         // 이벤트 리스너 제거
-         el.onclick = null;
-         el.onchange = null;
-         el.onmouseenter = null;
-         el.onmouseleave = null;
-         // 속성 제거
-         el.removeAttribute("onclick");
-         el.removeAttribute("onchange");
-         el.removeAttribute("onmouseenter");
-         el.removeAttribute("onmouseleave");
-       });
-       
-       // Google Translate API 기능 차단
-       if (window.google?.translate) {
-         try {
-           // 번역 기능을 무력화 - unknown으로 먼저 변환 후 할당
-           window.google.translate.TranslateElement = function DisabledTranslateElement(
-             options: { pageLanguage: string; layout: string; multilanguagePage: boolean; autoDisplay: boolean },
-             element: string
-           ) {
-             return null;
-           } as unknown as typeof window.google.translate.TranslateElement;
-           // 기존 번역 인스턴스 제거
-           if (window.google.translate.TranslateElement?.prototype) {
-             window.google.translate.TranslateElement.prototype = {};
-           }
-         } catch {
-           // 에러 무시
-         }
-       }
-       
-       // 위젯 숨김 후 환생 버튼 표시
-       showReviveButton();
-     }
-
-     // 환생 버튼 표시 함수 (본문 고정 위치에 표시)
-     function showReviveButton() {
-       // 기존 환생 버튼이 있으면 제거
-       const existingBtn = document.getElementById("translate-revive-button");
-       if (existingBtn) {
-         existingBtn.remove();
-       }
-
-       const btn = document.createElement("button");
-       btn.id = "translate-revive-button";
-       btn.textContent = "🌐 다시 번역하기";
-       btn.title = "Click to reload the Translate widget";
-       btn.style.cssText = `
-         position: fixed;
-         top: 10px;
-         right: 20px;
-         z-index: 9999;
-         background: linear-gradient(135deg, #1e293b, #334155);
-         color: white;
-         border: 1px solid #475569;
-         border-radius: 8px;
-         padding: 8px 16px;
-         font-size: 12px;
-         font-weight: 500;
-         box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-         cursor: pointer;
-         transition: all 0.3s ease;
-         backdrop-filter: blur(10px);
-         min-width: 140px;
-         height: 32px;
-       `;
-
-       // 호버 효과
-       btn.addEventListener('mouseenter', () => {
-         btn.style.background = 'linear-gradient(135deg, #334155, #475569)';
-         btn.style.transform = 'translateY(-1px)';
-         btn.style.boxShadow = '0 6px 25px rgba(0,0,0,0.5)';
-       });
-
-       btn.addEventListener('mouseleave', () => {
-         btn.style.background = 'linear-gradient(135deg, #1e293b, #334155)';
-         btn.style.transform = 'translateY(0)';
-         btn.style.boxShadow = '0 4px 20px rgba(0,0,0,0.4)';
-       });
-
-       btn.onclick = () => {
-         btn.remove();
-         
-         // 캐시 지우기
-         sessionStorage.removeItem("gptx:selectedLang");
-         sessionStorage.removeItem("gptx:translate:muted");
-         
-         // 로컬 스토리지도 지우기 (번역 관련)
-         localStorage.removeItem("googtrans");
-         localStorage.removeItem("googtrans_/");
-         
-         // 쿠키도 지우기 (번역 관련)
-         document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-         document.cookie = "googtrans_/=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-         
-         // 페이지 리프레시로 완전 초기화
-         window.location.reload();
-       };
-
-       document.body.appendChild(btn);
-     }
-
      function handleComboChange() {
-       const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
-       const selectedLang = combo?.value;
-       
-       // 선택한 언어를 sessionStorage에 저장
-       if (selectedLang) {
-         sessionStorage.setItem("gptx:selectedLang", selectedLang);
-         sessionStorage.setItem("gptx:translate:muted", "true");
-       }
-
        setTimeout(() => {
          updateLanguageOptions();
          hideFeedbackElements();
-         
-         // 번역 후 위젯 즉시 숨김
          setTimeout(() => {
-           hideTranslateWidget();
-         }, 800);
+           const el = document.getElementById("google_translate_element");
+           if (el) el.style.opacity = "0";
+         }, 1000);
        }, 100);
      }
 
@@ -706,23 +429,6 @@ export function GoogleTranslateWidget() {
        if (initializeLanguageMapping()) {
          observer.disconnect();
         startFeedbackLoop(); // 💥 실시간 피드백 감시 시작!
-        
-        // 위젯이 다시 나타나면 자동으로 숨김
-        const isMuted = sessionStorage.getItem("gptx:translate:muted");
-        if (isMuted === "true") {
-          setTimeout(() => {
-            hideTranslateWidget();
-          }, 1000);
-        }
-       }
-       
-       // 지속적으로 위젯 숨김 감시
-       const isMuted = sessionStorage.getItem("gptx:translate:muted");
-       if (isMuted === "true") {
-         const translateElement = document.getElementById("google_translate_element");
-         if (translateElement && translateElement.style.display !== "none") {
-           hideTranslateWidget();
-         }
        }
      });
 
@@ -730,39 +436,9 @@ export function GoogleTranslateWidget() {
      
     // ✅ 번역 피드백 DOM 전담 감시자 변수
     let feedbackObserver: MutationObserver | null = null;
-    let headerObserver: MutationObserver | null = null;
-
-     // 저장된 언어 자동 재적용 함수
-     function autoReapplyTranslation() {
-       const savedLang = sessionStorage.getItem("gptx:selectedLang");
-       const isMuted = sessionStorage.getItem("gptx:translate:muted");
-       
-       if (savedLang && isMuted === "true") {
-         const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
-         
-         if (combo && combo.options.length > 1) {
-           setTimeout(() => {
-             combo.value = savedLang;
-             combo.dispatchEvent(new Event("change"));
-             
-             // 재적용 후 다시 위젯 숨김
-             setTimeout(() => {
-               hideTranslateWidget();
-               hideFeedbackElements();
-             }, 1500);
-           }, 1200);
-         }
-       }
-     }
 
      window.addEventListener("load", () => {
        checkAndRefreshWidget();
-       
-       // 저장된 언어 자동 재적용
-       setTimeout(() => {
-         autoReapplyTranslation();
-       }, 2000);
-       
        observer.observe(document.body, {
          childList: true,
          subtree: true
@@ -770,9 +446,6 @@ export function GoogleTranslateWidget() {
 
       // ✅ 번역 피드백 DOM 감시 시작
       feedbackObserver = watchTranslationFeedback();
-      
-      // 🪓 헤더 전용 도끼질 감시 시작
-      headerObserver = watchHeaderChanges();
      });
 
      function addRefreshButton() {
@@ -820,10 +493,6 @@ export function GoogleTranslateWidget() {
       // 번역 피드백 DOM 전담 감시자 정리
       if (feedbackObserver) {
         feedbackObserver.disconnect();
-      }
-      // 🪓 헤더 전용 도끼질 감시자 정리
-      if (headerObserver) {
-        headerObserver.disconnect();
       }
     };
   }, []);
