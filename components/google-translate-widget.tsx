@@ -55,44 +55,192 @@ export function GoogleTranslateWidget() {
       }, 800);
     };
 
+    // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
+    function buildMaps() {
+      // code는 구글 콤보의 값 기준(소문자, 하이픈 포함). base는 code의 접두(지역 제외)
+      // [code, countryEn, nativeLang]
+      const entries: Array<[string, string, string]> = [
+        // A
+        ["af", "South Africa", "Afrikaans"],
+        ["sq", "Albania", "Shqip"],
+        ["am", "Ethiopia", "አማርኛ"],
+        ["ar", "Saudi Arabia", "العربية"],
+        ["hy", "Armenia", "Հայերեն"],
+        ["az", "Azerbaijan", "Azərbaycan dili"],
+        // B
+        ["eu", "Basque Country", "Euskara"],
+        ["be", "Belarus", "Беларуская"],
+        ["bn", "Bangladesh", "বাংলা"],
+        ["bs", "Bosnia and Herzegovina", "Bosanski"],
+        ["bg", "Bulgaria", "Български"],
+        // C
+        ["ca", "Catalonia", "Català"],
+        ["ceb", "Philippines", "Cebuano"],
+        ["zh-cn", "China", "中文(简体)"],
+        ["zh-tw", "Taiwan", "中文(繁體)"],
+        ["zh", "China", "中文"],
+        ["co", "Corsica", "Corsu"],
+        ["hr", "Croatia", "Hrvatski"],
+        ["cs", "Czech Republic", "Čeština"],
+        // D
+        ["da", "Denmark", "Dansk"],
+        ["nl", "Netherlands", "Nederlands"],
+        // E
+        ["en-us", "USA", "English"],
+        ["en-gb", "UK", "English"],
+        ["en-au", "Australia", "English"],
+        ["en-nz", "New Zealand", "English"],
+        ["en-ca", "Canada", "English"],
+        ["en", "Australia", "English"], // 요청에 맞춰 기본 en은 Australia로
+        ["eo", "—", "Esperanto"],
+        ["et", "Estonia", "Eesti"],
+        // F
+        ["fi", "Finland", "Suomi"],
+        ["fr", "France", "Français"],
+        ["fy", "Netherlands", "Frysk"],
+        // G
+        ["gl", "Spain (Galicia)", "Galego"],
+        ["ka", "Georgia", "ქართული"],
+        ["de", "Germany", "Deutsch"],
+        ["el", "Greece", "Ελληνικά"],
+        ["gu", "India", "ગુજરાતી"],
+        // H
+        ["ht", "Haiti", "Kreyòl ayisyen"],
+        ["ha", "Nigeria", "Hausa"],
+        ["haw", "Hawaii", "ʻŌlelo Hawaiʻi"],
+        ["he", "Israel", "עברית"],
+        ["hi", "India", "हिन्दी"],
+        ["hmn", "—", "Hmoob"],
+        ["hu", "Hungary", "Magyar"],
+        // I
+        ["is", "Iceland", "Íslenska"],
+        ["ig", "Nigeria", "Igbo"],
+        ["id", "Indonesia", "Bahasa Indonesia"],
+        ["ga", "Ireland", "Gaeilge"],
+        ["it", "Italy", "Italiano"],
+        // J
+        ["ja", "Japan", "日本語"],
+        ["jv", "Indonesia", "Basa Jawa"],
+        // K
+        ["kn", "India", "ಕನ್ನಡ"],
+        ["kk", "Kazakhstan", "Қазақ тілі"],
+        ["km", "Cambodia", "ភាសាខ្មែរ"],
+        ["rw", "Rwanda", "Kinyarwanda"],
+        ["ko", "Korea", "한국어"],
+        ["ku", "Kurdistan", "Kurdî"],
+        ["ky", "Kyrgyzstan", "Кыргызча"],
+        // L
+        ["lo", "Laos", "ລາວ"],
+        ["la", "—", "Latina"],
+        ["lv", "Latvia", "Latviešu"],
+        ["lt", "Lithuania", "Lietuvių"],
+        ["lb", "Luxembourg", "Lëtzebuergesch"],
+        // M
+        ["mk", "North Macedonia", "Македонски"],
+        ["mg", "Madagascar", "Malagasy"],
+        ["ms", "Malaysia", "Bahasa Melayu"],
+        ["ml", "India", "മലയാളം"],
+        ["mt", "Malta", "Malti"],
+        ["mi", "New Zealand", "Māori"],
+        ["mr", "India", "मराठी"],
+        ["mn", "Mongolia", "Монгол"],
+        ["my", "Myanmar", "မြန်မာစာ"],
+        // N
+        ["ne", "Nepal", "नेपाली"],
+        ["no", "Norway", "Norsk"],
+        ["ny", "Malawi", "ChiChewa"],
+        // O
+        ["or", "India", "ଓଡ଼ିଆ"],
+        // P
+        ["ps", "Afghanistan", "پښتو"],
+        ["fa", "Iran", "فارسی"],
+        ["pl", "Poland", "Polski"],
+        ["pt-br", "Brazil", "Português (BR)"],
+        ["pt", "Portugal", "Português"],
+        ["pa", "India", "ਪੰਜਾਬੀ"],
+        // R
+        ["ro", "Romania", "Română"],
+        ["ru", "Russia", "Русский"],
+        // S
+        ["sm", "Samoa", "Gagana Samoa"],
+        ["gd", "Scotland", "Gàidhlig"],
+        ["sr", "Serbia", "Српски"],
+        ["st", "Lesotho", "Sesotho"],
+        ["sn", "Zimbabwe", "Shona"],
+        ["sd", "Pakistan", "سنڌي"],
+        ["si", "Sri Lanka", "සිංහල"],
+        ["sk", "Slovakia", "Slovenčina"],
+        ["sl", "Slovenia", "Slovenščina"],
+        ["so", "Somalia", "Soomaali"],
+        ["es-mx", "Mexico", "Español"],
+        ["es", "Spain", "Español"],
+        ["su", "Indonesia", "Basa Sunda"],
+        ["sw", "Kenya", "Kiswahili"],
+        ["sv", "Sweden", "Svenska"],
+        // T
+        ["tl", "Philippines", "Tagalog"],
+        ["tg", "Tajikistan", "Тоҷикӣ"],
+        ["ta", "India", "தமிழ்"],
+        ["tt", "Tatarstan", "Татар"],
+        ["te", "India", "తెలుగు"],
+        ["th", "Thailand", "ไทย"],
+        ["tr", "Turkey", "Türkçe"],
+        ["tk", "Turkmenistan", "Türkmençe"],
+        // U
+        ["uk", "Ukraine", "Українська"],
+        ["ur", "Pakistan", "اردو"],
+        ["ug", "Xinjiang", "ئۇيغۇرچە"],
+        ["uz", "Uzbekistan", "Oʻzbekcha"],
+        // V/W/X/Y/Z
+        ["vi", "Vietnam", "Tiếng Việt"],
+        ["cy", "Wales", "Cymraeg"],
+        ["xh", "South Africa", "isiXhosa"],
+        ["yi", "—", "ייִדיש"],
+        ["yo", "Nigeria", "Yorùbá"],
+        ["zu", "South Africa", "isiZulu"],
+      ];
+
+      const countryByLang: Record<string, string> = {};
+      const nativeByLang: Record<string, string> = {};
+
+      for (const [code, country, native] of entries) {
+        const c = code.toLowerCase();
+        countryByLang[c] = country;
+        nativeByLang[c] = native;
+        const base = c.split("-")[0];
+        // base 코드가 비어있으면 채워준다(지역코드 없는 항목 접근용)
+        if (!countryByLang[base]) countryByLang[base] = country;
+        if (!nativeByLang[base]) nativeByLang[base] = native;
+      }
+
+      return { countryByLang, nativeByLang };
+    }
+
+    // ====== 2) 콤보 옵션을 "Country - Native"로 일괄 변환 ======
     function updateLanguageOptions() {
       try {
         const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
         if (!combo || !combo.options) return;
 
+        const { countryByLang, nativeByLang } = buildMaps();
         const options = Array.from(combo.options);
 
-        const langToCountryMap: { [key: string]: string } = {
-          en: "Australia",
-          ko: "Korea",
-          ja: "Japan",
-          zh: "China",
-          zh_cn: "China",
-          zh_tw: "Taiwan",
-          es: "Spain",
-          fr: "France",
-          de: "Germany",
-          it: "Italy",
-          ru: "Russia",
-          pt: "Portugal",
-          pt_br: "Brazil",
-          ar: "Saudi Arabia",
-          hi: "India",
-          vi: "Vietnam",
-          th: "Thailand",
-          id: "Indonesia",
-        };
+        const norm = (v: string) => v.trim().toLowerCase().split("|")[0]; // 'xx' or 'xx-yy'
 
         options.forEach((option) => {
-          const langCode = option.value.trim().toLowerCase().replace("-", "_");
-          if (!option.dataset.updated) {
-            const nativeName = option.text.trim() || langCode;
-            const country = langToCountryMap[langCode] || langCode.toUpperCase();
-            option.text = `${country} - ${nativeName}`;
-            option.dataset.updated = "true";
-          }
+          if (option.dataset.updated === "true") return;
+
+          const code = norm(option.value);
+          const base = code.split("-")[0];
+
+          const country = countryByLang[code] ?? countryByLang[base] ?? base.toUpperCase();
+          const native = nativeByLang[code] ?? nativeByLang[base] ?? (option.text.trim() || base);
+
+          option.text = `${country} - ${native}`;
+          option.dataset.updated = "true";
         });
 
+        // 원하면 주석 처리 가능
         options.sort((a, b) => a.text.localeCompare(b.text));
         combo.innerHTML = "";
         options.forEach((opt) => combo.appendChild(opt));
