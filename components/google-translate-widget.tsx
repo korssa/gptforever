@@ -144,7 +144,7 @@ export function GoogleTranslateWidget() {
          options.forEach((option) => {
            const langCode = option.value.trim().toLowerCase().replace("-", "_");
            if (!option.dataset.updated) {
-             const nativeName = option.text.trim();
+             const nativeName = option.text.trim() || langCode;
              const country = langToCountryMap[langCode] || langCode.toUpperCase();
              option.text = `${country} - ${nativeName}`;
              option.dataset.updated = "true";
