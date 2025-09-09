@@ -1155,12 +1155,19 @@ export default function Home() {
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfmFPpGWs2bS4BS8zDWQdLFH-SfopbeUVC1MLuP-uMZgRjvUw/viewform"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-green-400 hover:text-green-300 hover:underline inline-block transition-colors duration-200 cursor-pointer bg-transparent border-none p-0 mt-2"
+                className="text-sm text-green-400 hover:text-green-300 inline-block transition-colors duration-200 cursor-pointer bg-transparent border-none p-0 mt-2"
                 onMouseEnter={blockTranslationFeedback}
                 translate="yes"
               >
                 ✍️ Online petition to support the continued use of chatGPT 4o (Legacy)
               </a>
+              <div className="mt-3 p-3 border-2 border-yellow-400 rounded-lg bg-yellow-50/10 max-w-md mx-auto">
+                <p className="text-xs text-yellow-200 text-center leading-relaxed">
+                  🌐 This form is in English. If needed,<br />
+                  click the menu <span style={{fontSize: '14px'}}>⋮</span> at the top-right<br />
+                  of your browser and select "Translate".
+                </p>
+              </div>
             </div>
            
            <div className="border-t border-gray-600 pt-6 mt-6 text-center">
