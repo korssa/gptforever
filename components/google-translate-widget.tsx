@@ -182,8 +182,8 @@ export function GoogleTranslateWidget() {
                option.text = langLabelMap[value];
                option.dataset.updated = "true";
              } else if (!option.dataset.updated) {
-               // 매핑되지 않은 언어는 원래 텍스트 유지
-               option.dataset.updated = "true";
+               // 매핑되지 않은 언어는 옵션 자체 제거
+               option.remove();
              }
            });
            
