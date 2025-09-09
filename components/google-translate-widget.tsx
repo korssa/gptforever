@@ -20,6 +20,7 @@ declare global {
           InlineLayout?: {
             HORIZONTAL?: string;
           };
+          prototype?: Record<string, unknown>;
         };
       };
     };
@@ -573,12 +574,12 @@ export function GoogleTranslateWidget() {
        if (window.google?.translate) {
          try {
            // 번역 기능을 무력화
-           (window.google.translate as any).TranslateElement = function DisabledTranslateElement() {
+           window.google.translate.TranslateElement = function DisabledTranslateElement() {
              return null;
-           };
+           } as typeof window.google.translate.TranslateElement;
            // 기존 번역 인스턴스 제거
-           if ((window.google.translate as any).TranslateElement?.prototype) {
-             (window.google.translate as any).TranslateElement.prototype = {};
+           if (window.google.translate.TranslateElement?.prototype) {
+             window.google.translate.TranslateElement.prototype = {};
            }
          } catch {
            // 에러 무시
