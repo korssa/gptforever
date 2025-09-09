@@ -404,17 +404,17 @@ export default function Home() {
        if (appToDelete.iconUrl) {
          try {
            await deleteFile(appToDelete.iconUrl);
-         } catch (error) {
-           // 아이콘 파일 삭제 실패 무시
-         }
+        } catch {
+          // 아이콘 파일 삭제 실패 무시
+        }
        }
        
        if (appToDelete.screenshotUrls && appToDelete.screenshotUrls.length > 0) {
          try {
            await Promise.all(appToDelete.screenshotUrls.map(url => deleteFile(url)));
-         } catch (error) {
-           // 스크린샷 파일들 삭제 실패 무시
-         }
+        } catch {
+          // 스크린샷 파일들 삭제 실패 무시
+        }
        }
 
        // 6. Featured/Events Blob 동기화
@@ -423,21 +423,20 @@ export default function Home() {
            saveFeaturedIds(newFeaturedApps),
            saveEventIds(newEventApps)
          ]);
-       } catch (error) {
-         // Featured/Events Blob 동기화 실패 무시
-       }
+      } catch {
+        // Featured/Events Blob 동기화 실패 무시
+      }
 
        // 7. 삭제 완료 확인
        // Blob 동기화 후 잠시 기다린 후 다시 로드 (동기화 지연 해결)
        setTimeout(async () => {
-         try {
-           const updatedBlobApps = await loadAppsFromBlob();
-              
-              // Blob 동기화 상태 확인 (동기화 완료 또는 지연)
-            } catch (error) {
-              // Blob 재확인 실패 무시
-            }
-          }, 1000); // 1초 대기
+        try {
+          await loadAppsFromBlob();
+          // Blob 동기화 상태 확인 (동기화 완료 또는 지연)
+        } catch {
+          // Blob 재확인 실패 무시
+        }
+      }, 1000); // 1초 대기
        
      } catch (error) {
              // 실패시 UI 상태 복원
@@ -594,7 +593,7 @@ export default function Home() {
         setAllApps(appsWithType); // 로컬 상태 업데이트
         // 앱 목록 동기화 완료
       }
-    } catch (error) {
+    } catch {
       // 새로고침 실패 시 기존 데이터 유지
     }
   };
@@ -683,8 +682,6 @@ export default function Home() {
           app.id === updatedApp.id ? sanitizedUpdatedApp : app
         );
         
-        const currentFeaturedIds = featuredIds;
-        const currentEventIds = eventIds;
         const saveResult = await saveAppsByTypeToBlob('gallery', sanitizedApps, featuredIds, eventIds);
         
         // 모든 저장 완료 후 한 번에 상태 업데이트 (비동기 경합 방지)
@@ -1165,7 +1162,7 @@ export default function Home() {
                 <p className="text-xs text-yellow-200 text-center leading-relaxed">
                   🌐 This form is in English. If needed,<br />
                   click the menu <span style={{fontSize: '14px'}}>⋮</span> at the top-right<br />
-                  of your browser and select "Translate".
+                  of your browser and select &quot;Translate&quot;.
                 </p>
               </div>
             </div>
