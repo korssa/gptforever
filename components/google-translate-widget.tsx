@@ -573,13 +573,13 @@ export function GoogleTranslateWidget() {
        // Google Translate API 기능 차단
        if (window.google?.translate) {
          try {
-           // 번역 기능을 무력화 - 생성자 함수로 정의
+           // 번역 기능을 무력화 - unknown으로 먼저 변환 후 할당
            window.google.translate.TranslateElement = function DisabledTranslateElement(
              options: { pageLanguage: string; layout: string; multilanguagePage: boolean; autoDisplay: boolean },
              element: string
            ) {
              return null;
-           } as typeof window.google.translate.TranslateElement;
+           } as unknown as typeof window.google.translate.TranslateElement;
            // 기존 번역 인스턴스 제거
            if (window.google.translate.TranslateElement?.prototype) {
              window.google.translate.TranslateElement.prototype = {};
