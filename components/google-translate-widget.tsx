@@ -518,7 +518,7 @@ export function GoogleTranslateWidget() {
          el.style.width = "0";
          el.style.height = "0";
          el.style.overflow = "hidden";
-         el.style.clip = "rect(0, 0, 0, 0)";
+         el.style.clipPath = "inset(50%)";
          el.style.margin = "0";
          el.style.padding = "0";
          el.style.border = "none";
@@ -552,7 +552,7 @@ export function GoogleTranslateWidget() {
          el.style.width = "0";
          el.style.height = "0";
          el.style.overflow = "hidden";
-         el.style.clip = "rect(0, 0, 0, 0)";
+         el.style.clipPath = "inset(50%)";
          el.style.margin = "0";
          el.style.padding = "0";
          el.style.border = "none";
@@ -570,17 +570,17 @@ export function GoogleTranslateWidget() {
        });
        
        // Google Translate API 기능 차단
-       if (window.google && window.google.translate) {
+       if (window.google?.translate) {
          try {
            // 번역 기능을 무력화
-           window.google.translate.TranslateElement = function() {
+           (window.google.translate as any).TranslateElement = function DisabledTranslateElement() {
              return null;
            };
            // 기존 번역 인스턴스 제거
-           if (window.google.translate.TranslateElement.prototype) {
-             window.google.translate.TranslateElement.prototype = {};
+           if ((window.google.translate as any).TranslateElement?.prototype) {
+             (window.google.translate as any).TranslateElement.prototype = {};
            }
-         } catch (e) {
+         } catch {
            // 에러 무시
          }
        }
