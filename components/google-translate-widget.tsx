@@ -60,122 +60,47 @@ export function GoogleTranslateWidget() {
      function updateLanguageOptions() {
        try {
          const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
-         if (combo && combo.options) {
-           // 언어 옵션들을 알파벳 순서로 정렬
-           const options = Array.from(combo.options);
-           
-           // 먼저 언어 이름을 영어로 강제 설정 (모든 언어 포함)
-           options.forEach((option) => {
-             const value = option.value.trim().split("|")[0].toLowerCase();
-             const langLabelMap: { [key: string]: string } = {
-               // English
-               en: "🇺🇸 USA - English",
-               "en-us": "🇺🇸 USA - English",
-               "en-gb": "🇬🇧 UK - English",
-               "en-au": "🇦🇺 Australia - English",
-               "en-ca": "🇨🇦 Canada - English",
-               "en-in": "🇮🇳 India - English",
-               "en-nz": "🇳🇿 New Zealand - English",
-               "en-za": "🇿🇦 South Africa - English",
-               "en-sg": "🇸🇬 Singapore - English",
-               "en-ph": "🇵🇭 Philippines - English",
+         if (!combo || !combo.options) return;
 
-               // Spanish
-               es: "🇪🇸 Spain - Español",
-               "es-es": "🇪🇸 Spain - Español",
-               "es-mx": "🇲🇽 Mexico - Español",
-               "es-ar": "🇦🇷 Argentina - Español",
-               "es-co": "🇨🇴 Colombia - Español",
-               "es-cl": "🇨🇱 Chile - Español",
-               "es-pe": "🇵🇪 Peru - Español",
-               "es-ve": "🇻🇪 Venezuela - Español",
+         const options = Array.from(combo.options);
 
-               // Portuguese
-               pt: "🇵🇹 Portugal - Português",
-               "pt-pt": "🇵🇹 Portugal - Português",
-               "pt-br": "🇧🇷 Brazil - Português (BR)",
-
-               // French
-               fr: "🇫🇷 France - Français",
-               "fr-ca": "🇨🇦 Canada - Français",
-               "fr-be": "🇧🇪 Belgium - Français",
-               "fr-ch": "🇨🇭 Switzerland - Français",
-
-               // Arabic
-               ar: "🇸🇦 Saudi Arabia - العربية",
-               "ar-sa": "🇸🇦 Saudi Arabia - العربية",
-               "ar-eg": "🇪🇬 Egypt - العربية",
-               "ar-ma": "🇲🇦 Morocco - العربية",
-               "ar-ae": "🇦🇪 UAE - العربية",
-
-               // Asia
-               ko: "🇰🇷 Korea - 한국어",
-               ja: "🇯🇵 Japan - 日本語",
-               zh: "🇨🇳 China - 中文(简体)",
-               "zh-cn": "🇨🇳 China - 中文(简体)",
-               "zh-tw": "🇹🇼 Taiwan - 中文(繁體)",
-               hi: "🇮🇳 India - हिन्दी",
-               id: "🇮🇩 Indonesia - Bahasa Indonesia",
-               th: "🇹🇭 Thailand - ไทย",
-               vi: "🇻🇳 Vietnam - Tiếng Việt",
-
-               // Europe
-               de: "🇩🇪 Germany - Deutsch",
-               it: "🇮🇹 Italy - Italiano",
-               ru: "🇷🇺 Russia - Русский",
-               uk: "🇺🇦 Ukraine - Українська",
-               pl: "🇵🇱 Poland - Polski",
-               nl: "🇳🇱 Netherlands - Nederlands",
-
-               // Others
-               tr: "🇹🇷 Turkey - Türkçe",
-               fa: "🇮🇷 Iran - فارسی",
-               ro: "🇷🇴 Romania - Română",
-               cs: "🇨🇿 Czech Republic - Čeština",
-               hu: "🇭🇺 Hungary - Magyar",
-               da: "🇩🇰 Denmark - Dansk",
-               fi: "🇫🇮 Finland - Suomi",
-               sv: "🇸🇪 Sweden - Svenska",
-               no: "🇳🇴 Norway - Norsk",
-               is: "🇮🇸 Iceland - Íslenska",
-               el: "🇬🇷 Greece - Ελληνικά",
-               bg: "🇧🇬 Bulgaria - Български",
-               hr: "🇭🇷 Croatia - Hrvatski",
-               sk: "🇸🇰 Slovakia - Slovenčina",
-               sl: "🇸🇮 Slovenia - Slovenščina",
-               et: "🇪🇪 Estonia - Eesti",
-               lv: "🇱🇻 Latvia - Latviešu",
-               lt: "🇱🇹 Lithuania - Lietuvių",
-               mt: "🇲🇹 Malta - Malti",
-               cy: "🇬🇧 Wales - Cymraeg",
-               ga: "🇮🇪 Ireland - Gaeilge",
-               gd: "🇬🇧 Scotland - Gàidhlig",
-             };
-             
-             if (langLabelMap[value] && !option.dataset.updated) {
-               option.text = langLabelMap[value];
-               option.dataset.updated = "true";
-             } else if (!option.dataset.updated) {
-               // 매핑 안 된 언어는 기존 label 유지, 이모지는 안 붙임
-               option.dataset.updated = "true"; // 필수: 중복 방지
-             }
-           });
-           
-           const sortedOptions = options.sort((a, b) => {
-             const aText = a.text.toLowerCase();
-             const bText = b.text.toLowerCase();
-             return aText.localeCompare(bText);
-           });
-           
-           // 정렬된 옵션들로 select 요소 업데이트
-           combo.innerHTML = '';
-           sortedOptions.forEach(option => {
-             combo.appendChild(option);
-           });
+         function getFlagEmojiByLang(lang: string): string {
+           const countryGuessMap: { [key: string]: string } = {
+             en: "US",
+             es: "ES",
+             fr: "FR",
+             pt: "PT",
+             pt_br: "BR",
+             de: "DE",
+             ar: "SA",
+             ja: "JP",
+             ko: "KR",
+             zh: "CN",
+             ru: "RU",
+             hi: "IN",
+           };
+           const cc = countryGuessMap[lang] || lang.slice(0, 2).toUpperCase();
+           return cc.replace(/./g, (c) =>
+             String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - 65)
+           );
          }
-           } catch (e) {
-      // Language mapping failed
-    }
+
+         options.forEach((option) => {
+           const langCode = option.value.trim().toLowerCase();
+           if (!option.dataset.updated) {
+             const flag = getFlagEmojiByLang(langCode);
+             const originalText = option.text;
+             option.text = `${flag} ${originalText}`;
+             option.dataset.updated = "true";
+           }
+         });
+
+         options.sort((a, b) => a.text.localeCompare(b.text));
+         combo.innerHTML = "";
+         options.forEach((opt) => combo.appendChild(opt));
+       } catch (e) {
+         // Language mapping failed
+       }
      }
 
      function hideFeedbackElements() {
