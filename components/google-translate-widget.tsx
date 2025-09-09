@@ -96,7 +96,7 @@ export function GoogleTranslateWidget() {
         options.sort((a, b) => a.text.localeCompare(b.text));
         combo.innerHTML = "";
         options.forEach((opt) => combo.appendChild(opt));
-      } catch (e) {}
+      } catch {}
     }
 
     function hideFeedbackElements() {
@@ -144,6 +144,7 @@ export function GoogleTranslateWidget() {
           });
 
           if (window.google) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (window.google as any).translate = {
               TranslateElement: function () {
                 return null;
@@ -199,7 +200,7 @@ export function GoogleTranslateWidget() {
           }
         }, 500);
 
-      } catch (e) {}
+      } catch {}
     }
 
     function initializeLanguageMapping() {
