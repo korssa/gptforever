@@ -502,7 +502,7 @@ export function GoogleTranslateWidget() {
        }
      }
 
-     // 위젯 즉시 숨김 함수 (전역 스코프로 이동)
+     // 위젯 완전 비활성화 함수 (전역 스코프로 이동)
      function hideTranslateWidget() {
        const el = document.getElementById("google_translate_element");
        if (el) {
@@ -514,15 +514,29 @@ export function GoogleTranslateWidget() {
          el.style.left = "-9999px";
          el.style.top = "-9999px";
          el.style.zIndex = "-9999";
+         // 완전 비활성화를 위한 추가 속성
+         el.style.width = "0";
+         el.style.height = "0";
+         el.style.overflow = "hidden";
+         el.style.clip = "rect(0, 0, 0, 0)";
+         el.style.margin = "0";
+         el.style.padding = "0";
+         el.style.border = "none";
+         el.style.background = "transparent";
+         // DOM에서 완전히 제거하지는 않지만 기능 차단
+         el.innerHTML = "";
        }
        
-       // 추가로 모든 Google Translate 관련 요소들 숨김
+       // 모든 Google Translate 관련 요소들 완전 비활성화
        const googleElements = document.querySelectorAll([
          ".goog-te-gadget",
          ".goog-te-gadget-simple", 
          ".goog-te-combo",
          ".goog-te-menu-frame",
-         ".goog-te-menu2"
+         ".goog-te-menu2",
+         ".goog-te-menu-value",
+         ".goog-te-gadget img",
+         ".goog-te-gadget a"
        ].join(','));
        
        googleElements.forEach((element) => {
@@ -531,7 +545,45 @@ export function GoogleTranslateWidget() {
          el.style.visibility = "hidden";
          el.style.opacity = "0";
          el.style.pointerEvents = "none";
+         el.style.position = "absolute";
+         el.style.left = "-9999px";
+         el.style.top = "-9999px";
+         el.style.zIndex = "-9999";
+         el.style.width = "0";
+         el.style.height = "0";
+         el.style.overflow = "hidden";
+         el.style.clip = "rect(0, 0, 0, 0)";
+         el.style.margin = "0";
+         el.style.padding = "0";
+         el.style.border = "none";
+         el.style.background = "transparent";
+         // 이벤트 리스너 제거
+         el.onclick = null;
+         el.onchange = null;
+         el.onmouseenter = null;
+         el.onmouseleave = null;
+         // 속성 제거
+         el.removeAttribute("onclick");
+         el.removeAttribute("onchange");
+         el.removeAttribute("onmouseenter");
+         el.removeAttribute("onmouseleave");
        });
+       
+       // Google Translate API 기능 차단
+       if (window.google && window.google.translate) {
+         try {
+           // 번역 기능을 무력화
+           window.google.translate.TranslateElement = function() {
+             return null;
+           };
+           // 기존 번역 인스턴스 제거
+           if (window.google.translate.TranslateElement.prototype) {
+             window.google.translate.TranslateElement.prototype = {};
+           }
+         } catch (e) {
+           // 에러 무시
+         }
+       }
        
        // 위젯 숨김 후 환생 버튼 표시
        showReviveButton();
