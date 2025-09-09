@@ -67,6 +67,34 @@ export function Header({
         {/* 구글 번역 위젯 */}
         <GoogleTranslateWidget />
 
+        {/* 환생 버튼 (번역 위젯 숨김 후 표시) */}
+        <div id="translate-revive-button-container" className="hidden">
+          <Button
+            id="translate-revive-button"
+            variant="outline"
+            size="sm"
+            className="h-8 bg-white/20 border-white/30 text-white hover:bg-white/30"
+            onClick={() => {
+              // 캐시 지우기
+              sessionStorage.removeItem("gptx:selectedLang");
+              sessionStorage.removeItem("gptx:translate:muted");
+              
+              // 로컬 스토리지도 지우기 (번역 관련)
+              localStorage.removeItem("googtrans");
+              localStorage.removeItem("googtrans_/");
+              
+              // 쿠키도 지우기 (번역 관련)
+              document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+              document.cookie = "googtrans_/=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+              
+              // 페이지 리프레시로 완전 초기화
+              window.location.reload();
+            }}
+          >
+            🌐 다시 번역하기
+          </Button>
+        </div>
+
         {/* 검색바 */}
         <div className="flex-1 max-w-md">
           <div className="relative">

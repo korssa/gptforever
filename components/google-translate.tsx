@@ -268,71 +268,12 @@ export function GoogleTranslate() {
       showReviveButton();
     }
 
-    // 환생 버튼 표시 함수 (헤더 영역에 위치)
+    // 환생 버튼 표시 함수 (헤더 내부에 표시)
     function showReviveButton() {
-      // 기존 환생 버튼이 있으면 제거
-      const existingBtn = document.getElementById("translate-revive-button");
-      if (existingBtn) {
-        existingBtn.remove();
+      const container = document.getElementById("translate-revive-button-container");
+      if (container) {
+        container.classList.remove("hidden");
       }
-
-      const btn = document.createElement("button");
-      btn.id = "translate-revive-button";
-      btn.textContent = "🌐 다시 번역하기";
-      btn.title = "Click to reload the Translate widget";
-      btn.style.cssText = `
-        position: fixed;
-        top: 60px;
-        right: 20px;
-        z-index: 9999;
-        background: linear-gradient(135deg, #1e293b, #334155);
-        color: white;
-        border: 1px solid #475569;
-        border-radius: 8px;
-        padding: 8px 16px;
-        font-size: 12px;
-        font-weight: 500;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-        min-width: 140px;
-        height: 32px;
-      `;
-
-      // 호버 효과
-      btn.addEventListener('mouseenter', () => {
-        btn.style.background = 'linear-gradient(135deg, #334155, #475569)';
-        btn.style.transform = 'translateY(-1px)';
-        btn.style.boxShadow = '0 6px 25px rgba(0,0,0,0.5)';
-      });
-
-      btn.addEventListener('mouseleave', () => {
-        btn.style.background = 'linear-gradient(135deg, #1e293b, #334155)';
-        btn.style.transform = 'translateY(0)';
-        btn.style.boxShadow = '0 4px 20px rgba(0,0,0,0.4)';
-      });
-
-      btn.onclick = () => {
-        btn.remove();
-        
-        // 캐시 지우기
-        sessionStorage.removeItem("gptx:selectedLang");
-        sessionStorage.removeItem("gptx:translate:muted");
-        
-        // 로컬 스토리지도 지우기 (번역 관련)
-        localStorage.removeItem("googtrans");
-        localStorage.removeItem("googtrans_/");
-        
-        // 쿠키도 지우기 (번역 관련)
-        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie = "googtrans_/=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        
-        // 페이지 리프레시로 완전 초기화
-        window.location.reload();
-      };
-
-      document.body.appendChild(btn);
     }
 
     function handleAdminModeChange(enabled: boolean) {
