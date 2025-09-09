@@ -86,14 +86,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" translate="no" className="notranslate">
+    <html lang="en">
       <head>
         <WebsiteSchema />
         <OrganizationSchema />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased notranslate`}
-        translate="no"
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning={true}
       >
         {children}

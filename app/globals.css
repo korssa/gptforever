@@ -257,27 +257,7 @@ button[data-nextjs-toast-wrapper] {
   /* 구글 번역에서 제외 */
 }
 
-/* 글로벌 번역 방지 강화 */
-html[translate="no"],
-html.notranslate,
-body[translate="no"],
-body.notranslate {
-  translate: no !important;
-  -webkit-translate: no !important;
-  -moz-translate: no !important;
-  -ms-translate: no !important;
-}
-
-/* 글로벌 번역 피드백 차단 */
-html[translate="no"] *,
-html.notranslate *,
-body[translate="no"] *,
-body.notranslate * {
-  translate: no !important;
-  -webkit-translate: no !important;
-  -moz-translate: no !important;
-  -ms-translate: no !important;
-}
+/* 번역 피드백만 차단 (번역 자체는 허용) */
 
 /* 번역 후에도 원본 형식 유지 */
 .preserve-format {
@@ -822,47 +802,7 @@ body {
 /* 글로벌 번역 피드백 차단 강화 */
 /* ========================================== */
 
-/* 글로벌 도메인 번역 피드백 완전 차단 */
-html[translate="no"] .goog-te-balloon-frame,
-html.notranslate .goog-te-balloon-frame,
-body[translate="no"] .goog-te-balloon-frame,
-body.notranslate .goog-te-balloon-frame,
-html[translate="no"] .goog-te-ftab,
-html.notranslate .goog-te-ftab,
-body[translate="no"] .goog-te-ftab,
-body.notranslate .goog-te-ftab,
-html[translate="no"] .goog-te-ftab-float,
-html.notranslate .goog-te-ftab-float,
-body[translate="no"] .goog-te-ftab-float,
-body.notranslate .goog-te-ftab-float,
-html[translate="no"] .goog-tooltip,
-html.notranslate .goog-tooltip,
-body[translate="no"] .goog-tooltip,
-body.notranslate .goog-tooltip,
-html[translate="no"] .goog-tooltip-popup,
-html.notranslate .goog-tooltip-popup,
-body[translate="no"] .goog-tooltip-popup,
-body.notranslate .goog-tooltip-popup,
-html[translate="no"] .goog-te-banner-frame,
-html.notranslate .goog-te-banner-frame,
-body[translate="no"] .goog-te-banner-frame,
-body.notranslate .goog-te-banner-frame,
-html[translate="no"] .goog-te-spinner-pos,
-html.notranslate .goog-te-spinner-pos,
-body[translate="no"] .goog-te-spinner-pos,
-body.notranslate .goog-te-spinner-pos {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  position: absolute !important;
-  left: -9999px !important;
-  top: -9999px !important;
-  z-index: -9999 !important;
-  width: 0 !important;
-  height: 0 !important;
-  overflow: hidden !important;
-}
+/* 글로벌 도메인 번역 피드백 완전 차단 (번역 기능은 유지) */
 
 /* ========================================== */
 /* 구글 번역 피드백 및 팝업 완전 숨기기 */
