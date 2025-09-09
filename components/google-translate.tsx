@@ -40,6 +40,12 @@ export function GoogleTranslate() {
 
       if (typeof window.google === "undefined" || !window.google.translate || !window.google.translate.TranslateElement) return;
 
+      // 글로벌 번역 방지 속성 강화
+      document.documentElement.setAttribute("translate", "no");
+      document.documentElement.classList.add("notranslate");
+      document.body.setAttribute("translate", "no");
+      document.body.classList.add("notranslate");
+
       new window.google.translate.TranslateElement(
         {
           pageLanguage: "ko",
