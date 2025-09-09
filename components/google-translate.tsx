@@ -194,14 +194,100 @@ export function GoogleTranslate() {
         ".goog-tooltip-popup",
         ".goog-te-banner-frame",
         ".goog-te-spinner-pos",
+        ".goog-te-menu-frame",
+        ".goog-te-menu2",
+        ".goog-te-gadget-simple",
+        ".goog-te-gadget",
+        ".goog-te-combo",
+        ".skiptranslate",
+        "iframe[src*='translate']",
+        ".goog-te-banner-frame-sip",
+        ".goog-te-balloon-frame-sip",
+        ".goog-te-ftab-sip",
+        ".goog-te-ftab-float-sip"
       ];
       feedbackSelectors.forEach((selector) => {
         document.querySelectorAll(selector).forEach((el) => {
-          (el as HTMLElement).style.display = "none";
-          (el as HTMLElement).style.visibility = "hidden";
-          (el as HTMLElement).style.opacity = "0";
+          const element = el as HTMLElement;
+          element.style.display = "none !important";
+          element.style.visibility = "hidden !important";
+          element.style.opacity = "0 !important";
+          element.style.pointerEvents = "none !important";
+          element.style.position = "absolute !important";
+          element.style.left = "-9999px !important";
+          element.style.top = "-9999px !important";
+          element.style.zIndex = "-9999 !important";
         });
       });
+    }
+
+    // ✅ 강력한 번역 피드백 차단 함수
+    function blockAllTranslationFeedback() {
+      // 모든 번역 피드백 요소 강제 숨김
+      const allFeedbackElements = document.querySelectorAll([
+        ".goog-te-balloon-frame",
+        ".goog-te-ftab",
+        ".goog-te-ftab-float", 
+        ".goog-tooltip",
+        ".goog-tooltip-popup",
+        ".goog-te-banner-frame",
+        ".goog-te-spinner-pos",
+        ".goog-te-menu-frame",
+        ".goog-te-menu2",
+        ".goog-te-gadget-simple",
+        ".goog-te-gadget",
+        ".goog-te-combo",
+        ".skiptranslate",
+        "iframe[src*='translate']",
+        ".goog-te-banner-frame-sip",
+        ".goog-te-balloon-frame-sip",
+        ".goog-te-ftab-sip",
+        ".goog-te-ftab-float-sip",
+        "[class*='goog-te-balloon']",
+        "[class*='goog-te-ftab']",
+        "[class*='goog-te-tooltip']",
+        "[id*='goog-te-balloon']",
+        "[id*='goog-te-ftab']",
+        "[id*='goog-te-tooltip']"
+      ].join(','));
+
+      allFeedbackElements.forEach((element) => {
+        const el = element as HTMLElement;
+        el.style.display = "none !important";
+        el.style.visibility = "hidden !important";
+        el.style.opacity = "0 !important";
+        el.style.pointerEvents = "none !important";
+        el.style.position = "absolute !important";
+        el.style.left = "-9999px !important";
+        el.style.top = "-9999px !important";
+        el.style.zIndex = "-9999 !important";
+        el.style.width = "0 !important";
+        el.style.height = "0 !important";
+        el.style.overflow = "hidden !important";
+        el.style.clip = "rect(0, 0, 0, 0) !important";
+        el.style.margin = "0 !important";
+        el.style.padding = "0 !important";
+        el.style.border = "none !important";
+        el.style.background = "transparent !important";
+      });
+
+      // 번역 위젯 자체는 보호 (헤더에 있는 것만)
+      const headerWidget = document.querySelector('.translate-widget-horizontal .goog-te-gadget');
+      if (headerWidget) {
+        const el = headerWidget as HTMLElement;
+        el.style.display = "flex !important";
+        el.style.visibility = "visible !important";
+        el.style.opacity = "1 !important";
+        el.style.pointerEvents = "auto !important";
+        el.style.position = "static !important";
+        el.style.left = "auto !important";
+        el.style.top = "auto !important";
+        el.style.zIndex = "auto !important";
+        el.style.width = "auto !important";
+        el.style.height = "auto !important";
+        el.style.overflow = "visible !important";
+        el.style.clip = "auto !important";
+      }
     }
 
              // 언어 선택 시에만 실행
@@ -210,6 +296,7 @@ export function GoogleTranslate() {
          // 초기 1회 즉시 적용
          updateLanguageOptions();
          hideFeedbackElements();
+         blockAllTranslationFeedback();
 
          // 이후 사용자가 바꿀 때마다 적용
          combo.addEventListener("change", () => {
@@ -223,6 +310,7 @@ export function GoogleTranslate() {
            
            updateLanguageOptions();
            hideFeedbackElements();
+           blockAllTranslationFeedback();
            
            // 번역 완료 후 위젯 즉시 숨김
            setTimeout(() => {
