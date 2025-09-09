@@ -364,6 +364,15 @@ export function GoogleTranslateWidget() {
       return true;
     }
 
+    // ✅ 실시간 피드백 감시 루프 (5초마다 재시도)
+    let feedbackLoop: number | undefined;
+    function startFeedbackLoop() {
+      if (feedbackLoop) clearInterval(feedbackLoop);
+      feedbackLoop = window.setInterval(() => {
+        hideFeedbackElements(); // 기존 함수 호출
+      }, 5000); // 5초 간격
+    }
+
     function handlePageRefresh() {
       sessionStorage.setItem('widget-needs-refresh', 'true');
     }
@@ -392,6 +401,7 @@ export function GoogleTranslateWidget() {
     const observer = new MutationObserver(() => {
       if (initializeLanguageMapping()) {
         observer.disconnect();
+        startFeedbackLoop(); // 💥 실시간 피드백 감시 시작!
       }
     });
 
@@ -445,6 +455,8 @@ export function GoogleTranslateWidget() {
       if (refreshButton) {
         document.body.removeChild(refreshButton);
       }
+      // 실시간 피드백 감시 루프 정리
+      if (feedbackLoop) clearInterval(feedbackLoop);
     };
   }, []);
 
