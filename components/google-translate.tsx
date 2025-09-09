@@ -359,6 +359,13 @@ export function GoogleTranslateWidget() {
        updateLanguageOptions();
        hideFeedbackElements();
 
+       // 저장된 언어 선택 상태 복원
+       const savedLang = sessionStorage.getItem("selectedLang");
+       if (savedLang && combo.value !== savedLang) {
+         combo.value = savedLang;
+         combo.dispatchEvent(new Event("change"));
+       }
+
        combo.removeEventListener("change", handleComboChange);
        combo.addEventListener("change", handleComboChange);
 
@@ -415,9 +422,21 @@ export function GoogleTranslateWidget() {
      }
 
      function handleComboChange() {
+       const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
+       if (combo) {
+         // 선택된 언어를 sessionStorage에 저장
+         sessionStorage.setItem("selectedLang", combo.value);
+       }
+       
        setTimeout(() => {
          updateLanguageOptions();
          hideFeedbackElements();
+         
+         // 💥 피드백 제거를 더 강력하게 실행
+         setTimeout(() => {
+           hideFeedbackElements();
+         }, 500);
+         
          setTimeout(() => {
            const el = document.getElementById("google_translate_element");
            if (el) el.style.opacity = "0";
