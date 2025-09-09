@@ -717,7 +717,7 @@ export function GoogleTranslate() {
           blockAllTranslationFeedback();
         }
       }, 3000);
-    });
+    }, []);
 
     // DOM 변경 감지 (MutationObserver 사용)
     const observer = new MutationObserver((mutations) => {
