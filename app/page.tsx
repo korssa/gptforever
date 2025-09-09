@@ -1153,13 +1153,15 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-green-400 hover:text-green-300 inline-block transition-colors duration-200 cursor-pointer bg-transparent border-none p-0 mt-2"
-                onMouseEnter={blockTranslationFeedback}
-                onMouseLeave={blockTranslationFeedback}
-                onFocus={blockTranslationFeedback}
-                onBlur={blockTranslationFeedback}
-                translate="yes"
               >
-                ✍️ Online petition to support the continued use of chatGPT 4o (Legacy)
+                <span
+                  onMouseEnter={blockTranslationFeedback}
+                  onMouseLeave={blockTranslationFeedback}
+                  onFocus={blockTranslationFeedback}
+                  onBlur={blockTranslationFeedback}
+                >
+                  ✍️ Online petition to support the continued use of chatGPT 4o (Legacy)
+                </span>
               </a>
               <div className="mt-3 p-3 border-2 border-yellow-400 rounded-lg bg-yellow-50/10 max-w-md mx-auto">
                 <p className="text-xs text-yellow-200 text-center leading-relaxed">
