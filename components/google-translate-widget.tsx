@@ -479,6 +479,8 @@ export function GoogleTranslateWidget() {
     function watchTranslationFeedback() {
       const feedbackObserver = new MutationObserver(() => {
         hideFeedbackElements();
+        // 추가 강력한 피드백 차단
+        blockAllTranslationFeedback();
       });
 
       feedbackObserver.observe(document.body, {
@@ -487,6 +489,25 @@ export function GoogleTranslateWidget() {
       });
 
       return feedbackObserver;
+    }
+
+    // 🪓 헤더 전용 도끼질 감시자 (Google re-scan 방지)
+    function watchHeaderChanges() {
+      const headerEl = document.querySelector("header");
+      if (!headerEl) return null;
+
+      const headerObserver = new MutationObserver(() => {
+        // 헤더 내 변화 감지 시마다 도끼질
+        hideFeedbackElements();
+        blockAllTranslationFeedback();
+      });
+
+      headerObserver.observe(headerEl, { 
+        childList: true, 
+        subtree: true 
+      });
+
+      return headerObserver;
     }
 
      function handlePageRefresh() {
@@ -650,6 +671,7 @@ export function GoogleTranslateWidget() {
      
     // ✅ 번역 피드백 DOM 전담 감시자 변수
     let feedbackObserver: MutationObserver | null = null;
+    let headerObserver: MutationObserver | null = null;
 
      // 저장된 언어 자동 재적용 함수
      function autoReapplyTranslation() {
@@ -689,6 +711,9 @@ export function GoogleTranslateWidget() {
 
       // ✅ 번역 피드백 DOM 감시 시작
       feedbackObserver = watchTranslationFeedback();
+      
+      // 🪓 헤더 전용 도끼질 감시 시작
+      headerObserver = watchHeaderChanges();
      });
 
      function addRefreshButton() {
@@ -736,6 +761,10 @@ export function GoogleTranslateWidget() {
       // 번역 피드백 DOM 전담 감시자 정리
       if (feedbackObserver) {
         feedbackObserver.disconnect();
+      }
+      // 🪓 헤더 전용 도끼질 감시자 정리
+      if (headerObserver) {
+        headerObserver.disconnect();
       }
     };
   }, []);

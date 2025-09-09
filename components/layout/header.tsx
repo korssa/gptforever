@@ -87,6 +87,58 @@ export function Header({
               document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
               document.cookie = "googtrans_/=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
               
+              // 🪓 버튼 클릭 시 자동 도끼질 (딜레이 후)
+              setTimeout(() => {
+                // 피드백 요소 숨김 함수 호출
+                const feedbackSelectors = [
+                  ".goog-te-balloon-frame",
+                  ".goog-te-ftab",
+                  ".goog-te-ftab-float",
+                  ".goog-tooltip",
+                  ".goog-tooltip-popup",
+                  ".goog-te-banner-frame",
+                  ".goog-te-spinner-pos",
+                  ".goog-te-menu-frame",
+                  ".goog-te-menu2",
+                  ".goog-te-gadget-simple",
+                  ".goog-te-gadget",
+                  ".goog-te-combo",
+                  ".skiptranslate",
+                  "iframe[src*='translate']",
+                  ".goog-te-banner-frame-sip",
+                  ".goog-te-balloon-frame-sip",
+                  ".goog-te-ftab-sip",
+                  ".goog-te-ftab-float-sip",
+                  "[class*='goog-te-balloon']",
+                  "[class*='goog-te-ftab']",
+                  "[class*='goog-te-tooltip']",
+                  "[id*='goog-te-balloon']",
+                  "[id*='goog-te-ftab']",
+                  "[id*='goog-te-tooltip']"
+                ];
+                feedbackSelectors.forEach((selector) => {
+                  document.querySelectorAll(selector).forEach((el) => {
+                    const element = el as HTMLElement;
+                    element.style.display = "none !important";
+                    element.style.visibility = "hidden !important";
+                    element.style.opacity = "0 !important";
+                    element.style.pointerEvents = "none !important";
+                    element.style.position = "absolute !important";
+                    element.style.left = "-9999px !important";
+                    element.style.top = "-9999px !important";
+                    element.style.zIndex = "-9999 !important";
+                    element.style.width = "0 !important";
+                    element.style.height = "0 !important";
+                    element.style.overflow = "hidden !important";
+                    element.style.clipPath = "inset(50%) !important";
+                    element.style.margin = "0 !important";
+                    element.style.padding = "0 !important";
+                    element.style.border = "none !important";
+                    element.style.background = "transparent !important";
+                  });
+                });
+              }, 500);
+              
               // 페이지 리프레시로 완전 초기화
               window.location.reload();
             }}
