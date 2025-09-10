@@ -38,7 +38,7 @@ export function GoogleTranslateWidget() {
         ["en-au", "Australia", "English"],
         ["en-nz", "New Zealand", "English"],
         ["en-ca", "Canada", "English"],
-        ["en", "Australia", "English"],
+    
         ["eo", "—", "Esperanto"],
         ["et", "Estonia", "Eesti"],
         // F
