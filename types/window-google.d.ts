@@ -9,6 +9,7 @@ declare global {
           new (
             options: {
               pageLanguage: string;
+              includedLanguages?: string;
               layout?: string;
               multilanguagePage?: boolean;
               autoDisplay?: boolean;
