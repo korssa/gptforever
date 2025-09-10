@@ -7,16 +7,16 @@ export function GoogleTranslateWidget() {
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
       const entries: Array<[string, string, string]> = [
-          ["en", "--", "English"],
-  ["es", "", "Español"],
-  ["zh", "", "中文"],
-  ["fr", "", "Français"],
-  ["de", "", "Deutsch"],
-  ["ar", "", "العربية"],
-  ["ru", "", "Русский"],
-  ["pt", "", "Português"],
-  ["ja", "", "日本語"],
-  ["ko", "", "한국어"],
+          ["en", "----", "English"],
+  ["es", "----", "Español"],
+  ["zh", "----", "中文"],
+  ["fr", "----", "Français"],
+  ["de", "----", "Deutsch"],
+  ["ar", "----", "العربية"],
+  ["ru", "----", "Русский"],
+  ["pt", "----", "Português"],
+  ["ja", "----", "日本語"],
+  ["ko", "----", "한국어"],
         // A
         ["af", "South Africa", "Afrikaans"],
         ["sq", "Albania", "Shqip"],
