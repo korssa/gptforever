@@ -1,31 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-declare global {
-  interface Window {
-    googleTranslateElementInit?: () => void;
-    google?: {
-      translate?: {
-        TranslateElement?: {
-          new (
-            options: {
-              pageLanguage: string;
-              multilanguagePage: boolean;
-              autoDisplay: boolean;
-              layout: string;
-            },
-            element: string
-          ): unknown;
-          InlineLayout?: {
-            HORIZONTAL?: string;
-          };
-        };
-      };
-    };
-    adminModeChange?: (enabled: boolean) => void;
-    __widget_initialized?: boolean;
-  }
-}
 
 export function GoogleTranslateWidget() {
   useEffect(() => {
