@@ -407,6 +407,7 @@ if (typeof window.googleTranslateElementInit !== "function") {
     new window.google.translate.TranslateElement(
   {
     pageLanguage: "en-us",
+    includedLanguages: "en,en-us,en-gb,en-au,en-ca,ko,ja,zh-cn,zh-tw",
     layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || 'horizontal',
     multilanguagePage: true,
     autoDisplay: false,
