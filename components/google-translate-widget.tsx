@@ -409,6 +409,7 @@ if (typeof window.googleTranslateElementInit !== "function") {
     window.__widget_initialized = true; // 🎯 초기화 완료 플래그
 
     if (window.google?.translate?.TranslateElement) {
+      const { countryByLang, nativeByLang, includedLanguages } = buildMaps();
 new window.google.translate.TranslateElement(
   {
     pageLanguage: "en-us",
