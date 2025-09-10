@@ -226,7 +226,7 @@ function updateLanguageOptions() {
     const { countryByLang, nativeByLang } = buildMaps();
     const options = Array.from(combo.options);
 
-    const norm = (v: string) => v.trim().toLowerCase().split("|")[0]; // 'xx' or 'xx-yy'
+    const norm = (v: string) => v.trim().toLowerCase().split("|")[0];
 
     options.forEach((option) => {
       if (option.dataset.updated === "true") return;
@@ -241,23 +241,16 @@ function updateLanguageOptions() {
       option.dataset.updated = "true";
     });
 
-    // 정렬 후 다시 삽입
-    options.sort((a, b) => a.text.localeCompare(b.text));
-    combo.innerHTML = "";
-    options.forEach((opt) => combo.appendChild(opt));
-
     // ✅ 선택 항목 복원
     const selectedValue = combo.value.toLowerCase();
     const selectedOption = options.find((opt) => opt.value.toLowerCase() === selectedValue);
     if (selectedOption) {
       selectedOption.selected = true;
-      combo.value = selectedOption.value; // ← ✅ 이 한 줄 추가로 완전 고정됨
+      combo.value = selectedOption.value;
     }
 
   } catch {}
 }
-
-
 
      function hideFeedbackElements() {
        const feedbackSelectors = [
