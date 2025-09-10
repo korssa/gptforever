@@ -634,7 +634,6 @@ export function AppStoryList({ type, onBack }: AppStoryListProps) {
            홈 가기
          </Button>
        )}
-
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-white mb-2" onMouseEnter={blockTranslationFeedback}>App Story</h2>
         <p className="text-gray-400">Discover the development process and stories behind our apps</p>
