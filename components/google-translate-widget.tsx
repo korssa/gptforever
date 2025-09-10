@@ -293,34 +293,6 @@ export function GoogleTranslateWidget() {
 
     window.adminModeChange = handleAdminModeChange;
 
-    function refreshWidget() {
-      try {
-        const existingElement = document.getElementById("google_translate_element");
-        if (existingElement) {
-          existingElement.innerHTML = "";
-        }
-
-        const existingScript = document.querySelector('script[src*="translate.google.com"]');
-        if (existingScript) {
-          document.head.removeChild(existingScript);
-        }
-
-        const script = document.createElement("script");
-        script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-        script.async = true;
-        script.id = "google-translate-script";
-        document.head.appendChild(script);
-
-        setTimeout(() => {
-          if (typeof window.googleTranslateElementInit === "function") {
-            window.googleTranslateElementInit();
-          }
-        }, 500);
-      } catch {
-        // no-op
-      }
-    }
-
     function initializeLanguageMapping() {
       const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
       if (!combo || combo.options.length < 2) return false;
@@ -406,7 +378,7 @@ export function GoogleTranslateWidget() {
       `;
 
       refreshButton.addEventListener("click", () => {
-        refreshWidget();
+        //refreshWidget();
       });
 
       document.body.appendChild(refreshButton);
