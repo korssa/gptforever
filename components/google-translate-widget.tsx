@@ -27,42 +27,6 @@ declare global {
   }
 }
 
-export function GoogleTranslateWidget() {
-  useEffect(() => {
-  if (!document.querySelector('script[src*="translate.google.com"]')) {
-  const script = document.createElement("script");
-  script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-  script.async = true;
-  document.head.appendChild(script);
-}
-    if (typeof window.googleTranslateElementInit !== "function") {
-  window.googleTranslateElementInit = function () {
-    const target = document.getElementById("google_translate_element");
-    if (!target || target.hasChildNodes()) return; // 🔒 이미 있으면 초기화 안함
-
-    if (
-      typeof window.google === "undefined" ||
-      !window.google.translate ||
-      !window.google.translate.TranslateElement
-    ) return;
-
-    new window.google.translate.TranslateElement(
-      {
-        pageLanguage: "en",
-        layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || "horizontal",
-        multilanguagePage: true,
-        autoDisplay: false,
-      },
-      "google_translate_element"
-    );
-
-    setTimeout(() => {
-      initializeLanguageMapping();
-      startFastFeedbackLoop();
-    }, 800);
-  };
-}
-
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
       // code는 구글 콤보의 값 기준(소문자, 하이픈 포함). base는 code의 접두(지역 제외)
