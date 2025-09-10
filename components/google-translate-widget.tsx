@@ -12,7 +12,7 @@ export function GoogleTranslateWidget() {
         ["sq", "Albania", "Shqip"],
         ["am", "Ethiopia", "አማርኛ"],
         ["ar", "Saudi Arabia", "العربية"],
-        ["hy", "Armenia", "Հայերեն"],
+        ["hy", "Armia", "Հայերեն"],
         ["az", "Azerbaijan", "Azərbaycan dili"],
         // B
         ["eu", "Basque Country", "Euskara"],
@@ -406,7 +406,7 @@ if (typeof window.googleTranslateElementInit !== "function") {
     if (window.google?.translate?.TranslateElement) {
     new window.google.translate.TranslateElement(
   {
-    pageLanguage: "en",
+    pageLanguage: "en-us",
     layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || 'horizontal',
     multilanguagePage: true,
     autoDisplay: false,
