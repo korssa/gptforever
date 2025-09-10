@@ -217,6 +217,49 @@ export function GoogleTranslateWidget() {
       return { countryByLang, nativeByLang };
     }
 
+    // ====== 현재 번역된 언어 감지 함수 ======
+    function getCurrentTranslatedLanguage(): string | null {
+      try {
+        const cookie = document.cookie.split("; ").find(c => c.startsWith("googtrans="));
+        if (!cookie) return null;
+        
+        const lang = cookie.split("/").pop();
+        return lang || null;
+      } catch {
+        return null;
+      }
+    }
+
+
+    // ====== 드롭다운 강제 동기화 함수 ======
+    function forceSelectCorrectLang() {
+      try {
+        const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
+        if (!combo) return;
+
+        const cookie = document.cookie.split("; ").find(c => c.startsWith("googtrans="));
+        if (!cookie) return;
+
+        const lang = cookie.split("/").pop(); // ko, ja, en 등
+        if (!lang) return;
+
+        // 현재 선택된 옵션 찾기
+        let targetOption: HTMLOptionElement | null = null;
+        for (const option of combo.options) {
+          const optionLang = option.value.trim().toLowerCase().split("|")[0];
+          if (optionLang === lang || optionLang.startsWith(lang + "-")) {
+            targetOption = option;
+            break;
+          }
+        }
+
+        if (targetOption && combo.value !== targetOption.value) {
+          combo.value = targetOption.value;
+          combo.dispatchEvent(new Event("change"));
+        }
+      } catch {}
+    }
+
     // ====== 2) 콤보 옵션을 "Country - Native"로 일괄 변환 ======
      function updateLanguageOptions() {
        try {
@@ -237,14 +280,20 @@ export function GoogleTranslateWidget() {
           const country = countryByLang[code] ?? countryByLang[base] ?? base.toUpperCase();
           const native = nativeByLang[code] ?? nativeByLang[base] ?? (option.text.trim() || base);
 
+          // 💥 선택한 그대로 표시 (번역 없이)
           option.text = `${country} - ${native}`;
-               option.dataset.updated = "true";
+          option.dataset.updated = "true";
         });
 
         // 원하면 주석 처리 가능
         options.sort((a, b) => a.text.localeCompare(b.text));
         combo.innerHTML = "";
         options.forEach((opt) => combo.appendChild(opt));
+
+        // 💥 드롭다운 강제 동기화 실행
+        setTimeout(() => {
+          forceSelectCorrectLang();
+        }, 100);
       } catch {}
      }
 
@@ -359,6 +408,11 @@ export function GoogleTranslateWidget() {
        updateLanguageOptions();
        hideFeedbackElements();
 
+       // 💥 초기화 시 강제 동기화 실행
+       setTimeout(() => {
+         forceSelectCorrectLang();
+       }, 300);
+
        combo.removeEventListener("change", handleComboChange);
        combo.addEventListener("change", handleComboChange);
 
@@ -371,6 +425,8 @@ export function GoogleTranslateWidget() {
       if (feedbackLoop) clearInterval(feedbackLoop);
       feedbackLoop = window.setInterval(() => {
         hideFeedbackElements(); // 기존 함수 호출
+        // 💥 주기적으로 드롭다운 동기화 체크
+        forceSelectCorrectLang();
       }, 5000); // 5초 간격
     }
 
@@ -418,6 +474,12 @@ export function GoogleTranslateWidget() {
        setTimeout(() => {
          updateLanguageOptions();
          hideFeedbackElements();
+         
+         // 💥 언어 변경 후 강제 동기화 실행
+         setTimeout(() => {
+           forceSelectCorrectLang();
+         }, 200);
+         
          setTimeout(() => {
            const el = document.getElementById("google_translate_element");
            if (el) el.style.opacity = "0";
