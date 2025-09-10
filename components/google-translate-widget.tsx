@@ -2,31 +2,6 @@
 
 import { useEffect } from "react";
 
-declare global {
-  interface Window {
-    googleTranslateElementInit?: () => void;
-    google?: {
-      translate?: {
-        TranslateElement?: {
-          new (
-            options: {
-              pageLanguage: string;
-              layout?: string;
-              multilanguagePage?: boolean;
-              autoDisplay?: boolean;
-            },
-            element: string
-          ): unknown;
-          InlineLayout?: {
-            HORIZONTAL?: string;
-          };
-        };
-      };
-    };
-    adminModeChange?: (enabled: boolean) => void;
-  }
-}
-
 export function GoogleTranslateWidget() {
   useEffect(() => {
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
