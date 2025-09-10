@@ -426,7 +426,6 @@ if (typeof window.googleTranslateElementInit !== "function") {
   window.googleTranslateElementInit = () => {
     const target = document.getElementById("google_translate_element");
 
-    // ✅ 🔒 전역 flag로 중복 방지
     if (window.__widget_initialized === true) return;
     if (!target) return;
 
