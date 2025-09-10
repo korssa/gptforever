@@ -217,7 +217,6 @@ export function GoogleTranslateWidget() {
       return { countryByLang, nativeByLang };
     }
 
-    // ====== 2) 콤보 옵션을 "Country - Native"로 일괄 변환 ======
 // ====== 2) 콤보 옵션을 "Country - Native"로 일괄 변환 ======
 function updateLanguageOptions() {
   try {
@@ -252,10 +251,12 @@ function updateLanguageOptions() {
     const selectedOption = options.find((opt) => opt.value.toLowerCase() === selectedValue);
     if (selectedOption) {
       selectedOption.selected = true;
+      combo.value = selectedOption.value; // ← ✅ 이 한 줄 추가로 완전 고정됨
     }
 
   } catch {}
 }
+
 
 
      function hideFeedbackElements() {
