@@ -63,28 +63,6 @@ export function GoogleTranslateWidget() {
   };
 }
 
-         window.googleTranslateElementInit = function () {
-       const target = document.getElementById("google_translate_element");
-       if (!target) return;
-
-       if (typeof window.google === "undefined" || !window.google.translate || !window.google.translate.TranslateElement) return;
-
-       new window.google.translate.TranslateElement(
-         {
-          pageLanguage: "en",
-           layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || 'horizontal',
-           multilanguagePage: true,
-           autoDisplay: false,
-         },
-         "google_translate_element"
-       );
-
-       setTimeout(() => {
-         initializeLanguageMapping();
-        startFastFeedbackLoop(); // 💥 고속 피드백 감시 시작!
-      }, 800);
-    };
-
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
       // code는 구글 콤보의 값 기준(소문자, 하이픈 포함). base는 code의 접두(지역 제외)
