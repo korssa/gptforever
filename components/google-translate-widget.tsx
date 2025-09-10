@@ -425,11 +425,13 @@ export function GoogleTranslateWidget() {
 if (typeof window.googleTranslateElementInit !== "function") {
   window.googleTranslateElementInit = () => {
     const target = document.getElementById("google_translate_element");
-    if (!target || target.hasChildNodes()) return;
+    if (!target || target.dataset.initialized === "true") return;
+
+    target.dataset.initialized = "true"; // ✅ 명시적 플래그 설정
 
     if (window.google?.translate?.TranslateElement) {
       const inlineLayout =
-        window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL || 'horizontal';
+        window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL || "horizontal";
 
       const options = {
         pageLanguage: "en",
@@ -443,8 +445,9 @@ if (typeof window.googleTranslateElementInit !== "function") {
         "google_translate_element"
       );
     }
-  }; // ✅ 여기 정확히 닫혀야 함!!
+  };
 }
+
 
 
     // 옵저버 및 루프 시작
