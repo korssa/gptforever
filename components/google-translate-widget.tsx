@@ -419,7 +419,7 @@ if (typeof window.googleTranslateElementInit !== "function") {
     }, 300);
   }
 };
-
+}
     // 옵저버 및 루프 시작
     const initObserver = new MutationObserver(() => {
       if (initializeLanguageMapping()) {
