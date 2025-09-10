@@ -188,10 +188,12 @@ export function GoogleTranslateWidget() {
           option.dataset.updated = "true";
         });
 
+        // 정렬 후 재삽입
         options.sort((a, b) => a.text.localeCompare(b.text));
         combo.innerHTML = "";
         options.forEach((opt) => combo.appendChild(opt));
 
+        // 선택 항목 정확히 복원
         const selectedOption = options.find((opt) => opt.value.toLowerCase() === selectedValue);
         if (selectedOption) {
           selectedOption.selected = true;
@@ -419,20 +421,30 @@ export function GoogleTranslateWidget() {
       document.head.appendChild(script);
     }
 
-    // 콜백 함수 설정
+    // 콜백 함수 설정 (layout은 조건부로만 추가)
     if (typeof window.googleTranslateElementInit !== "function") {
       window.googleTranslateElementInit = () => {
         const target = document.getElementById("google_translate_element");
         if (!target || target.hasChildNodes()) return;
 
         if (window.google?.translate?.TranslateElement) {
+          const inlineLayout =
+            window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL;
+
+          const options: {
+            pageLanguage: string;
+            multilanguagePage: boolean;
+            autoDisplay: boolean;
+            layout?: string;
+          } = {
+            pageLanguage: "en",
+            multilanguagePage: true,
+            autoDisplay: false,
+            ...(inlineLayout ? { layout: inlineLayout } : {}),
+          };
+
           new window.google.translate.TranslateElement(
-            {
-              pageLanguage: "en",
-              multilanguagePage: true,
-              autoDisplay: false,
-              layout: window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL,
-            },
+            options,
             "google_translate_element"
           );
         }
