@@ -29,11 +29,12 @@ declare global {
 
 export function GoogleTranslateWidget() {
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-    script.async = true;
-    document.head.appendChild(script);
-
+  if (!document.querySelector('script[src*="translate.google.com"]')) {
+  const script = document.createElement("script");
+  script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  script.async = true;
+  document.head.appendChild(script);
+}
          window.googleTranslateElementInit = function () {
        const target = document.getElementById("google_translate_element");
        if (!target) return;
