@@ -40,7 +40,7 @@ export function GoogleTranslateWidget() {
 
     // 콜백 함수 중복 방지
     if (typeof window.googleTranslateElementInit !== "function") {
-      window.googleTranslateElementInit = function () {
+      window.googleTranslateElementInit = () => {
         const target = document.getElementById("google_translate_element");
         if (!target || target.hasChildNodes()) return;
 
@@ -63,7 +63,7 @@ export function GoogleTranslateWidget() {
     return () => {
       // SPA 라우팅 시 정리할 게 있으면 추가
     }
-  }, []);
+  }, []) // ✅ 세미콜론 절대 붙이지 말 것!
 
   return (
     <div
@@ -73,6 +73,7 @@ export function GoogleTranslateWidget() {
     />
   );
 }
+
 
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
