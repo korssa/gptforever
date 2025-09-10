@@ -410,10 +410,12 @@ if (typeof window.googleTranslateElementInit !== "function") {
 
     if (window.google?.translate?.TranslateElement) {
       const { countryByLang, nativeByLang, includedLanguages } = buildMaps();
+      const includedLanguages = "af,sq,am,ar,hy,az,eu,be,bn,bs,bg,ca,ceb,zh-cn,zh-tw,zh,co,hr,cs,da,nl,en-us,en-gb,en-au,en-nz,en-ca,en,eo,et,fi,fr,fy,gl,ka,de,el,gu,ht,ha,haw,he,hi,hmn,hu,is,ig,id,ga,it,ja,jv,kn,kk,km,rw,ko,ku,ky,lo,la,lv,lt,lb,mk,mg,ms,ml,mt,mi,mr,mn,my,ne,no,ny,or,ps,fa,pl,pt-br,pt,pa,ro,ru,sm,gd,sr,st,sn,sd,si,sk,sl,so,es-mx,es,su,sw,sv,tl,tg,ta,tt,te,th,tr,tk,uk,ur,ug,uz,vi,cy,xh,yi,yo,zu";
+
 new window.google.translate.TranslateElement(
   {
     pageLanguage: "en-us",
-     includedLanguages,
+     includedLanguages: "af,sq,am,ar,hy,az,eu,be,bn,bs,bg,ca,ceb,zh-cn,zh-tw,zh,co,hr,cs,da,nl,en-us,en-gb,en-au,en-nz,en-ca,en,eo,et,fi,fr,fy,gl,ka,de,el,gu,ht,ha,haw,he,hi,hmn,hu,is,ig,id,ga,it,ja,jv,kn,kk,km,rw,ko,ku,ky,lo,la,lv,lt,lb,mk,mg,ms,ml,mt,mi,mr,mn,my,ne,no,ny,or,ps,fa,pl,pt-br,pt,pa,ro,ru,sm,gd,sr,st,sn,sd,si,sk,sl,so,es-mx,es,su,sw,sv,tl,tg,ta,tt,te,th,tr,tk,uk,ur,ug,uz,vi,cy,xh,yi,yo,zu",
     multilanguagePage: true,
     autoDisplay: false,
     layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || "horizontal",
