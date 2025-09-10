@@ -43,7 +43,7 @@ export function GoogleTranslateWidget() {
         ["da", "Denmark", "Dansk"],
         ["nl", "Netherlands", "Nederlands"],
         // E
-        ["en", "USA", "English"],
+        
         ["en-gb", "UK", "English"],
         ["en-au", "Australia", "English"],
         ["en-nz", "New Zealand", "English"],
