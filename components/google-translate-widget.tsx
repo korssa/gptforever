@@ -59,12 +59,7 @@ export function GoogleTranslateWidget() {
         }
       };
     }
-
-    // cleanup
-    return () => {
-      // SPA 라우팅 시 정리할 게 있으면 추가
-    };
-  }, []); // ✅ 올바른 닫기 (세미콜론은 여기만!)
+  }, []); // ✅ 이제 완벽하게 닫힘
 
   return (
     <div
@@ -74,8 +69,6 @@ export function GoogleTranslateWidget() {
     />
   );
 }
-
-
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
       // code는 구글 콤보의 값 기준(소문자, 하이픈 포함). base는 code의 접두(지역 제외)
