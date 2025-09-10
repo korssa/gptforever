@@ -626,12 +626,12 @@ export function AppStoryList({ type, onBack }: AppStoryListProps) {
     <div className="w-full max-w-4xl mx-auto space-y-6 px-4" onMouseEnter={blockTranslationFeedback}>
              {onBack && (
                   <Button
-           onClick={onBack}
+           onClick={() => window.location.href = '/'}
            variant="ghost" 
            className="text-white hover:text-amber-400 transition-colors"
          >
-           <ArrowLeft className="w-4 h-4 mr-2" />
-           Back
+           <Home className="w-4 h-4 mr-2" />
+           홈 가기
          </Button>
        )}
 
