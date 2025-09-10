@@ -417,6 +417,7 @@ if (typeof window.googleTranslateElementInit !== "function") {
 // ✅ 초기 진입 시 라벨 매핑을 delay 후 강제 적용
 setTimeout(() => {
   initializeLanguageMapping();
+  updateLanguageOptions();
 }, 800); // 약간의 렌더링 대기 시간
 
     }
