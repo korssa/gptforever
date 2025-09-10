@@ -146,21 +146,26 @@ export function GoogleTranslateWidget() {
         ["yo", "Nigeria", "Yorùbá"],
         ["zu", "South Africa", "isiZulu"],
       ];
+  const includedLanguages = entries.map(([code]) => code).join(",");
+  const countryByLang: Record<string, string> = {};
+  const nativeByLang: Record<string, string> = {};
 
-      const countryByLang: Record<string, string> = {};
-      const nativeByLang: Record<string, string> = {};
+  for (const [code, country, native] of entries) {
+    const c = code.toLowerCase();
+    countryByLang[c] = country;
+    nativeByLang[c] = native;
 
-      for (const [code, country, native] of entries) {
-        const c = code.toLowerCase();
-        countryByLang[c] = country;
-        nativeByLang[c] = native;
-        const base = c.split("-")[0];
-        if (!countryByLang[base]) countryByLang[base] = country;
-        if (!nativeByLang[base]) nativeByLang[base] = native;
-      }
+    const base = c.split("-")[0];
+    if (!countryByLang[base]) countryByLang[base] = country;
+    if (!nativeByLang[base]) nativeByLang[base] = native;
+  }
 
-      return { countryByLang, nativeByLang };
-    }
+  return {
+    countryByLang,
+    nativeByLang,
+    includedLanguages, // ✅ 자동 생성된 언어 목록도 함께 반환
+  };
+}
 
     // ====== 2) 콤보 옵션을 "Country - Native"로 일괄 변환 ======
     function updateLanguageOptions() {
@@ -407,7 +412,7 @@ if (typeof window.googleTranslateElementInit !== "function") {
 new window.google.translate.TranslateElement(
   {
     pageLanguage: "en-us",
-    includedLanguages: "en,en-us,en-gb,en-au,en-ca,ko,ja,zh-cn,zh-tw",
+     includedLanguages,
     multilanguagePage: true,
     autoDisplay: false,
     layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || "horizontal",
