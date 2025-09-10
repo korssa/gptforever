@@ -404,20 +404,21 @@ if (typeof window.googleTranslateElementInit !== "function") {
     window.__widget_initialized = true; // 🎯 초기화 완료 플래그
 
     if (window.google?.translate?.TranslateElement) {
-      new window.google.translate.TranslateElement(
-        {
-          pageLanguage: "en",
-          multilanguagePage: true,
-          autoDisplay: false,
-          layout: window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL || "horizontal",
-        },
-        "google_translate_element"
-      );
+    new window.google.translate.TranslateElement(
+  {
+    pageLanguage: "en",
+    layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || 'horizontal',
+    multilanguagePage: true,
+    autoDisplay: false,
+  },
+  "google_translate_element"
+);
 
-      // ✅ 바로 이 아래에 삽입하세요!
-      setTimeout(() => {
-        updateLanguageOptions(); // 💥 강제 초기 업데이트
-      }, 300); // 혹은 requestAnimationFrame(() => updateLanguageOptions());
+// ✅ 초기 진입 시 라벨 매핑을 delay 후 강제 적용
+setTimeout(() => {
+  initializeLanguageMapping();
+}, 800); // 약간의 렌더링 대기 시간
+
     }
   };
 }
