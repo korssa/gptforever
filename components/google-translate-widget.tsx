@@ -414,12 +414,14 @@ if (typeof window.googleTranslateElementInit !== "function") {
         "google_translate_element"
       );
 
-    setTimeout(() => {
-      updateLanguageOptions(); // 💥 강제 초기 업데이트
-    }, 300);
-  }
-};
+      // ✅ 바로 이 아래에 삽입하세요!
+      setTimeout(() => {
+        updateLanguageOptions(); // 💥 강제 초기 업데이트
+      }, 300); // 혹은 requestAnimationFrame(() => updateLanguageOptions());
+    }
+  };
 }
+
     // 옵저버 및 루프 시작
     const initObserver = new MutationObserver(() => {
       if (initializeLanguageMapping()) {
