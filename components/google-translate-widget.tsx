@@ -30,43 +30,46 @@ export function GoogleTranslateWidget() {
   useEffect(() => {
     // 스크립트 중복 삽입 방지
     if (!document.querySelector('script[src*="translate.google.com"]')) {
-      const script = document.createElement('script');
-      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      const script = document.createElement("script");
+      script.src =
+        "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
       script.async = true;
-      script.id = 'google-translate-script';
+      script.id = "google-translate-script";
       document.head.appendChild(script);
     }
 
     // 콜백 함수 중복 방지
-    if (typeof window.googleTranslateElementInit !== 'function') {
-      window.googleTranslateElementInit = () => {
-        const el = document.getElementById('google_translate_element');
-        if (!el || el.hasChildNodes()) return; // 이미 있으면 스킵
+    if (typeof window.googleTranslateElementInit !== "function") {
+      window.googleTranslateElementInit = function () {
+        const target = document.getElementById("google_translate_element");
+        if (!target || target.hasChildNodes()) return;
 
-        const TranslateElement = window.google?.translate?.TranslateElement;
-        if (!TranslateElement) return;
-
-        new TranslateElement(
-          {
-            pageLanguage: 'en',
-            multilanguagePage: true,
-            autoDisplay: false,
-            layout: TranslateElement.InlineLayout?.HORIZONTAL,
-          },
-          'google_translate_element'
-        );
+        if (window.google?.translate?.TranslateElement) {
+          new window.google.translate.TranslateElement(
+            {
+              pageLanguage: "en",
+              multilanguagePage: true,
+              autoDisplay: false,
+              layout:
+                window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL,
+            },
+            "google_translate_element"
+          );
+        }
       };
     }
 
-    // cleanup (SPA 라우팅에서 스크립트는 유지)
-    return () => {};
+    // cleanup
+    return () => {
+      // SPA 라우팅 시 정리할 게 있으면 추가
+    }
   }, []);
 
   return (
     <div
       id="google_translate_element"
       className="translate-widget-horizontal flex-shrink-0"
-      suppressHydrationWarning
+      suppressHydrationWarning={true}
     />
   );
 }
