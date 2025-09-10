@@ -413,9 +413,12 @@ if (typeof window.googleTranslateElementInit !== "function") {
         },
         "google_translate_element"
       );
-    }
-  };
-}
+
+    setTimeout(() => {
+      updateLanguageOptions(); // 💥 강제 초기 업데이트
+    }, 300);
+  }
+};
 
     // 옵저버 및 루프 시작
     const initObserver = new MutationObserver(() => {
