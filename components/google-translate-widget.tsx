@@ -361,7 +361,7 @@ export function GoogleTranslateWidget() {
       sessionStorage.setItem("widget-needs-refresh", "true");
     }
 
-    function checkAndRefreshWidget() {
+   /* function checkAndRefreshWidget() {
       const needsRefresh = sessionStorage.getItem("widget-needs-refresh");
       if (needsRefresh === "true") {
         sessionStorage.removeItem("widget-needs-refresh");
@@ -369,7 +369,7 @@ export function GoogleTranslateWidget() {
           refreshWidget();
         }, 1000);
       }
-    }
+    } */
 
     function handleComboChange() {
       setTimeout(() => {
@@ -461,7 +461,7 @@ if (typeof window.googleTranslateElementInit !== "function") {
     let feedbackObserver: MutationObserver | null = null;
 
     const onLoad = () => {
-      checkAndRefreshWidget();
+      //checkAndRefreshWidget();
       initObserver.observe(document.body, { childList: true, subtree: true });
       feedbackObserver = watchTranslationFeedback();
     };
