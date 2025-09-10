@@ -10,6 +10,7 @@ declare global {
             options: {
               pageLanguage: string;
               layout?: string;
+              includedLanguages?: string;
               multilanguagePage?: boolean;
               autoDisplay?: boolean;
             },
