@@ -218,35 +218,45 @@ export function GoogleTranslateWidget() {
     }
 
     // ====== 2) 콤보 옵션을 "Country - Native"로 일괄 변환 ======
-     function updateLanguageOptions() {
-       try {
-         const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
-        if (!combo || !combo.options) return;
+// ====== 2) 콤보 옵션을 "Country - Native"로 일괄 변환 ======
+function updateLanguageOptions() {
+  try {
+    const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement;
+    if (!combo || !combo.options) return;
 
-        const { countryByLang, nativeByLang } = buildMaps();
-        const options = Array.from(combo.options);
+    const { countryByLang, nativeByLang } = buildMaps();
+    const options = Array.from(combo.options);
 
-        const norm = (v: string) => v.trim().toLowerCase().split("|")[0]; // 'xx' or 'xx-yy'
+    const norm = (v: string) => v.trim().toLowerCase().split("|")[0]; // 'xx' or 'xx-yy'
 
-        options.forEach((option) => {
-          if (option.dataset.updated === "true") return;
+    options.forEach((option) => {
+      if (option.dataset.updated === "true") return;
 
-          const code = norm(option.value);
-          const base = code.split("-")[0];
+      const code = norm(option.value);
+      const base = code.split("-")[0];
 
-          const country = countryByLang[code] ?? countryByLang[base] ?? base.toUpperCase();
-          const native = nativeByLang[code] ?? nativeByLang[base] ?? (option.text.trim() || base);
+      const country = countryByLang[code] ?? countryByLang[base] ?? base.toUpperCase();
+      const native = nativeByLang[code] ?? nativeByLang[base] ?? (option.text.trim() || base);
 
-          option.text = `${country} - ${native}`;
-               option.dataset.updated = "true";
-        });
+      option.text = `${country} - ${native}`;
+      option.dataset.updated = "true";
+    });
 
-        // 원하면 주석 처리 가능
-        options.sort((a, b) => a.text.localeCompare(b.text));
-        combo.innerHTML = "";
-        options.forEach((opt) => combo.appendChild(opt));
-      } catch {}
-     }
+    // 정렬 후 다시 삽입
+    options.sort((a, b) => a.text.localeCompare(b.text));
+    combo.innerHTML = "";
+    options.forEach((opt) => combo.appendChild(opt));
+
+    // ✅ 선택 항목 복원
+    const selectedValue = combo.value.toLowerCase();
+    const selectedOption = options.find((opt) => opt.value.toLowerCase() === selectedValue);
+    if (selectedOption) {
+      selectedOption.selected = true;
+    }
+
+  } catch {}
+}
+
 
      function hideFeedbackElements() {
        const feedbackSelectors = [
