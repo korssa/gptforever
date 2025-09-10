@@ -59,10 +59,10 @@ export function GoogleTranslateWidget() {
       };
     }
 
-    // cleanup (SPA 라우팅에서 필요시 추가 정리 가능)
+    // cleanup
     return () => {
-      // 스크립트는 유지해서 재사용
-    };
+      // SPA 라우팅 시 정리할 게 있으면 추가
+    }
   }, []);
 
   return (
@@ -73,6 +73,7 @@ export function GoogleTranslateWidget() {
     />
   );
 }
+
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
       // code는 구글 콤보의 값 기준(소문자, 하이픈 포함). base는 code의 접두(지역 제외)
