@@ -421,13 +421,16 @@ export function GoogleTranslateWidget() {
       document.head.appendChild(script);
     }
 
-    // 콜백 함수 설정 (layout은 조건부로만 추가)
+// 콜백 함수 설정 (layout은 조건부로만 추가)
 if (typeof window.googleTranslateElementInit !== "function") {
   window.googleTranslateElementInit = () => {
     const target = document.getElementById("google_translate_element");
-    if (!target || target.dataset.initialized === "true") return;
 
-    target.dataset.initialized = "true"; // ✅ 핵심
+    // ✅ 🔒 전역 flag로 중복 방지
+    if (window.__widget_initialized === true) return;
+    if (!target) return;
+
+    window.__widget_initialized = true; // 🎯 초기화 완료 플래그
 
     if (window.google?.translate?.TranslateElement) {
       new window.google.translate.TranslateElement(
@@ -442,9 +445,6 @@ if (typeof window.googleTranslateElementInit !== "function") {
     }
   };
 }
-
-
-
 
     // 옵저버 및 루프 시작
     const initObserver = new MutationObserver(() => {
