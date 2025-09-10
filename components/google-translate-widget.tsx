@@ -27,6 +27,35 @@ declare global {
   }
 }
 
+"use client";
+
+import { useEffect } from "react";
+
+declare global {
+  interface Window {
+    googleTranslateElementInit?: () => void;
+    google?: {
+      translate?: {
+        TranslateElement?: {
+          new (
+            options: {
+              pageLanguage: string;
+              layout: string;
+              multilanguagePage: boolean;
+              autoDisplay: boolean;
+            },
+            element: string
+          ): unknown;
+          InlineLayout?: {
+            HORIZONTAL?: string;
+          };
+        };
+      };
+    };
+    adminModeChange?: (enabled: boolean) => void;
+  }
+}
+
 export function GoogleTranslateWidget() {
   useEffect(() => {
     // 스크립트 중복 삽입 방지
@@ -59,7 +88,12 @@ export function GoogleTranslateWidget() {
         }
       };
     }
-  }, []); // ✅ 이제 완벽하게 닫힘
+
+    // cleanup
+    return () => {
+      // SPA 라우팅 시 정리할 게 있으면 추가
+    };
+  }, []); // ✅ 올바른 닫기 (세미콜론은 여기만!)
 
   return (
     <div
