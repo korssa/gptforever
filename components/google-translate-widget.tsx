@@ -29,28 +29,34 @@ declare global {
 
 export function GoogleTranslateWidget() {
   useEffect(() => {
-if (!document.querySelector('script[src*="translate.google.com"]')) {
-  const script = document.createElement("script");
-  script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-  script.async = true;
-  document.head.appendChild(script);
-}
-
-// 🔒 이미 초기화된 경우 재실행 막기
-if (typeof window.googleTranslateElementInit !== "function") {
-  window.googleTranslateElementInit = function () {
-    const target = document.getElementById("google_translate_element");
-    if (!target || target.hasChildNodes()) return; // ✅ 클라이언트 라우팅 시 스킵
-
-    if (window.google?.translate?.TranslateElement) {
-      new window.google.translate.TranslateElement(
-        { pageLanguage: "en", autoDisplay: false },
-        "google_translate_element"
-      );
+    // 스크립트 중복 삽입 방지
+    if (!document.querySelector('script[src*="translate.google.com"]')) {
+      const script = document.createElement("script");
+      script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.async = true;
+      document.head.appendChild(script);
     }
-  };
-}
 
+    // 🔒 콜백 함수 중복 방지 + 안전 등록
+    if (typeof window.googleTranslateElementInit !== "function") {
+      window.googleTranslateElementInit = function () {
+        const target = document.getElementById("google_translate_element");
+        if (!target || target.hasChildNodes()) return; // ✅ 중복 방지
+
+        if (window.google?.translate?.TranslateElement) {
+          new window.google.translate.TranslateElement(
+            {
+              pageLanguage: "en",
+              multilanguagePage: true,
+              autoDisplay: false,
+              layout: window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL,
+            },
+            "google_translate_element"
+          );
+        }
+      };
+    }
+  }, []);
 
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
