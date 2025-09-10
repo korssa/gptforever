@@ -7,7 +7,7 @@ export function GoogleTranslateWidget() {
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
       const entries: Array<[string, string, string]> = [
-          ["en", "---", "English"],
+          ["en", "--", "English"],
   ["es", "", "Español"],
   ["zh", "", "中文"],
   ["fr", "", "Français"],
