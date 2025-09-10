@@ -427,26 +427,22 @@ if (typeof window.googleTranslateElementInit !== "function") {
     const target = document.getElementById("google_translate_element");
     if (!target || target.dataset.initialized === "true") return;
 
-    target.dataset.initialized = "true"; // ✅ 명시적 플래그 설정
+    target.dataset.initialized = "true"; // ✅ 핵심
 
     if (window.google?.translate?.TranslateElement) {
-      const inlineLayout =
-        window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL || "horizontal";
-
-      const options = {
-        pageLanguage: "en",
-        multilanguagePage: true,
-        autoDisplay: false,
-        layout: inlineLayout,
-      };
-
       new window.google.translate.TranslateElement(
-        options,
+        {
+          pageLanguage: "en",
+          multilanguagePage: true,
+          autoDisplay: false,
+          layout: window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL || "horizontal",
+        },
         "google_translate_element"
       );
     }
   };
 }
+
 
 
 
