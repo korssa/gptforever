@@ -228,6 +228,8 @@ function updateLanguageOptions() {
 
     const norm = (v: string) => v.trim().toLowerCase().split("|")[0];
 
+    const selectedValue = combo.value.toLowerCase(); // ✅ 선택값 먼저 확보
+
     options.forEach((option) => {
       if (option.dataset.updated === "true") return;
 
@@ -241,16 +243,22 @@ function updateLanguageOptions() {
       option.dataset.updated = "true";
     });
 
-    // ✅ 선택 항목 복원
-    const selectedValue = combo.value.toLowerCase();
-    const selectedOption = options.find((opt) => opt.value.toLowerCase() === selectedValue);
+    // ✅ 정렬 후 재삽입
+    options.sort((a, b) => a.text.localeCompare(b.text));
+    combo.innerHTML = "";
+    options.forEach((opt) => combo.appendChild(opt));
+
+    // ✅ 선택 항목 정확히 복원
+    const selectedOption = options.find(
+      (opt) => opt.value.toLowerCase() === selectedValue
+    );
     if (selectedOption) {
       selectedOption.selected = true;
       combo.value = selectedOption.value;
     }
-
   } catch {}
 }
+
 
      function hideFeedbackElements() {
        const feedbackSelectors = [
