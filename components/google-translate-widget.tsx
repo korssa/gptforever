@@ -26,6 +26,34 @@ declare global {
     adminModeChange?: (enabled: boolean) => void;
   }
 }
+export function GoogleTranslateWidget() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+    script.async = true;
+    document.head.appendChild(script);
+
+         window.googleTranslateElementInit = function () {
+       const target = document.getElementById("google_translate_element");
+       if (!target) return;
+
+       if (typeof window.google === "undefined" || !window.google.translate || !window.google.translate.TranslateElement) return;
+
+       new window.google.translate.TranslateElement(
+         {
+           pageLanguage: "ko",
+           layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || 'horizontal',
+           multilanguagePage: true,
+           autoDisplay: false,
+         },
+         "google_translate_element"
+       );
+
+       // ✅ 위젯 생성 후 바로 언어 매핑 시도
+       setTimeout(() => {
+         initializeLanguageMapping();
+       }, 800); // 약간의 delay로 combo 나타나기를 기다림
+     };
 
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
