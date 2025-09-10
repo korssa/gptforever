@@ -89,3 +89,17 @@ body {
   display: none !important;
 }
 
+/* 8. .skiptranslate 클래스 완전 숨김 & 상단 공간 복원 */
+.skiptranslate {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+/* 9. iframe.skiptranslate 숨김 */
+iframe.skiptranslate {
+  visibility: hidden !important;
+}
+
