@@ -422,7 +422,12 @@ export function GoogleTranslateWidget() {
     }
 
     // 콜백 함수 설정 (layout은 조건부로만 추가)
-      if (window.google?.translate?.TranslateElement) {
+if (typeof window.googleTranslateElementInit !== "function") {
+  window.googleTranslateElementInit = () => {
+    const target = document.getElementById("google_translate_element");
+    if (!target || target.hasChildNodes()) return;
+
+    if (window.google?.translate?.TranslateElement) {
       const inlineLayout =
         window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL || 'horizontal';
 
@@ -430,7 +435,7 @@ export function GoogleTranslateWidget() {
         pageLanguage: "en",
         multilanguagePage: true,
         autoDisplay: false,
-        layout: inlineLayout, // ✅ string 확정
+        layout: inlineLayout,
       };
 
       new window.google.translate.TranslateElement(
@@ -438,8 +443,9 @@ export function GoogleTranslateWidget() {
         "google_translate_element"
       );
     }
-  };
+  }; // ✅ 여기 정확히 닫혀야 함!!
 }
+
 
     // 옵저버 및 루프 시작
     const initObserver = new MutationObserver(() => {
