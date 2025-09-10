@@ -35,27 +35,33 @@ export function GoogleTranslateWidget() {
   script.async = true;
   document.head.appendChild(script);
 }
-         window.googleTranslateElementInit = function () {
-       const target = document.getElementById("google_translate_element");
-       if (!target) return;
+     if (typeof window.googleTranslateElementInit !== "function") {
+  window.googleTranslateElementInit = function () {
+    const target = document.getElementById("google_translate_element");
+    if (!target || target.hasChildNodes()) return; // 🔒 이미 있으면 초기화 안함
 
-       if (typeof window.google === "undefined" || !window.google.translate || !window.google.translate.TranslateElement) return;
+    if (
+      typeof window.google === "undefined" ||
+      !window.google.translate ||
+      !window.google.translate.TranslateElement
+    ) return;
 
-       new window.google.translate.TranslateElement(
-         {
-          pageLanguage: "en",
-           layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || 'horizontal',
-           multilanguagePage: true,
-           autoDisplay: false,
-         },
-         "google_translate_element"
-       );
+    new window.google.translate.TranslateElement(
+      {
+        pageLanguage: "en",
+        layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || "horizontal",
+        multilanguagePage: true,
+        autoDisplay: false,
+      },
+      "google_translate_element"
+    );
 
-       setTimeout(() => {
-         initializeLanguageMapping();
-        startFastFeedbackLoop(); // 💥 고속 피드백 감시 시작!
-      }, 800);
-    };
+    setTimeout(() => {
+      initializeLanguageMapping();
+      startFastFeedbackLoop();
+    }, 800);
+  };
+}
 
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
