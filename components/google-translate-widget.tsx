@@ -28,7 +28,7 @@ declare global {
 }
 export function GoogleTranslateWidget() {
   useEffect(() => {
-    // 🔒 Google 번역 스크립트 중복 삽입 방지
+    // 스크립트 중복 삽입 방지
     if (!document.querySelector('script[src*="translate.google.com"]')) {
       const script = document.createElement("script");
       script.src =
@@ -38,11 +38,11 @@ export function GoogleTranslateWidget() {
       document.head.appendChild(script);
     }
 
-    // 🔒 콜백 함수 중복 방지 + 안전 등록
+    // 콜백 함수 중복 방지
     if (typeof window.googleTranslateElementInit !== "function") {
       window.googleTranslateElementInit = function () {
         const target = document.getElementById("google_translate_element");
-        if (!target || target.hasChildNodes()) return; // ✅ 중복 초기화 방지
+        if (!target || target.hasChildNodes()) return;
 
         if (window.google?.translate?.TranslateElement) {
           new window.google.translate.TranslateElement(
@@ -59,10 +59,9 @@ export function GoogleTranslateWidget() {
       };
     }
 
-    // ✅ cleanup: 필요 시 옵저버나 추가 리소스 정리 가능
+    // cleanup (SPA 라우팅에서 필요시 추가 정리 가능)
     return () => {
-      // 여기서 스크립트까지 제거할 필요는 없음
-      // SPA 라우팅에서 재사용할 수 있도록 그대로 둠
+      // 스크립트는 유지해서 재사용
     };
   }, []);
 
