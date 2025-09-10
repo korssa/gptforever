@@ -414,7 +414,7 @@ if (typeof window.googleTranslateElementInit !== "function") {
 
 new window.google.translate.TranslateElement(
   {
-    pageLanguage: "en",
+    pageLanguage: "en-us",
      includedLanguages,
     multilanguagePage: true,
     autoDisplay: false,
