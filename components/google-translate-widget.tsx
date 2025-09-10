@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 declare global {
   interface Window {
@@ -26,6 +26,7 @@ declare global {
     adminModeChange?: (enabled: boolean) => void;
   }
 }
+
 export function GoogleTranslateWidget() {
   useEffect(() => {
     // 스크립트 중복 삽입 방지
@@ -62,8 +63,8 @@ export function GoogleTranslateWidget() {
     // cleanup
     return () => {
       // SPA 라우팅 시 정리할 게 있으면 추가
-    }
-  }, []) // ✅ 세미콜론 절대 붙이지 말 것!
+    };
+  }, []); // ✅ 올바른 닫기 (세미콜론은 여기만!)
 
   return (
     <div
