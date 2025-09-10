@@ -404,16 +404,17 @@ if (typeof window.googleTranslateElementInit !== "function") {
     window.__widget_initialized = true; // 🎯 초기화 완료 플래그
 
     if (window.google?.translate?.TranslateElement) {
-    new window.google.translate.TranslateElement(
+new window.google.translate.TranslateElement(
   {
     pageLanguage: "en-us",
     includedLanguages: "en,en-us,en-gb,en-au,en-ca,ko,ja,zh-cn,zh-tw",
-    layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || 'horizontal',
     multilanguagePage: true,
     autoDisplay: false,
+    layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || "horizontal",
   },
   "google_translate_element"
 );
+
 setTimeout(() => {
   updateLanguageOptions(); // ✅ 이걸 콤보 생성 직후 강제로 실행
 }, 300);
