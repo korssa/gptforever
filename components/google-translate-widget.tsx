@@ -32,7 +32,8 @@ export function GoogleTranslateWidget() {
     // 스크립트 중복 삽입 방지
     if (!document.querySelector('script[src*="translate.google.com"]')) {
       const script = document.createElement("script");
-      script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.src =
+        "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
       script.async = true;
       document.head.appendChild(script);
     }
@@ -49,7 +50,8 @@ export function GoogleTranslateWidget() {
               pageLanguage: "en",
               multilanguagePage: true,
               autoDisplay: false,
-              layout: window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL,
+              layout:
+                window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL,
             },
             "google_translate_element"
           );
@@ -57,6 +59,16 @@ export function GoogleTranslateWidget() {
       };
     }
   }, []);
+
+  // ✅ JSX 반환부
+  return (
+    <div
+      id="google_translate_element"
+      className="translate-widget-horizontal flex-shrink-0"
+      suppressHydrationWarning={true}
+    />
+  );
+}
 
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
