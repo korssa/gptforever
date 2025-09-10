@@ -26,35 +26,61 @@ declare global {
     adminModeChange?: (enabled: boolean) => void;
   }
 }
+declare global {
+  interface Window {
+    googleTranslateElementInit?: () => void;
+    google?: any;
+  }
+}
+
 export function GoogleTranslateWidget() {
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-    script.async = true;
-    document.head.appendChild(script);
+    // 🔒 Google 번역 스크립트 중복 삽입 방지
+    if (!document.querySelector('script[src*="translate.google.com"]')) {
+      const script = document.createElement("script");
+      script.src =
+        "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.async = true;
+      script.id = "google-translate-script";
+      document.head.appendChild(script);
+    }
 
-         window.googleTranslateElementInit = function () {
-       const target = document.getElementById("google_translate_element");
-       if (!target) return;
+    // 🔒 콜백 함수 중복 방지 + 안전 등록
+    if (typeof window.googleTranslateElementInit !== "function") {
+      window.googleTranslateElementInit = function () {
+        const target = document.getElementById("google_translate_element");
+        if (!target || target.hasChildNodes()) return; // ✅ 중복 초기화 방지
 
-       if (typeof window.google === "undefined" || !window.google.translate || !window.google.translate.TranslateElement) return;
+        if (window.google?.translate?.TranslateElement) {
+          new window.google.translate.TranslateElement(
+            {
+              pageLanguage: "en",
+              multilanguagePage: true,
+              autoDisplay: false,
+              layout:
+                window.google.translate.TranslateElement.InlineLayout?.HORIZONTAL,
+            },
+            "google_translate_element"
+          );
+        }
+      };
+    }
 
-       new window.google.translate.TranslateElement(
-         {
-           pageLanguage: "ko",
-           layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || 'horizontal',
-           multilanguagePage: true,
-           autoDisplay: false,
-         },
-         "google_translate_element"
-       );
+    // ✅ cleanup: 필요 시 옵저버나 추가 리소스 정리 가능
+    return () => {
+      // 여기서 스크립트까지 제거할 필요는 없음
+      // SPA 라우팅에서 재사용할 수 있도록 그대로 둠
+    };
+  }, []);
 
-       // ✅ 위젯 생성 후 바로 언어 매핑 시도
-       setTimeout(() => {
-         initializeLanguageMapping();
-       }, 800); // 약간의 delay로 combo 나타나기를 기다림
-     };
-
+  return (
+    <div
+      id="google_translate_element"
+      className="translate-widget-horizontal flex-shrink-0"
+      suppressHydrationWarning={true}
+    />
+  );
+}
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
       // code는 구글 콤보의 값 기준(소문자, 하이픈 포함). base는 code의 접두(지역 제외)
