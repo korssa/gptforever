@@ -120,7 +120,7 @@ export function AdminUploadPublishDialog({ onUploadSuccess, buttonText = "Upload
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Upload App (In Review)</DialogTitle>
-            <DialogDescription>This app will be submitted with status 'in-review'.</DialogDescription>
+            <DialogDescription>This app.</DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4">
