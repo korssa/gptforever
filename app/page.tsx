@@ -1272,12 +1272,12 @@ export default function Home() {
 />
 
 <AdminUploadPublishDialog
-  buttonText="🚀 퍼블리시 전용 업로드"
+  onUpload={handleAppUpload}
   buttonProps={{
     size: "lg",
     className: "gap-2 text-white bg-orange-600 hover:bg-orange-700",
   }}
-  onUpload={handlePublishUpload}
+ buttonText="🚀 퍼블리시 전용 업로드"
 />
 
 
