@@ -1148,8 +1148,7 @@ export default function Home() {
                 👉 See That Group
               </button>
               <br />
-
-  <a
+      <a
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfmFPpGWs2bS4BS8zDWQdLFH-SfopbeUVC1MLuP-uMZgRjvUw/viewform"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -1157,14 +1156,17 @@ export default function Home() {
                 style={{
                   animation: 'breathe 2s ease-in-out infinite'
                 }}
-              >  
+              >
                 <span
                   onMouseEnter={blockTranslationFeedback}
                   onMouseLeave={blockTranslationFeedback}
                   onFocus={blockTranslationFeedback}
                   onBlur={blockTranslationFeedback}
                 >
-             
+                  <span className="text-lime-400">✍️ Open Google Form –</span>
+                  <span className="text-green-400"> Sign the online petition for continued access to GPT‑4o (Legacy)</span>
+                </span>
+              </a>
               <div className="mt-3 p-3 border-2 border-yellow-400 rounded-lg bg-yellow-50/10 max-w-md mx-auto">
                 <p className="text-xs text-yellow-200 text-center leading-relaxed">
                   🌐 The above Google Form is presented in English.<br />
