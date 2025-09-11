@@ -97,6 +97,7 @@ export function AdminUploadPublishDialog({ onUpload, buttonProps, buttonText = "
     size: "50MB",
     category: "",
     storeUrl: "",
+    appCategory: "normal",
   });
 
   const { isAuthenticated, login, logout } = useAdmin();
