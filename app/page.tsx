@@ -1271,13 +1271,24 @@ export default function Home() {
   buttonText="📱 새 앱 업로드"
 />
 
- <AdminUploadPublishDialog
+<AdminUploadPublishDialog
   buttonText="🚀 퍼블리시 전용 업로드"
   buttonProps={{
     size: "lg",
-    className: "bg-yellow-600 hover:bg-yellow-700 text-white px-8 py-3 text-lg font-medium rounded-lg shadow-lg transition-all duration-200 hover:scale-105"
+    className: "gap-2 text-white bg-orange-600 hover:bg-orange-700",
+  }}
+  onUpload={(formData, files) => {
+    // 여기에 서버 업로드 로직 또는 콘솔 확인
+    console.log("🚀 퍼블리시 업로드 시작!");
+    console.log("Form Data:", formData);
+    console.log("Icon File:", files.icon);
+    console.log("Screenshot Files:", files.screenshots);
+
+    // 예: fetch("/api/upload", { method: "POST", body: ... });
+    alert(`"${formData.name}" 앱 업로드 요청됨`);
   }}
 />
+
             </div>   
                </div>
              )}
