@@ -179,6 +179,7 @@ export function AdminUploadDialog({
         formDataToSend.append("isPublished", "true");
         formDataToSend.append("store", formData.store || "google-play");
         formDataToSend.append("storeUrl", formData.storeUrl || "");
+        formDataToSend.append("appCategory", formData.appCategory || "normal");
 
         const response = await fetch(`/api/gallery?type=${targetGallery}`, {
           method: "POST",
