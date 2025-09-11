@@ -1,0 +1,162 @@
+// Upgraded GoogleTranslateWidget.tsx
+"use client";
+
+import { useEffect } from "react";
+
+export function GoogleTranslateWidget() {
+  useEffect(() => {
+    const CORE_LANGUAGES = ["en", "zh", "fr", "de", "ar", "ru", "pt", "ja", "ko"];
+
+    function buildMaps() {
+      const entries = [
+        ["en", "Global", "English"],
+        ["zh", "Global", "中文"],
+        ["fr", "France", "Français"],
+        ["de", "Germany", "Deutsch"],
+        ["ar", "Global", "العربية"],
+        ["ru", "Russia", "Русский"],
+        ["pt", "Portugal", "Português"],
+        ["ja", "Japan", "日本語"],
+        ["ko", "Korea", "한국어"],
+        ["zh-cn", "China", "中文(简体)"],
+        ["zh-tw", "Taiwan", "中文(繁體)"],
+        ["en-gb", "UK", "English"],
+        ["en-us", "United States", "English"],
+        ["en-ca", "Canada", "English"],
+        ["pt-br", "Brazil", "Português (BR)"],
+      ];
+
+      const countryByLang = {};
+      const nativeByLang = {};
+      const included = new Set();
+
+      for (const [code, country, native] of entries) {
+        const c = code.toLowerCase();
+        const base = c.split("-")[0];
+
+        countryByLang[c] = country;
+        nativeByLang[c] = native;
+
+        if (!countryByLang[base]) countryByLang[base] = country;
+        if (!nativeByLang[base]) nativeByLang[base] = native;
+
+        included.add(c);
+      }
+
+      return {
+        countryByLang,
+        nativeByLang,
+        includedLanguages: Array.from(included).join(","),
+      };
+    }
+
+    function updateLanguageOptions() {
+      const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
+      if (!combo || !combo.options) return;
+
+      const { countryByLang, nativeByLang } = buildMaps();
+      const options = Array.from(combo.options);
+      const selectedValue = combo.value.toLowerCase();
+
+      options.forEach((option) => {
+        if (option.dataset.updated === "true") return;
+
+        const code = option.value.toLowerCase();
+        const base = code.split("-")[0];
+
+        const country = countryByLang[code] ?? countryByLang[base] ?? base.toUpperCase();
+        const native = nativeByLang[code] ?? nativeByLang[base] ?? (option.text.trim() || base);
+
+        option.text = `${country} - ${native}`;
+        option.dataset.updated = "true";
+        option.className = CORE_LANGUAGES.includes(base) ? "core-language" : "regional-language";
+      });
+
+      options.sort((a, b) => a.text.localeCompare(b.text));
+      combo.innerHTML = "";
+      options.forEach((opt) => combo.appendChild(opt));
+
+      const selectedOption = options.find((opt) => opt.value.toLowerCase() === selectedValue);
+      if (selectedOption) {
+        selectedOption.selected = true;
+        combo.value = selectedOption.value;
+      }
+    }
+
+    function initializeLanguageMapping() {
+      const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
+      if (!combo || combo.options.length < 2) return false;
+
+      updateLanguageOptions();
+      return true;
+    }
+
+    function hideFeedbackElements() {
+      const selectors = [
+        ".goog-te-balloon-frame",
+        ".goog-te-ftab",
+        ".goog-te-ftab-float",
+        ".goog-tooltip",
+        ".goog-tooltip-popup",
+        ".goog-te-banner-frame",
+        ".goog-te-spinner-pos",
+      ];
+      selectors.forEach((selector) => {
+        document.querySelectorAll(selector).forEach((el) => {
+          (el as HTMLElement).style.display = "none";
+        });
+      });
+    }
+
+    const feedbackLoop = setInterval(hideFeedbackElements, 5000);
+
+    const observer = new MutationObserver(() => {
+      updateLanguageOptions();
+      hideFeedbackElements();
+    });
+
+    window.googleTranslateElementInit = () => {
+      const el = document.getElementById("google_translate_element");
+      if (!el || window.__widget_initialized) return;
+      window.__widget_initialized = true;
+
+      const { includedLanguages } = buildMaps();
+
+      new window.google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages,
+          multilanguagePage: true,
+          autoDisplay: false,
+          layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || "horizontal",
+        },
+        "google_translate_element"
+      );
+
+      setTimeout(() => {
+        updateLanguageOptions(); // ✅ 이걸 콤보 생성 직후 강제로 실행
+      }, 300);
+      
+      // ✅ 초기 진입 시 라벨 매핑을 delay 후 강제 적용
+      setTimeout(() => {
+        initializeLanguageMapping();
+      }, 800);
+    };
+
+    if (!document.querySelector('script[src*="translate.google.com"]')) {
+      const script = document.createElement("script");
+      script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.async = true;
+      document.head.appendChild(script);
+    }
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      clearInterval(feedbackLoop);
+    };
+  }, []);
+
+  return <div id="google_translate_element" className="translate-widget-horizontal" />;
+}
