@@ -1263,13 +1263,23 @@ export default function Home() {
                  {/* 업로드 버튼 */}
                  <div className="flex justify-center">
                    <AdminUploadDialog 
-                     onUpload={handleAppUpload}
-                     buttonProps={{
-                       size: "lg",
-                       className: "bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg font-medium rounded-lg shadow-lg transition-all duration-200 hover:scale-105"
-                     }}
-                     buttonText="📱 새 앱 업로드"
-                   />
+  onUpload={handleAppUpload}
+  buttonProps={{
+    size: "lg",
+    className: "bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg font-medium rounded-lg shadow-lg transition-all duration-200 hover:scale-105"
+  }}
+  buttonText="📱 새 앱 업로드"
+/>
+
+{/* ✅ 퍼블리시 전용 업로드 버튼 */}
+<AdminUploadPublishDialog 
+  onUpload={handleAppUpload}
+  buttonProps={{
+    size: "lg",
+    className: "bg-yellow-600 hover:bg-yellow-700 text-white px-8 py-3 text-lg font-medium rounded-lg shadow-lg transition-all duration-200 hover:scale-105"
+  }}
+  buttonText="🚀 퍼블리시 전용 업로드"
+/>
                  </div>
                </div>
              )}
