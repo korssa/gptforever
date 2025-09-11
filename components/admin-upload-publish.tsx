@@ -330,8 +330,7 @@ export function AdminUploadPublishDialog({
                   {formData.store === "google-play" ? "🤖 " + adminTexts.googlePlay : "🍎 " + adminTexts.appStore}
                 </Button>
               </div>
-
-         <div>
+<div>
   <label className="block text-sm font-medium mb-2">
     <span translate="no">{adminTexts.status}</span>
   </label>
@@ -349,6 +348,7 @@ export function AdminUploadPublishDialog({
         setFormData((prev) => ({ ...prev, status: newStatus }));
       } catch {}
     }}
+    translate="no"
   >
     <span translate="no">
       {formData.status === "in-review" && `✅ ${adminTexts.inReview}`}
