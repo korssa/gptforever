@@ -349,7 +349,6 @@ export function AdminUploadPublishDialog({
         setFormData((prev) => ({ ...prev, status: newStatus }));
       } catch {}
     }}
-    translate="no"
   >
     <span translate="no">
       {formData.status === "in-review" && `✅ ${adminTexts.inReview}`}
@@ -474,4 +473,4 @@ export function AdminUploadPublishDialog({
       </Dialog>
     </div>
   );
-
+      }
