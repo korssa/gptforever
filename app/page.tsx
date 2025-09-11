@@ -1277,17 +1277,9 @@ export default function Home() {
     size: "lg",
     className: "gap-2 text-white bg-orange-600 hover:bg-orange-700",
   }}
-  onUpload={(formData, files) => {
-    // 여기에 서버 업로드 로직 또는 콘솔 확인
-    console.log("🚀 퍼블리시 업로드 시작!");
-    console.log("Form Data:", formData);
-    console.log("Icon File:", files.icon);
-    console.log("Screenshot Files:", files.screenshots);
-
-    // 예: fetch("/api/upload", { method: "POST", body: ... });
-    alert(`"${formData.name}" 앱 업로드 요청됨`);
-  }}
+  onUpload={handlePublishUpload}
 />
+
 
             </div>   
                </div>
