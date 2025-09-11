@@ -1148,15 +1148,19 @@ export default function Home() {
                 👉 See That Group
               </button>
               <br />
-           <a
-  href="https://docs.google.com/forms/d/e/1FAIpQLSfmFPpGWs2bS4BS8zDWQdLFH-SfopbeUVC1MLuP-uMZgRjvUw/viewform"
+<a
+  href="https://docs.google.com/forms/..."
   target="_blank"
   rel="noopener noreferrer"
-  className="text-sm text-green-400 inline-block leading-snug text-center transition-colors duration-300 cursor-pointer bg-transparent border-none p-0 mt-2 hover:text-green-300"
+  className="block text-sm text-green-400 text-center mt-2 cursor-pointer hover:text-green-300 transition duration-300"
   style={{
     animation: 'breathe 2s ease-in-out infinite',
   }}
 >
+  <span className="text-lime-400 font-semibold underline underline-offset-2">
+    ✍️ Online petition to support the continued use of chatGPT 4o (Legacy)
+  </span>
+</a>
   <span className="text-lime-400 font-semibold underline underline-offset-2">
     ✍️ Open Google Form –
   </span>
