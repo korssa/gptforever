@@ -387,9 +387,9 @@ export function AdminUploadPublishDialog({ onUpload, buttonProps, buttonText = "
                   }}
                   onMouseEnter={blockTranslationFeedback}
                 >
-                  {formData.status === "published" && "✅ " + adminTexts.published}
+           
                   {formData.status === "in-review" && "⏳ " + adminTexts.inReview}
-                  {formData.status === "development" && "🚧 " + adminTexts.development}
+                 
                 </Button>
               </div>
             </div>
