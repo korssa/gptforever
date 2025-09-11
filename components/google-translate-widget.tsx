@@ -130,12 +130,12 @@ export function GoogleTranslateWidget() {
 ["zu", "South Africa", "isiZulu"],
 ];
 
-   // 중국어는 별도 매핑
+   // 중국어는 별도 매핑 (강제 오버라이드)
       const langLabelMap: Record<string, string> = {
-        zh: "China - 中文(简体)",      // 전역
-        "zh-cn": "China - 中文(简体)", // 중국
-        "zh-tw": "Taiwan - 中文(繁體)", // 대만
-        "zh-hk": "Hong Kong - 中文(繁體, 香港)", // 홍콩
+        zh: "China - 中文(简体)",
+        "zh-CN": "China - 中文(简体)",
+        "zh-TW": "Taiwan - 中文(繁體)",
+        "zh-HK": "Hong Kong - 中文(繁體, 香港)",
       };
 
       const countryByLang: Record<string, string> = {};
@@ -143,23 +143,23 @@ export function GoogleTranslateWidget() {
       const included = new Set<string>();
 
       for (const [code, country, native] of entries) {
-        const c = code.toLowerCase();
-        const base = c.split("-")[0];
+        const normCode = normalizeCode(code); // ✅ 정규화
+        const base = normCode.split("-")[0];
 
-        // 일반 언어 매핑
-        countryByLang[c] = country;
-        nativeByLang[c] = native;
+        countryByLang[normCode] = country;
+        nativeByLang[normCode] = native;
 
         if (!countryByLang[base]) countryByLang[base] = country;
         if (!nativeByLang[base]) nativeByLang[base] = native;
 
-        included.add(c);
+        included.add(normCode);
       }
 
       // 중국어 매핑 강제 적용
       for (const code in langLabelMap) {
-        countryByLang[code] = langLabelMap[code].split(" - ")[0];
-        nativeByLang[code] = langLabelMap[code].split(" - ")[1];
+        const [country, native] = langLabelMap[code].split(" - ");
+        countryByLang[code] = country;
+        nativeByLang[code] = native;
         included.add(code);
       }
 
@@ -177,12 +177,12 @@ export function GoogleTranslateWidget() {
 
       const { countryByLang, nativeByLang } = buildMaps();
       const options = Array.from(combo.options);
-      const selectedValue = combo.value.toLowerCase();
+      const selectedValue = combo.value;
 
       options.forEach((option) => {
         if (option.dataset.updated === "true") return;
 
-        const code = option.value.toLowerCase();
+        const code = normalizeCode(option.value);
         const base = code.split("-")[0];
 
         const country = countryByLang[code] ?? countryByLang[base] ?? base.toUpperCase();
@@ -190,18 +190,23 @@ export function GoogleTranslateWidget() {
 
         option.text = `${country} - ${native}`;
         option.dataset.updated = "true";
+        option.value = code; // ✅ 정규화된 코드로 교체
       });
 
       options.sort((a, b) => a.text.localeCompare(b.text));
       combo.innerHTML = "";
       options.forEach((opt) => combo.appendChild(opt));
 
-      const selectedOption = options.find((opt) => opt.value.toLowerCase() === selectedValue);
+      const selectedOption = options.find((opt) => opt.value === normalizeCode(selectedValue));
       if (selectedOption) {
         selectedOption.selected = true;
         combo.value = selectedOption.value;
       }
     }
+  }, []);
+
+  return <div id="google_translate_element" />;
+}
 
     function hideFeedbackElements() {
       const feedbackSelectors = [
