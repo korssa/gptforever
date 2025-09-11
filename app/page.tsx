@@ -29,6 +29,7 @@ import { blockTranslationFeedback, createAdminButtonHandler } from "@/lib/transl
 import { AppGallery } from "@/components/app-gallery";
 import { GalleryManager } from "@/components/gallery-manager";
 import Image from "next/image";
+import { AdminUploadPublishDialog } from "@/components/admin-upload-publish";
 
 const isBlobUrl = (url?: string) => {
   return !!url && (url.includes('vercel-storage.com') || url.includes('blob.vercel-storage.com'));
