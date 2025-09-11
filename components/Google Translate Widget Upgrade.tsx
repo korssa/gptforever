@@ -1,7 +1,35 @@
-// Upgraded GoogleTranslateWidget.tsx
+// Upgraded GoogleTranslateWidget.tsx (타입 선언 포함 버전)
 "use client";
 
 import { useEffect } from "react";
+
+// 🌍 글로벌 타입 선언 통합
+declare global {
+  interface Window {
+    googleTranslateElementInit?: () => void;
+    google?: {
+      translate?: {
+        TranslateElement?: {
+          new (
+            options: {
+              pageLanguage: string;
+              layout?: string;
+              includedLanguages?: string;
+              multilanguagePage?: boolean;
+              autoDisplay?: boolean;
+            },
+            element: string
+          ): void;
+          InlineLayout?: {
+            HORIZONTAL?: string;
+          };
+        };
+      };
+    };
+    adminModeChange?: (enabled: boolean) => void;
+    __widget_initialized?: boolean;
+  }
+}
 
 export function GoogleTranslateWidget() {
   useEffect(() => {
@@ -122,11 +150,12 @@ export function GoogleTranslateWidget() {
 
       const { includedLanguages } = buildMaps();
 
-      if (typeof window !== "undefined" &&
-          window.google &&
-          window.google.translate &&
-          typeof window.google.translate.TranslateElement === "function") {
-
+      if (
+        typeof window !== "undefined" &&
+        window.google &&
+        window.google.translate &&
+        typeof window.google.translate.TranslateElement === "function"
+      ) {
         new window.google.translate.TranslateElement(
           {
             pageLanguage: "en",
@@ -139,11 +168,11 @@ export function GoogleTranslateWidget() {
         );
 
         setTimeout(() => {
-          updateLanguageOptions(); // ✅ 이걸 콤보 생성 직후 강제로 실행
+          updateLanguageOptions();
         }, 300);
 
         setTimeout(() => {
-          initializeLanguageMapping(); // ✅ 초기 진입 시 라벨 매핑을 delay 후 강제 적용
+          initializeLanguageMapping();
         }, 800);
       }
     };
