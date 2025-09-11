@@ -1260,7 +1260,7 @@ export default function Home() {
                    </button>
                  </div>
                  
-                 {/* 업로드 버튼 */}
+          
                  <div className="flex justify-center">
                    <AdminUploadDialog 
   onUpload={handleAppUpload}
@@ -1271,7 +1271,6 @@ export default function Home() {
   buttonText="📱 새 앱 업로드"
 />
 
-{/* ✅ 퍼블리시 전용 업로드 버튼 */}
 <AdminUploadPublishDialog 
   onUpload={handleAppUpload}
   buttonProps={{
@@ -1280,7 +1279,7 @@ export default function Home() {
   }}
   buttonText="🚀 퍼블리시 전용 업로드"
 />
-                 </div>
+              
                </div>
              )}
              
