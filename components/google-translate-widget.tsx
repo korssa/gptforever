@@ -128,74 +128,80 @@ export function GoogleTranslateWidget() {
 ["yi", "Ashkenazi", "ייִדיש"],
 ["yo", "Nigeria", "Yorùbá"],
 ["zu", "South Africa", "isiZulu"],
- [zh, "China", "中文"],            
-[zh-CN, "China", "中文(简体)"],     
-[zh-TW, "Taiwan", "中文(繁體)"],    
-[zh-HK, "Hong Kong", "中文(繁體, 香港)"],];
+];
 
-  const countryByLang: Record<string, string> = {};
-  const nativeByLang: Record<string, string> = {};
-  const included = new Set<string>();
-      
-for (const [code, country, native] of entries) {
-const c = code.toLowerCase();
-const base = c.split("-")[0];
+   // 중국어는 별도 매핑
+      const langLabelMap: Record<string, string> = {
+        zh: "China - 中文(简体)",      // 전역
+        "zh-cn": "China - 中文(简体)", // 중국
+        "zh-tw": "Taiwan - 中文(繁體)", // 대만
+        "zh-hk": "Hong Kong - 中文(繁體, 香港)", // 홍콩
+      };
 
-countryByLang[c] = country;
-nativeByLang[c] = native;
+      const countryByLang: Record<string, string> = {};
+      const nativeByLang: Record<string, string> = {};
+      const included = new Set<string>();
 
-if (!countryByLang[base]) countryByLang[base] = country;
-if (!nativeByLang[base]) nativeByLang[base] = native;
+      for (const [code, country, native] of entries) {
+        const c = code.toLowerCase();
+        const base = c.split("-")[0];
 
-included.add(c);
-}
+        // 일반 언어 매핑
+        countryByLang[c] = country;
+        nativeByLang[c] = native;
 
-  return {
-    countryByLang,
-    nativeByLang,
-    includedLanguages: Array.from(included).join(","),
-  };
-}
+        if (!countryByLang[base]) countryByLang[base] = country;
+        if (!nativeByLang[base]) nativeByLang[base] = native;
 
-    // ====== 2) 콤보 옵션을 "Country - Native"로 일괄 변환 ======
- function updateLanguageOptions() {
-const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
-if (!combo || !combo.options) return;
+        included.add(c);
+      }
 
+      // 중국어 매핑 강제 적용
+      for (const code in langLabelMap) {
+        countryByLang[code] = langLabelMap[code].split(" - ")[0];
+        nativeByLang[code] = langLabelMap[code].split(" - ")[1];
+        included.add(code);
+      }
 
-const { countryByLang, nativeByLang } = buildMaps();
-const options = Array.from(combo.options);
-const selectedValue = combo.value.toLowerCase();
+      return {
+        countryByLang,
+        nativeByLang,
+        includedLanguages: Array.from(included).join(","),
+      };
+    }
 
+    // ====== 2) 콤보 옵션 업데이트 ======
+    function updateLanguageOptions() {
+      const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
+      if (!combo || !combo.options) return;
 
-options.forEach((option) => {
-if (option.dataset.updated === "true") return;
+      const { countryByLang, nativeByLang } = buildMaps();
+      const options = Array.from(combo.options);
+      const selectedValue = combo.value.toLowerCase();
 
+      options.forEach((option) => {
+        if (option.dataset.updated === "true") return;
 
-const code = option.value.toLowerCase();
-const base = code.split("-")[0];
+        const code = option.value.toLowerCase();
+        const base = code.split("-")[0];
 
+        const country = countryByLang[code] ?? countryByLang[base] ?? base.toUpperCase();
+        const native = nativeByLang[code] ?? nativeByLang[base] ?? (option.text.trim() || base);
 
-const country = countryByLang[code] ?? countryByLang[base] ?? base.toUpperCase();
-const native = nativeByLang[code] ?? nativeByLang[base] ?? (option.text.trim() || base);
+        option.text = `${country} - ${native}`;
+        option.dataset.updated = "true";
+      });
 
+      options.sort((a, b) => a.text.localeCompare(b.text));
+      combo.innerHTML = "";
+      options.forEach((opt) => combo.appendChild(opt));
 
-option.text = `${country} - ${native}`;
-option.dataset.updated = "true";
-});
-
-
-options.sort((a, b) => a.text.localeCompare(b.text));
-combo.innerHTML = "";
-options.forEach((opt) => combo.appendChild(opt));
-
-
-const selectedOption = options.find((opt) => opt.value.toLowerCase() === selectedValue);
-if (selectedOption) {
-selectedOption.selected = true;
-combo.value = selectedOption.value;
-}
-}
+      const selectedOption = options.find((opt) => opt.value.toLowerCase() === selectedValue);
+      if (selectedOption) {
+        selectedOption.selected = true;
+        combo.value = selectedOption.value;
+      }
+    }
 
     function hideFeedbackElements() {
       const feedbackSelectors = [
