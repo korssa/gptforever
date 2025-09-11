@@ -1149,23 +1149,15 @@ export default function Home() {
               </button>
               <br />
 
-<a
-  href="https://docs.google.com/forms/d/e/1FAIpQLSfmFPpGWs2bS4BS8zDWQdLFH-SfopbeUVC1MLuP-uMZgRjvUw/viewform"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="text-sm text-green-400 inline-block leading-snug text-center transition-colors duration-300 cursor-pointer bg-transparent border-none p-0 mt-2 hover:text-green-300"
-  style={{
-    animation: 'breathe 2s ease-in-out infinite',
-  }}
->
-  <span className="text-lime-400 font-semibold underline underline-offset-2">
-    ✍️ Open Google Form –
-  </span>
-  <br />
-  Sign the online petition for continued access to GPT‑4o (Legacy)
-</a>
-
-              
+  <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfmFPpGWs2bS4BS8zDWQdLFH-SfopbeUVC1MLuP-uMZgRjvUw/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-green-400 hover:text-green-300 inline-block transition-colors duration-200 cursor-pointer bg-transparent border-none p-0 mt-2 animate-pulse hover:animate-none"
+                style={{
+                  animation: 'breathe 2s ease-in-out infinite'
+                }}
+              >  
                 <span
                   onMouseEnter={blockTranslationFeedback}
                   onMouseLeave={blockTranslationFeedback}
