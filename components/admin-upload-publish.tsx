@@ -1,55 +1,58 @@
+// admin-upload-publish.tsx
 "use client";
+
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+Dialog,
+DialogContent,
+DialogDescription,
+DialogFooter,
+DialogHeader,
+DialogTitle,
+DialogTrigger,
 } from "@/components/ui/dialog";
 import { Upload, Image as ImageIcon, X, Lock } from "lucide-react";
 import { AppFormData, AppStore, AppStatus } from "@/types";
+
 
 import { useAdmin } from "@/hooks/use-admin";
 import { createURLManager, registerManager, unregisterManager } from "@/lib/url-manager";
 import { blockTranslationFeedback, createAdminButtonHandler } from "@/lib/translation-utils";
 
-const adminTexts = {
-  upload: "Upload",
-  uploadTitle: "Upload App",
-  uploadDescription: "Add a new app to the gallery.",
-  appName: "App Name",
-  appNamePlaceholder: "Enter app name",
-  developer: "Developer",
-  developerPlaceholder: "Enter developer name",
-  description: "Description",
-  descriptionPlaceholder: "Enter app description",
-  category: "Category",
-  tags: "Tags (Optional)",
-  tagsPlaceholder: "Enter tags separated by commas",
-  tagsExample: "e.g., productivity, utility, game",
-  selectFiles: "Click to upload or drag and drop",
-  fileTypes: "PNG, JPG, JPEG (Max 10MB)",
-  selectedFiles: "Selected files:",
-  cancel: "Cancel",
-  logout: "Logout",
-  store: "Store",
-  status: "Status",
-  googlePlay: "Google Play Store",
-  appStore: "App Store",
-  published: "Published",
-  inReview: "In Review",
-  adminPassword: "Admin Password",
-  passwordPlaceholder: "Enter admin password",
-  login: "Login",
-  adminPanel: "Admin Panel",
-};
 
+const adminTexts = {
+upload: "Upload",
+uploadTitle: "Upload App",
+uploadDescription: "Add a new app to the gallery.",
+appName: "App Name",
+appNamePlaceholder: "Enter app name",
+developer: "Developer",
+developerPlaceholder: "Enter developer name",
+description: "Description",
+descriptionPlaceholder: "Enter app description",
+category: "Category",
+tags: "Tags (Optional)",
+tagsPlaceholder: "Enter tags separated by commas",
+tagsExample: "e.g., productivity, utility, game",
+selectFiles: "Click to upload or drag and drop",
+fileTypes: "PNG, JPG, JPEG (Max 10MB)",
+selectedFiles: "Selected files:",
+cancel: "Cancel",
+logout: "Logout",
+store: "Store",
+status: "Status",
+googlePlay: "Google Play Store",
+appStore: "App Store",
+published: "Published",
+inReview: "In Review",
+adminPassword: "Admin Password",
+passwordPlaceholder: "Enter admin password",
+login: "Login",
+adminPanel: "Admin Panel",
+};
 interface AdminUploadDialogProps {
   onUpload?: (data: AppFormData, files: { icon: File; screenshots: File[] }) => void;
   buttonProps?: {
@@ -96,7 +99,7 @@ export function AdminUploadPublishDialog({
     developer: "",
     description: "",
     store: "google-play",
-    status: "in-review", // ✅ 기본값
+    status: "in-review",
     tags: "",
     rating: 4.5,
     downloads: "1K+",
@@ -104,7 +107,7 @@ export function AdminUploadPublishDialog({
     size: "50MB",
     category: "",
     storeUrl: "",
-    appCategory: "normal", // ✅ 항상 normal
+    appCategory: "normal", 
   });
 
   const { isAuthenticated, login, logout } = useAdmin();
@@ -208,7 +211,7 @@ export function AdminUploadPublishDialog({
       developer: "",
       description: "",
       store: "google-play",
-      status: "in-review", // ✅ reset 값
+      status: "in-review", 
       tags: "",
       rating: 4.5,
       downloads: "1K+",
@@ -216,7 +219,7 @@ export function AdminUploadPublishDialog({
       size: "50MB",
       category: "",
       storeUrl: "",
-      appCategory: "normal", // ✅ 고정
+      appCategory: "normal",
     });
   };
 
@@ -328,29 +331,30 @@ export function AdminUploadPublishDialog({
                 </Button>
               </div>
 
-              {/* Status */}
-              <div>
-                <label className="block text-sm font-medium mb-2">{adminTexts.status}</label>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full justify-start h-10 bg-white hover:bg-gray-50 border border-gray-200"
-                  onClick={() => {
-                    try {
-                      blockTranslationFeedback();
-                      const statuses: AppStatus[] = ["published", "in-review"];
-                      const currentIndex = statuses.indexOf(formData.status as AppStatus);
-                      const nextIndex = (currentIndex + 1) % statuses.length;
-                      const newStatus = statuses[nextIndex >= 0 ? nextIndex : 0];
-                      setFormData((prev) => ({ ...prev, status: newStatus }));
-                    } catch {}
-                  }}
-                >
-                  {formData.status === "in-review" && "✅ " + adminTexts.inReview}
-             {formData.status === "published" && "✅ " + adminTexts.published}
-                </Button>
-              </div>
-            </div>
+            <div>
+<label className="block text-sm font-medium mb-2">
+<span translate="no">{adminTexts.status}</span>
+</label>
+<Button
+type="button"
+variant="outline"
+className="w-full justify-start h-10 bg-white hover:bg-gray-50 border border-gray-200"
+onClick={() => {
+try {
+blockTranslationFeedback();
+const statuses: AppStatus[] = ["published", "in-review"];
+const currentIndex = statuses.indexOf(formData.status as AppStatus);
+const nextIndex = (currentIndex + 1) % statuses.length;
+const newStatus = statuses[nextIndex >= 0 ? nextIndex : 0];
+setFormData((prev) => ({ ...prev, status: newStatus }));
+} catch {}
+}}
+translate="no"
+>
+{formData.status === "in-review" && <span translate="no">✅ {adminTexts.inReview}</span>}
+{formData.status === "published" && <span translate="no">✅ {adminTexts.published}</span>}
+</Button>
+</div>
 
             {/* Additional Info */}
             <div className="grid grid-cols-3 gap-4">
