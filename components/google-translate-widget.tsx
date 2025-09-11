@@ -138,12 +138,41 @@ export function GoogleTranslateWidget() {
 ];
 
    // 중국어는 별도 매핑 (강제 오버라이드)
-      const langLabelMap: Record<string, string> = {
-        zh: "China - 中文(简体)",
-        "zh-CN": "China - 中文(简体)",
-        "zh-TW": "Taiwan - 中文(繁體)",
-        "zh-HK": "Hong Kong - 中文(繁體, 香港)",
-      };
+     const langLabelMap: Record<string, string> = {
+  // === 중국어 계열 ===
+  zh: "China - 中文(简体)",
+  "zh-CN": "China - 中文(简体)",
+  "zh-SG": "Singapore - 中文(简体, 新加坡)",
+  "zh-MY": "Malaysia - 中文(简体, 马来西亚)",
+  "zh-TW": "Taiwan - 中文(繁體)",
+  "zh-HK": "Hong Kong - 中文(繁體, 香港)",
+  "zh-MO": "Macau - 中文(繁體, 澳門)",
+
+  // === 영어 계열 ===
+  "en-GB": "UK - English",
+  "en-CA": "Canada - English",
+  "en-AU": "Australia - English",
+  "en-IN": "India - English",
+  "en-SG": "Singapore - English",
+  "en-ZA": "South Africa - English",
+  "en-IE": "Ireland - English",
+  "en-NZ": "New Zealand - English",
+
+  // === 스페인어 계열 ===
+  "es-MX": "Mexico - Español (México)",
+  "es-419": "Latin America - Español (LatAm)",
+
+  // === 프랑스어 계열 ===
+  "fr-CA": "Canada - Français",
+
+  // === 포르투갈어 계열 ===
+  "pt-BR": "Brazil - Português (BR)",
+
+  // === 세르비아 / 우즈벡 / 몽골어 등 스크립트 변형 ===
+  "sr-Latn": "Serbia - Srpski (Latin)",
+  "uz-Cyrl": "Uzbekistan - Oʻzbekcha (Cyrillic)",
+  "mn-Cyrl": "Mongolia - Монгол (Cyrillic)",
+};
 
       const countryByLang: Record<string, string> = {};
       const nativeByLang: Record<string, string> = {};
