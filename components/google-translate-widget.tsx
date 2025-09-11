@@ -205,9 +205,6 @@ export function GoogleTranslateWidget() {
     }
   }, []);
 
-  return <div id="google_translate_element" />;
-}
-
     function hideFeedbackElements() {
       const feedbackSelectors = [
         ".goog-te-balloon-frame",
