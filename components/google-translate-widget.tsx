@@ -30,7 +30,7 @@ export function GoogleTranslateWidget() {
 ["cs", "Czech Republic", "Čeština"],
 ["cy", "Wales", "Cymraeg"],
 
-["de", "Germany", "Deutsch"],
+
 ["el", "Greece", "Ελληνικά"],
 
 ["en-gb", "UK", "English"],
@@ -42,7 +42,7 @@ export function GoogleTranslateWidget() {
 ["et", "Estonia", "Eesti"],
 ["fa", "Iran", "فارسی"],
 ["fi", "Finland", "Suomi"],
-["fr", "France", "Français"],
+
 ["fr-ca", "Canada", "Français"],
 ["fy", "Netherlands", "Frysk"],
 ["ga", "Ireland", "Gaeilge"],
@@ -127,7 +127,9 @@ export function GoogleTranslateWidget() {
 ["xh", "South Africa", "isiXhosa"],
 ["yi", "Ashkenazi", "ייִדיש"],
 ["yo", "Nigeria", "Yorùbá"],
-["zu", "South Africa", "isiZulu"], ];
+["zu", "South Africa", "isiZulu"],
+      ["zh-cn", "-", "中文"],
+["zh-tw", "Taiwan", "中文(繁體)"],];
 
   const countryByLang: Record<string, string> = {};
   const nativeByLang: Record<string, string> = {};
