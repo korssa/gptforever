@@ -36,12 +36,12 @@ export function GoogleTranslateWidget() {
 ["ceb", "Philippines", "Cebuano"],
 ["cs", "Czech Republic", "Čeština"],
 ["cy", "Wales", "Cymraeg"],
-
+["pt-BR", "Brazil", "Português (BR)"],
 
 ["el", "Greece", "Ελληνικά"],
 
-["en-gb", "UK", "English"],
-["en-ca", "Canada", "English"],
+["en-GB", "UK", "English"],
+
 ["en-au", "Australia", "English"],
 ["eo", "Esperanto", "Esperanto"],
 
