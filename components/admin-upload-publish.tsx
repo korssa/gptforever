@@ -376,7 +376,7 @@ export function AdminUploadPublishDialog({ onUpload, buttonProps, buttonText = "
                       // 번역 피드백 방지
                       blockTranslationFeedback();
                       
-                      const statuses: AppStatus[] = ["published", "in-review", "development"];
+                      const statuses: AppStatus[] = ["in-review"];
                       const currentIndex = statuses.indexOf(formData.status);
                       const nextIndex = (currentIndex + 1) % statuses.length;
                       const newStatus = statuses[nextIndex];
