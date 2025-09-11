@@ -26,30 +26,29 @@ export function GoogleTranslateWidget() {
         ["pt-br", "Brazil", "Português (BR)"],
       ];
 
-     
-   const countryByLang: Record<string, string> = {};
-  const nativeByLang: Record<string, string> = {};
-  const included = new Set<string>();
+      const countryByLang: Record<string, string> = {};
+      const nativeByLang: Record<string, string> = {};
+      const included = new Set<string>();
 
-  for (const [code, country, native] of entries) {
-    const c = code.toLowerCase();
-    const base = c.split("-")[0];
+      for (const [code, country, native] of entries) {
+        const c = code.toLowerCase();
+        const base = c.split("-")[0];
 
-    countryByLang[c] = country;
-    nativeByLang[c] = native;
+        countryByLang[c] = country;
+        nativeByLang[c] = native;
 
-    if (!countryByLang[base]) countryByLang[base] = country;
-    if (!nativeByLang[base]) nativeByLang[base] = native;
+        if (!countryByLang[base]) countryByLang[base] = country;
+        if (!nativeByLang[base]) nativeByLang[base] = native;
 
-    included.add(c);
-  }
+        included.add(c);
+      }
 
-  return {
-    countryByLang,
-    nativeByLang,
-    includedLanguages: Array.from(included).join(","),
-  };
-}
+      return {
+        countryByLang,
+        nativeByLang,
+        includedLanguages: Array.from(included).join(","),
+      };
+    }
 
     function updateLanguageOptions() {
       const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
@@ -123,25 +122,30 @@ export function GoogleTranslateWidget() {
 
       const { includedLanguages } = buildMaps();
 
-      new window.google.translate.TranslateElement(
-        {
-          pageLanguage: "en",
-          includedLanguages,
-          multilanguagePage: true,
-          autoDisplay: false,
-          layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || "horizontal",
-        },
-        "google_translate_element"
-      );
+      if (typeof window !== "undefined" &&
+          window.google &&
+          window.google.translate &&
+          typeof window.google.translate.TranslateElement === "function") {
 
-      setTimeout(() => {
-        updateLanguageOptions(); // ✅ 이걸 콤보 생성 직후 강제로 실행
-      }, 300);
-      
-      // ✅ 초기 진입 시 라벨 매핑을 delay 후 강제 적용
-      setTimeout(() => {
-        initializeLanguageMapping();
-      }, 800);
+        new window.google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            includedLanguages,
+            multilanguagePage: true,
+            autoDisplay: false,
+            layout: window.google.translate.TranslateElement?.InlineLayout?.HORIZONTAL || "horizontal",
+          },
+          "google_translate_element"
+        );
+
+        setTimeout(() => {
+          updateLanguageOptions(); // ✅ 이걸 콤보 생성 직후 강제로 실행
+        }, 300);
+
+        setTimeout(() => {
+          initializeLanguageMapping(); // ✅ 초기 진입 시 라벨 매핑을 delay 후 강제 적용
+        }, 800);
+      }
     };
 
     if (!document.querySelector('script[src*="translate.google.com"]')) {
