@@ -359,7 +359,6 @@ export function GalleryManager({
                       <span>{new Date(item.publishDate).toLocaleDateString()}</span>
                     </div>
                   </div>
-                  <span className="text-xs">Gallery</span>
                 </div>
 
                 {/* Tags */}
