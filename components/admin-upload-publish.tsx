@@ -118,7 +118,7 @@ export function AdminUploadPublishDialog({ onUploadSuccess, buttonText = "Upload
         <Upload className="h-4 w-4 mr-2" /> {buttonText}
       </Button>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-h-[80vh] overflow-y-auto">
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Upload App (Published)</DialogTitle>
             <DialogDescription>This app will be published immediately.</DialogDescription>
