@@ -16,7 +16,6 @@ import { MailForm } from "@/components/mail-form";
 // ContentManager is imported in other files; not used directly here.
 import { AppStoryList } from "@/components/app-story-list";
 import { NewsList } from "@/components/news-list";
-import { AdminUploadPublishDialog } from "@/components/admin-upload-publish";
 // Button not used in this file
 import { AppItem, AppFormData, FilterType, ContentType } from "@/types";
 import { useLanguage } from "@/hooks/use-language";
