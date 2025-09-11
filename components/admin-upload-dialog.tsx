@@ -96,7 +96,7 @@ export function AdminUploadDialog({
     developer: "",
     description: "",
     store: "google-play",
-    status: "in-review", // ✅ 기본값
+    status: "pubished", // ✅ 기본값
     tags: "",
     rating: 4.5,
     downloads: "1K+",
@@ -208,7 +208,7 @@ export function AdminUploadDialog({
       developer: "",
       description: "",
       store: "google-play",
-      status: "in-review", // ✅ reset 값
+      status: "published", // ✅ reset 값
       tags: "",
       rating: 4.5,
       downloads: "1K+",
@@ -275,7 +275,7 @@ export function AdminUploadDialog({
       </Button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto" onMouseEnter={blockTranslationFeedback}>
+        <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
           <DialogHeader onMouseEnter={blockTranslationFeedback}>
             <DialogTitle>{adminTexts.uploadTitle}</DialogTitle>
             <DialogDescription>{adminTexts.uploadDescription}</DialogDescription>
