@@ -96,7 +96,7 @@ export function AdminUploadPublishDialog({
     developer: "",
     description: "",
     store: "google-play",
-    status: "published", // ✅ 기본값
+    status: "in-review", // ✅ 기본값
     tags: "",
     rating: 4.5,
     downloads: "1K+",
@@ -208,7 +208,7 @@ export function AdminUploadPublishDialog({
       developer: "",
       description: "",
       store: "google-play",
-      status: "published", // ✅ reset 값
+      status: "in-review", // ✅ reset 값
       tags: "",
       rating: 4.5,
       downloads: "1K+",
@@ -346,8 +346,8 @@ export function AdminUploadPublishDialog({
                     } catch {}
                   }}
                 >
-                  {formData.status === "published" && "✅ " + adminTexts.published}
-                  {formData.status === "in-review" && "⏳ " + adminTexts.inReview}
+                  {formData.status === "in-review" && "✅ " + adminTexts.inReview}
+             {formData.status === "published" && "✅ " + adminTexts.published}
                 </Button>
               </div>
             </div>
