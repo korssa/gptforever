@@ -39,7 +39,7 @@ export function AdminUploadPublishDialog({ onUploadSuccess, buttonText = "Upload
     developer: "",
     description: "",
     store: "google-play",
-    status: "published", // ✅ 고정
+    status: "in-review",
     tags: "",
     rating: 4.5,
     downloads: "1K+",
@@ -47,7 +47,7 @@ export function AdminUploadPublishDialog({ onUploadSuccess, buttonText = "Upload
     size: "50MB",
     category: "",
     storeUrl: "",
-    appCategory: "normal", // ✅ 고정
+    appCategory: "normal",
   });
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export function AdminUploadPublishDialog({ onUploadSuccess, buttonText = "Upload
       formDataToSend.append("content", formData.description);
       formDataToSend.append("author", formData.developer);
       formDataToSend.append("tags", formData.tags);
-      formDataToSend.append("isPublished", "true");
+      formDataToSend.append("isPublished", "false");
       formDataToSend.append("store", formData.store);
       formDataToSend.append("storeUrl", formData.storeUrl);
 
@@ -97,7 +97,7 @@ export function AdminUploadPublishDialog({ onUploadSuccess, buttonText = "Upload
       });
 
       if (response.ok) {
-        console.log("✅ Published");
+        console.log("✅ In Review");
         onUploadSuccess?.();
         setIsOpen(false);
       } else {
@@ -118,10 +118,10 @@ export function AdminUploadPublishDialog({ onUploadSuccess, buttonText = "Upload
         <Upload className="h-4 w-4 mr-2" /> {buttonText}
       </Button>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
+        <DialogContent className="max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Upload App (Published)</DialogTitle>
-            <DialogDescription>This app will be published immediately.</DialogDescription>
+            <DialogTitle>Upload App (Review)</DialogTitle>
+            <DialogDescription>This app will be saved for review, not published yet.</DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4">
