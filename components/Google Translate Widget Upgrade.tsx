@@ -26,29 +26,30 @@ export function GoogleTranslateWidget() {
         ["pt-br", "Brazil", "Português (BR)"],
       ];
 
-      const countryByLang = {};
-      const nativeByLang = {};
-      const included = new Set();
+     
+   const countryByLang: Record<string, string> = {};
+  const nativeByLang: Record<string, string> = {};
+  const included = new Set<string>();
 
-      for (const [code, country, native] of entries) {
-        const c = code.toLowerCase();
-        const base = c.split("-")[0];
+  for (const [code, country, native] of entries) {
+    const c = code.toLowerCase();
+    const base = c.split("-")[0];
 
-        countryByLang[c] = country;
-        nativeByLang[c] = native;
+    countryByLang[c] = country;
+    nativeByLang[c] = native;
 
-        if (!countryByLang[base]) countryByLang[base] = country;
-        if (!nativeByLang[base]) nativeByLang[base] = native;
+    if (!countryByLang[base]) countryByLang[base] = country;
+    if (!nativeByLang[base]) nativeByLang[base] = native;
 
-        included.add(c);
-      }
+    included.add(c);
+  }
 
-      return {
-        countryByLang,
-        nativeByLang,
-        includedLanguages: Array.from(included).join(","),
-      };
-    }
+  return {
+    countryByLang,
+    nativeByLang,
+    includedLanguages: Array.from(included).join(","),
+  };
+}
 
     function updateLanguageOptions() {
       const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
