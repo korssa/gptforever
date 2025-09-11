@@ -3,8 +3,15 @@
 import { useEffect } from "react";
 
 export function GoogleTranslateWidget() {
+  // ✅ 컴포넌트 안에 선언
+  function normalizeCode(code: string): string {
+    if (!code) return "";
+    const parts = code.split("-");
+    if (parts.length === 1) return parts[0].toLowerCase(); 
+    return `${parts[0].toLowerCase()}-${parts[1].toUpperCase()}`;
+  }
+
   useEffect(() => {
-    // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
       const entries: Array<[string, string, string]> = [
   ["en", "-", "English"],
