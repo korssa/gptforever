@@ -389,97 +389,97 @@ export function AdminUploadDialog({
               />
             </div>
 
-            {/* Store and Status */}
-            <div className="grid grid-cols-2 gap-4" onMouseEnter={blockTranslationFeedback}>
-              <div onMouseEnter={blockTranslationFeedback}>
-                                 <label className="block text-sm font-medium mb-2">
-                   <span className="notranslate" translate="no">{adminTexts.store}</span>
-                 </label>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full justify-start h-10 bg-white hover:bg-gray-50 border border-gray-200"
-                  onClick={createAdminButtonHandler(() => {
-                    try {
-                      const stores: AppStore[] = ["google-play", "app-store"];
-                      const currentIndex = stores.indexOf(formData.store);
-                      const nextIndex = (currentIndex + 1) % stores.length;
-                      const newStore = stores[nextIndex];
-                      setFormData(prev => ({ ...prev, store: newStore }));
-                      
-                      // store 변경 시 번역 피드백 방지
-                      blockTranslationFeedback();
-                    } catch (error) {
-                      // Store change error
-                    }
-                  })}
-                  onMouseEnter={blockTranslationFeedback}
-                >
-                  {formData.store === "google-play" ? "🤖" : "🍎"} {" "}
-                  {formData.store === "google-play" ? adminTexts.googlePlay : adminTexts.appStore}
-                </Button>
-              </div>
-              <div onMouseEnter={blockTranslationFeedback}>
-                <label className="block text-sm font-medium mb-2">
-                  {adminTexts.status}
-                </label>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full justify-start h-10 bg-white hover:bg-gray-50 border border-gray-200"
-                  onClick={() => {
-                    try {
-                      // 번역 피드백 방지
-                      blockTranslationFeedback();
-                      
-                      const statuses: AppStatus[] = ["published", "in-review", "development"];
-                      const currentIndex = statuses.indexOf(formData.status);
-                      const nextIndex = (currentIndex + 1) % statuses.length;
-                      const newStatus = statuses[nextIndex];
-                      setFormData(prev => ({ ...prev, status: newStatus }));
-                    } catch (error) {
-                      // Status change error
-                    }
-                  }}
-                  onMouseEnter={blockTranslationFeedback}
-                >
-                  {formData.status === "published" && "✅ " + adminTexts.published}
-                  {formData.status === "in-review" && "⏳ " + adminTexts.inReview}
-                  {formData.status === "development" && "🚧 " + adminTexts.development}
-                </Button>
-              </div>
-            </div>
+       {/* Store and Status */}
+<div className="grid grid-cols-2 gap-4" onMouseEnter={blockTranslationFeedback}>
+  {/* Store */}
+  <div onMouseEnter={blockTranslationFeedback}>
+    <label className="block text-sm font-medium mb-2">
+      <span className="notranslate" translate="no">{adminTexts.store}</span>
+    </label>
+    <Button
+      type="button"
+      variant="outline"
+      className="w-full justify-start h-10 bg-white hover:bg-gray-50 border border-gray-200"
+      onClick={createAdminButtonHandler(() => {
+        try {
+          const stores: AppStore[] = ["google-play", "app-store"];
+          const currentIndex = stores.indexOf(formData.store);
+          const nextIndex = (currentIndex + 1) % stores.length;
+          const newStore = stores[nextIndex];
+          setFormData(prev => ({ ...prev, store: newStore }));
 
-            {/* App Category */}
-            <div onMouseEnter={blockTranslationFeedback}>
-              <label className="block text-sm font-medium mb-2">
-                {adminTexts.appCategory} *
-              </label>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full justify-start h-10 bg-white hover:bg-gray-50 border border-gray-200"
-                onClick={() => {
-                  try {
-                    blockTranslationFeedback();
-                    
-                    const categories: ('normal' | 'featured' | 'events')[] = ["normal", "featured", "events"];
-                    const currentIndex = categories.indexOf(formData.appCategory || 'normal');
-                    const nextIndex = (currentIndex + 1) % categories.length;
-                    const newCategory = categories[nextIndex];
-                    setFormData(prev => ({ ...prev, appCategory: newCategory }));
-                  } catch (error) {
-                    // Category change error
-                  }
-                }}
-                onMouseEnter={blockTranslationFeedback}
-                
-              >
-                {formData.appCategory === "normal" && "📱 " + adminTexts.normal}
-                {formData.appCategory === "featured" && "⭐ " + adminTexts.featured}
-                {formData.appCategory === "events" && "🎉 " + adminTexts.events}
-              </Button>
-            </div>
+          blockTranslationFeedback();
+        } catch (error) {
+          // Store change error
+        }
+      })}
+      onMouseEnter={blockTranslationFeedback}
+    >
+      {formData.store === "google-play" ? "🤖 " + adminTexts.googlePlay : "🍎 " + adminTexts.appStore}
+    </Button>
+  </div>
+
+  {/* Status */}
+  <div onMouseEnter={blockTranslationFeedback}>
+    <label className="block text-sm font-medium mb-2">
+      {adminTexts.status}
+    </label>
+    <Button
+      type="button"
+      variant="outline"
+      className="w-full justify-start h-10 bg-white hover:bg-gray-50 border border-gray-200"
+      onClick={() => {
+        try {
+          blockTranslationFeedback();
+
+          const statuses: AppStatus[] = ["published", "in-review", "development"];
+          const currentIndex = statuses.indexOf(formData.status);
+          const nextIndex = (currentIndex + 1) % statuses.length;
+          const newStatus = statuses[nextIndex];
+          setFormData(prev => ({ ...prev, status: newStatus }));
+        } catch (error) {
+          // Status change error
+        }
+      }}
+      onMouseEnter={blockTranslationFeedback}
+    >
+      {formData.status === "published" && "✅ " + adminTexts.published}
+      {formData.status === "in-review" && "⏳ " + adminTexts.inReview}
+      {formData.status === "development" && "🚧 " + adminTexts.development}
+    </Button>
+  </div>
+</div>
+
+{/* App Category */}
+<div onMouseEnter={blockTranslationFeedback}>
+  <label className="block text-sm font-medium mb-2">
+    {adminTexts.appCategory} *
+  </label>
+  <Button
+    type="button"
+    variant="outline"
+    className="w-full justify-start h-10 bg-white hover:bg-gray-50 border border-gray-200"
+    onClick={() => {
+      try {
+        blockTranslationFeedback();
+
+        const categories: Array<"normal" | "featured" | "events"> = ["normal", "featured", "events"];
+        const currentIndex = categories.indexOf(formData.appCategory as any);
+        const nextIndex = (currentIndex + 1) % categories.length;
+        const newCategory = categories[nextIndex];
+        setFormData(prev => ({ ...prev, appCategory: newCategory }));
+      } catch (error) {
+        // Category change error
+      }
+    }}
+    onMouseEnter={blockTranslationFeedback}
+  >
+    {formData.appCategory === "normal" && "📱 " + adminTexts.normal}
+    {formData.appCategory === "featured" && "⭐ " + adminTexts.featured}
+    {formData.appCategory === "events" && "🎉 " + adminTexts.events}
+  </Button>
+</div>
+
 
             {/* Additional Info */}
             <div className="grid grid-cols-3 gap-4" onMouseEnter={blockTranslationFeedback}>
