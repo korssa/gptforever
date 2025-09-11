@@ -96,7 +96,7 @@ export function AdminUploadDialog({
     developer: "",
     description: "",
     store: "google-play",
-    status: "pubished", // ✅ 기본값
+    status: "published", // ✅ 기본값
     tags: "",
     rating: 4.5,
     downloads: "1K+",
