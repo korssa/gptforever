@@ -9,7 +9,7 @@ export function GoogleTranslateWidget() {
       const entries: Array<[string, string, string]> = [
   ["en", "-", "English"],
   ["es", "-", "Español"],
-  ["zh", "-", "中文"],
+ 
   ["fr", "-", "Français"],
   ["de", "-", "Deutsch"],
   ["ar", "-", "العربية"],
@@ -128,8 +128,10 @@ export function GoogleTranslateWidget() {
 ["yi", "Ashkenazi", "ייִדיש"],
 ["yo", "Nigeria", "Yorùbá"],
 ["zu", "South Africa", "isiZulu"],
-      ["zh-cn", "-", "中文"],
-["zh-tw", "Taiwan", "中文(繁體)"],];
+ ["zh", "Global", "中文"],            
+["zh-CN", "China", "中文(简体)"],     
+["zh-TW", "Taiwan", "中文(繁體)"],    
+["zh-HK", "Hong Kong", "中文(繁體, 香港)"],,];
 
   const countryByLang: Record<string, string> = {};
   const nativeByLang: Record<string, string> = {};
