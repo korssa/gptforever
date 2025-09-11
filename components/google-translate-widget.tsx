@@ -141,7 +141,7 @@ export function GoogleTranslateWidget() {
      const langLabelMap: Record<string, string> = {
   // === 중국어 계열 ===
   zh: "China - 中文(简体)",
-  "zh-CN": "China - 中文(简体)",
+  "zh-CN": "- - 中文(简体)",
   "zh-SG": "Singapore - 中文(简体, 新加坡)",
   "zh-MY": "Malaysia - 中文(简体, 马来西亚)",
   "zh-TW": "Taiwan - 中文(繁體)",
