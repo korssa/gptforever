@@ -19,7 +19,7 @@ declare global {
               autoDisplay?: boolean;
             },
             element: string
-          ): void;
+          ): unknown; 
           InlineLayout?: {
             HORIZONTAL?: string;
           };
