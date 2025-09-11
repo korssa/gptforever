@@ -1152,7 +1152,10 @@ export default function Home() {
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfmFPpGWs2bS4BS8zDWQdLFH-SfopbeUVC1MLuP-uMZgRjvUw/viewform"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-green-400 hover:text-green-300 inline-block transition-colors duration-200 cursor-pointer bg-transparent border-none p-0 mt-2"
+                className="text-sm text-green-400 hover:text-green-300 inline-block transition-colors duration-200 cursor-pointer bg-transparent border-none p-0 mt-2 animate-pulse hover:animate-none"
+                style={{
+                  animation: 'breathe 2s ease-in-out infinite'
+                }}
               >
                 <span
                   onMouseEnter={blockTranslationFeedback}
