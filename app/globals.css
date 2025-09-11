@@ -1742,3 +1742,13 @@ button.notranslate,
   -moz-user-select: none;
   -ms-user-select: none;
 }
+
+/* 숨쉬듯 커졌다가 원래 크기로 돌아오는 애니메이션 */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
