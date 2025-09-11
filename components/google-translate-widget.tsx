@@ -156,68 +156,70 @@ export function GoogleTranslateWidget() {
         ["yo", "Nigeria", "Yorùbá"],
         ["zu", "South Africa", "isiZulu"],
       ];
-  const includedLanguages = entries.map(([code]) => code).join(",");
+
   const countryByLang: Record<string, string> = {};
   const nativeByLang: Record<string, string> = {};
+  const included = new Set<string>();
+      
+for (const [code, country, native] of entries) {
+const c = code.toLowerCase();
+const base = c.split("-")[0];
 
-  for (const [code, country, native] of entries) {
-    const c = code.toLowerCase();
-    countryByLang[c] = country;
-    nativeByLang[c] = native;
+countryByLang[c] = country;
+nativeByLang[c] = native;
 
-    const base = c.split("-")[0];
-    if (!countryByLang[base]) countryByLang[base] = country;
-    if (!nativeByLang[base]) nativeByLang[base] = native;
-  }
+if (!countryByLang[base]) countryByLang[base] = country;
+if (!nativeByLang[base]) nativeByLang[base] = native;
+
+included.add(c);
+}
 
   return {
     countryByLang,
     nativeByLang,
-    includedLanguages, // ✅ 자동 생성된 언어 목록도 함께 반환
+    includedLanguages: Array.from(included).join(","),
   };
 }
 
     // ====== 2) 콤보 옵션을 "Country - Native"로 일괄 변환 ======
-    function updateLanguageOptions() {
-      try {
-        const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
-        if (!combo || !combo.options) return;
+ function updateLanguageOptions() {
+const combo = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
+if (!combo || !combo.options) return;
 
-        const { countryByLang, nativeByLang } = buildMaps();
-        const options = Array.from(combo.options);
 
-        const norm = (v: string) => v.trim().toLowerCase().split("|")[0];
+const { countryByLang, nativeByLang } = buildMaps();
+const options = Array.from(combo.options);
+const selectedValue = combo.value.toLowerCase();
 
-        const selectedValue = combo.value.toLowerCase();
 
-        options.forEach((option) => {
-          if (option.dataset.updated === "true") return;
+options.forEach((option) => {
+if (option.dataset.updated === "true") return;
 
-          const code = norm(option.value);
-          const base = code.split("-")[0];
 
-          const country = countryByLang[code] ?? countryByLang[base] ?? base.toUpperCase();
-          const native = nativeByLang[code] ?? nativeByLang[base] ?? (option.text.trim() || base);
+const code = option.value.toLowerCase();
+const base = code.split("-")[0];
 
-          option.text = `${country} - ${native}`;
-          option.dataset.updated = "true";
-        });
 
-        // 정렬 후 재삽입
-        options.sort((a, b) => a.text.localeCompare(b.text));
-        combo.innerHTML = "";
-        options.forEach((opt) => combo.appendChild(opt));
+const country = countryByLang[code] ?? countryByLang[base] ?? base.toUpperCase();
+const native = nativeByLang[code] ?? nativeByLang[base] ?? (option.text.trim() || base);
 
-        // 선택 항목 정확히 복원
-        const selectedOption = options.find((opt) => opt.value.toLowerCase() === selectedValue);
-        if (selectedOption) {
-          selectedOption.selected = true;
-          combo.value = selectedOption.value;
-        }
-      } catch {
-        // no-op
-      }
-    }
+
+option.text = `${country} - ${native}`;
+option.dataset.updated = "true";
+});
+
+
+options.sort((a, b) => a.text.localeCompare(b.text));
+combo.innerHTML = "";
+options.forEach((opt) => combo.appendChild(opt));
+
+
+const selectedOption = options.find((opt) => opt.value.toLowerCase() === selectedValue);
+if (selectedOption) {
+selectedOption.selected = true;
+combo.value = selectedOption.value;
+}
+}
 
     function hideFeedbackElements() {
       const feedbackSelectors = [
