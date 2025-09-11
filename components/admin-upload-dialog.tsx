@@ -389,7 +389,7 @@ export function AdminUploadDialog({
               />
             </div>
 
-       {/* Store and Status */}
+    {/* Store and Status */}
 <div className="grid grid-cols-2 gap-4" onMouseEnter={blockTranslationFeedback}>
   {/* Store */}
   <div onMouseEnter={blockTranslationFeedback}>
@@ -409,13 +409,15 @@ export function AdminUploadDialog({
           setFormData(prev => ({ ...prev, store: newStore }));
 
           blockTranslationFeedback();
-        } catch (error) {
+        } catch {
           // Store change error
         }
       })}
       onMouseEnter={blockTranslationFeedback}
     >
-      {formData.store === "google-play" ? "🤖 " + adminTexts.googlePlay : "🍎 " + adminTexts.appStore}
+      {formData.store === "google-play"
+        ? "🤖 " + adminTexts.googlePlay
+        : "🍎 " + adminTexts.appStore}
     </Button>
   </div>
 
@@ -437,7 +439,7 @@ export function AdminUploadDialog({
           const nextIndex = (currentIndex + 1) % statuses.length;
           const newStatus = statuses[nextIndex];
           setFormData(prev => ({ ...prev, status: newStatus }));
-        } catch (error) {
+        } catch {
           // Status change error
         }
       }}
@@ -463,12 +465,18 @@ export function AdminUploadDialog({
       try {
         blockTranslationFeedback();
 
-        const categories: Array<"normal" | "featured" | "events"> = ["normal", "featured", "events"];
-        const currentIndex = categories.indexOf(formData.appCategory as any);
+        const categories: Array<"normal" | "featured" | "events"> = [
+          "normal",
+          "featured",
+          "events",
+        ];
+        const currentIndex = categories.indexOf(
+          formData.appCategory as "normal" | "featured" | "events"
+        );
         const nextIndex = (currentIndex + 1) % categories.length;
         const newCategory = categories[nextIndex];
         setFormData(prev => ({ ...prev, appCategory: newCategory }));
-      } catch (error) {
+      } catch {
         // Category change error
       }
     }}
@@ -479,8 +487,7 @@ export function AdminUploadDialog({
     {formData.appCategory === "events" && "🎉 " + adminTexts.events}
   </Button>
 </div>
-
-
+            
             {/* Additional Info */}
             <div className="grid grid-cols-3 gap-4" onMouseEnter={blockTranslationFeedback}>
               <div onMouseEnter={blockTranslationFeedback}>
