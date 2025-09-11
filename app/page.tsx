@@ -1279,7 +1279,7 @@ export default function Home() {
   }}
   buttonText="🚀 퍼블리시 전용 업로드"
 />
-              
+            </div>   
                </div>
              )}
              
