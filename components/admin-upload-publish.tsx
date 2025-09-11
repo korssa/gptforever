@@ -64,7 +64,7 @@ interface AdminUploadDialogProps {
   buttonText?: string;
 }
 
-export function AdminUploadDialog({ onUpload, buttonProps, buttonText = "Upload" }: AdminUploadDialogProps) {
+export function AdminUploadPublishDialog({ onUpload, buttonProps, buttonText = "Upload" }: AdminUploadDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [password, setPassword] = useState("");
