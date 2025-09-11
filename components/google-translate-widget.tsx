@@ -203,8 +203,6 @@ export function GoogleTranslateWidget() {
         combo.value = selectedOption.value;
       }
     }
-  }, []);
-
     function hideFeedbackElements() {
       const feedbackSelectors = [
         ".goog-te-balloon-frame",
