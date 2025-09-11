@@ -127,12 +127,7 @@ export function GoogleTranslateWidget() {
 ["xh", "South Africa", "isiXhosa"],
 ["yi", "Ashkenazi", "ייִדיש"],
 ["yo", "Nigeria", "Yorùbá"],
-["zu", "South Africa", "isiZulu"],
-
-["zh-cn", "China", "中文(简体)"],
-["zh-tw", "Taiwan", "中文(繁體)"],
-
-      ];
+["zu", "South Africa", "isiZulu"], ];
 
   const countryByLang: Record<string, string> = {};
   const nativeByLang: Record<string, string> = {};
