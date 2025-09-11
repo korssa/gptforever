@@ -7,19 +7,19 @@ export function GoogleTranslateWidget() {
     // ====== 1) 언어 전체 매핑 빌더: (코드, 나라(영어), 언어(자국어)) ======
     function buildMaps() {
       const entries: Array<[string, string, string]> = [
-          ["en", "----", "English"],
-  ["es", "----", "Español"],
-  ["zh", "----", "中文"],
-  ["fr", "----", "Français"],
-  ["de", "----", "Deutsch"],
-  ["ar", "----", "العربية"],
-  ["ru", "----", "Русский"],
-  ["pt", "----", "Português"],
-  ["ja", "----", "日本語"],
-  ["ko", "----", "한국어"],
+  ["en", "-", "English"],
+  ["es", "-", "Español"],
+  ["zh", "-", "中文"],
+  ["fr", "-", "Français"],
+  ["de", "-", "Deutsch"],
+  ["ar", "-", "العربية"],
+  ["ru", "-", "Русский"],
+  ["pt", "-", "Português"],
+  ["ja", "-", "日本語"],
+  ["ko", "-", "한국어"],
     ["af", "South Africa", "Afrikaans"],
 ["am", "Ethiopia", "አማርኛ"],
-["ar", "Saudi Arabia", "العربية"],
+
 ["az", "Azerbaijan", "Azərbaycan dili"],
 ["be", "Belarus", "Беларуская"],
 ["bg", "Bulgaria", "Български"],
@@ -29,15 +29,15 @@ export function GoogleTranslateWidget() {
 ["ceb", "Philippines", "Cebuano"],
 ["cs", "Czech Republic", "Čeština"],
 ["cy", "Wales", "Cymraeg"],
-["da", "Denmark", "Dansk"],
+
 ["de", "Germany", "Deutsch"],
 ["el", "Greece", "Ελληνικά"],
-["en", "USA", "English"],
+
 ["en-gb", "UK", "English"],
 ["en-ca", "Canada", "English"],
 ["en-au", "Australia", "English"],
 ["eo", "Esperanto", "Esperanto"],
-["es", "Spain", "Español"],
+
 ["es-mx", "Mexico", "Español (México)"],
 ["et", "Estonia", "Eesti"],
 ["fa", "Iran", "فارسی"],
@@ -62,13 +62,13 @@ export function GoogleTranslateWidget() {
 ["ig", "Nigeria", "Igbo"],
 ["is", "Iceland", "Íslenska"],
 ["it", "Italy", "Italiano"],
-["ja", "Japan", "日本語"],
+
 ["jv", "Indonesia", "Jawa"],
 ["ka", "Georgia", "ქართული"],
 ["kk", "Kazakhstan", "Қазақ тілі"],
 ["km", "Cambodia", "ភាសាខ្មែរ"],
 ["kn", "India", "ಕನ್ನಡ"],
-["ko", "Korea", "한국어"],
+
 ["ku", "Kurdistan", "Kurdî"],
 ["ky", "Kyrgyzstan", "Кыргызча"],
 ["la", "Ancient Rome", "Latina"],
@@ -93,10 +93,10 @@ export function GoogleTranslateWidget() {
 ["pa", "India", "ਪੰਜਾਬੀ"],
 ["pl", "Poland", "Polski"],
 ["ps", "Afghanistan", "پښتو"],
-["pt", "Portugal", "Português"],
+
 ["pt-br", "Brazil", "Português (BR)"],
 ["ro", "Romania", "Română"],
-["ru", "Russia", "Русский"],
+
 ["rw", "Rwanda", "Kinyarwanda"],
 ["sd", "Pakistan", "سنڌي"],
 ["si", "Sri Lanka", "සිංහල"],
@@ -128,7 +128,7 @@ export function GoogleTranslateWidget() {
 ["yi", "Ashkenazi", "ייִדיש"],
 ["yo", "Nigeria", "Yorùbá"],
 ["zu", "South Africa", "isiZulu"],
-["zh", "China", "中文(简体)"],
+
 ["zh-cn", "China", "中文(简体)"],
 ["zh-tw", "Taiwan", "中文(繁體)"],
 
