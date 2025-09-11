@@ -329,34 +329,32 @@ export function AdminUploadPublishDialog({
               </div>
 
               {/* Status */}
-             <div>
-  <label className="block text-sm font-medium mb-2">
-    <span translate="no">{adminTexts.status}</span>
-  </label>
-  <Button
-    type="button"
-    variant="outline"
-    className="w-full justify-start h-10 bg-white hover:bg-gray-50 border border-gray-200"
-    onClick={() => {
-      try {
-        blockTranslationFeedback();
-        const statuses: AppStatus[] = ["published", "in-review"];
-        const currentIndex = statuses.indexOf(formData.status as AppStatus);
-        const nextIndex = (currentIndex + 1) % statuses.length;
-        const newStatus = statuses[nextIndex >= 0 ? nextIndex : 0];
-        setFormData((prev) => ({ ...prev, status: newStatus }));
-      } catch {}
-    }}
-    translate="no"
-  >
-    <span translate="no">
-      {formData.status === "in-review" && `✅ ${adminTexts.inReview}`}
-      {formData.status === "published" && `✅ ${adminTexts.published}`}
-    </span>
-  </Button>
+  <div>
+<label className="block text-sm font-medium mb-2">
+<span translate="no">{adminTexts.status}</span>
+</label>
+<Button
+type="button"
+variant="outline"
+className="w-full justify-start h-10 bg-white hover:bg-gray-50 border border-gray-200"
+onClick={() => {
+try {
+blockTranslationFeedback();
+const statuses: AppStatus[] = ["published", "in-review"];
+const currentIndex = statuses.indexOf(formData.status as AppStatus);
+const nextIndex = (currentIndex + 1) % statuses.length;
+const newStatus = statuses[nextIndex >= 0 ? nextIndex : 0];
+setFormData((prev) => ({ ...prev, status: newStatus }));
+} catch {}
+}}
+translate="no"
+>
+<span translate="no">
+{formData.status === "in-review" && `✅ ${adminTexts.inReview}`}
+{formData.status === "published" && `✅ ${adminTexts.published}`}
+</span>
+</Button>
 </div>
-
-
             {/* Additional Info */}
             <div className="grid grid-cols-3 gap-4">
               <div>
