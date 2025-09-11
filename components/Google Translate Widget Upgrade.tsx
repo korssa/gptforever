@@ -37,15 +37,7 @@ export function GoogleTranslateWidget() {
 
     function buildMaps() {
       const entries = [
-        ["en", "Global", "English"],
-        ["zh", "Global", "中文"],
-        ["fr", "France", "Français"],
-        ["de", "Germany", "Deutsch"],
-        ["ar", "Global", "العربية"],
-        ["ru", "Russia", "Русский"],
-        ["pt", "Portugal", "Português"],
-        ["ja", "Japan", "日本語"],
-        ["ko", "Korea", "한국어"],
+    
         ["zh-cn", "China", "中文(简体)"],
         ["zh-tw", "Taiwan", "中文(繁體)"],
         ["en-gb", "UK", "English"],
