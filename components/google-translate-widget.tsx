@@ -131,7 +131,7 @@ export function GoogleTranslateWidget() {
  ["zh", "Global", "中文"],            
 ["zh-CN", "China", "中文(简体)"],     
 ["zh-TW", "Taiwan", "中文(繁體)"],    
-["zh-HK", "Hong Kong", "中文(繁體, 香港)"],,];
+["zh-HK", "Hong Kong", "中文(繁體, 香港)"],];
 
   const countryByLang: Record<string, string> = {};
   const nativeByLang: Record<string, string> = {};
