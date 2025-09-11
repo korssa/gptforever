@@ -16,7 +16,7 @@ import { MailForm } from "@/components/mail-form";
 // ContentManager is imported in other files; not used directly here.
 import { AppStoryList } from "@/components/app-story-list";
 import { NewsList } from "@/components/news-list";
-
+import { AdminUploadPublishDialog } from "@/components/admin-upload-publish";
 // Button not used in this file
 import { AppItem, AppFormData, FilterType, ContentType } from "@/types";
 import { useLanguage } from "@/hooks/use-language";
@@ -1272,7 +1272,7 @@ export default function Home() {
   buttonText="📱 새 앱 업로드"
 />
 
-<AdminUploadPublishDialog 
+ <AdminUploadPublishDialog
   buttonText="🚀 퍼블리시 전용 업로드"
   buttonProps={{
     size: "lg",
