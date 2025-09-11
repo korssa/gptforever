@@ -128,7 +128,7 @@ export function GoogleTranslateWidget() {
 ["yi", "Ashkenazi", "ייִדיש"],
 ["yo", "Nigeria", "Yorùbá"],
 ["zu", "South Africa", "isiZulu"],
- ["zh", "Global", "中文"],            
+ ["zh", "China", "中文"],            
 ["zh-CN", "China", "中文(简体)"],     
 ["zh-TW", "Taiwan", "中文(繁體)"],    
 ["zh-HK", "Hong Kong", "中文(繁體, 香港)"],];
