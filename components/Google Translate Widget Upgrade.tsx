@@ -37,9 +37,6 @@ export function GoogleTranslateWidget() {
 
     function buildMaps() {
       const entries = [
-    
-        ["zh-cn", "China", "中文(简体)"],
-        ["zh-tw", "Taiwan", "中文(繁體)"],
         ["en-gb", "UK", "English"],
         ["en-us", "United States", "English"],
         ["en-ca", "Canada", "English"],
